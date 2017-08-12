@@ -7,3 +7,59 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+html, body {
+  background: #FFF;
+  font-family: 'Tahoma', sans-serif;
+  margin: 0;
+  padding: 1ex;
+}
+textarea {
+  font-size: 15px;
+  padding: 1ex;
+  height: 4em;
+  width: 300px;
+}
+
+[v-cloak] > * { display:none }
+[v-cloak]::before { content: "Loading..." }
+
+.translations {
+  td {
+    border-bottom: 1px dotted silver;
+    padding: 10px;
+  }
+  textarea {
+    @extend pre;
+  }
+  textarea:not(.loading) {
+    background: #FFF;
+    &.approved {
+      background: #e6ffdf;
+    }
+  }
+}
+
+.navbar {
+  a {
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      background: #49a5d8 !important;
+      color: #FFF !important;
+    }
+  }
+}
+
+.navbar {
+  border-color: silver;
+  background: #f3f3f3;
+}
+
+.navbar-fixed-top {
+  .navbar {
+    border-radius: 0 !important;
+    background: rgba(240,240,240,0.8) !important;
+  }
+}

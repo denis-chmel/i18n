@@ -1,0 +1,555 @@
+<tt xmlns="http://www.w3.org/ns/ttml" xmlns:tts="http://www.w3.org/ns/ttml#styling" xmlns:ttp="http://www.w3.org/ns/ttml#parameter" ttp:frameRate="24" ttp:frameRateMultiplier="1000 1001" xml:lang="en" ssSpellCheck="false" ssQualityCheck="false" ssGradeDone="false">
+	<head>
+		<metadata xmlns:ttm="http://www.w3.org/ns/ttml#metadata">
+			<ttm:title>
+				CreaturesofGod_ForTranslators_Netflix_Netflix_Netflix
+			</ttm:title>
+			<ttm:copyright>Visualdata</ttm:copyright>
+		</metadata>
+		<styling>
+			<style xml:id="defaultCaption" tts:fontSize="13" tts:fontFamily="Arial" tts:fontWeight="normal" tts:fontStyle="normal" tts:textDecoration="none" tts:color="#ffffff" tts:textAlign="center"/>
+		</styling>
+		<layout>
+			<region xml:id="subtitleArea" tts:backgroundColor="transparent" tts:origin="10% 10%" tts:extent="80% 80%"/>
+		</layout>
+	</head>
+	<body style="defaultCaption" region="subtitleArea">
+		<div>
+			<p begin="00:00:01.919" end="00:00:03.879" beginFloat="1918.5852519185853" endFloat="3878.878878878879" beginFloatBT="1918.5852519185853" endFloatBT="3878.878878878879" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I don't need the birds</span>
+				<br/>
+				<span tts:fontStyle="italic">above me ♪</span>
+			</p>
+			<p begin="00:00:03.962" end="00:00:05.506" beginFloat="3962.2956289622957" endFloat="5505.505505505505" beginFloatBT="3962.2956289622957" endFloatBT="5505.505505505505" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Or the fish</span>
+				<br/>
+				<span tts:fontStyle="italic">down in the sea ♪</span>
+			</p>
+			<p begin="00:00:05.589" end="00:00:08.008" beginFloat="5588.922255588923" endFloat="8008.008008008009" beginFloatBT="5588.922255588923" endFloatBT="8008.008008008009" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ You're indispensable,</span>
+				<br/>
+				<span tts:fontStyle="italic">it's indefensible ♪</span>
+			</p>
+			<p begin="00:00:08.091" end="00:00:09.885" beginFloat="8091.424758091424" endFloat="9884.884884884885" beginFloatBT="8091.424758091424" endFloatBT="9884.884884884885" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ That you'd ever</span>
+				<br/>
+				<span tts:fontStyle="italic">be lost to me ♪</span>
+			</p>
+			<p begin="00:00:09.968" end="00:00:13.805" beginFloat="9968.301634968302" endFloat="13805.472138805471" beginFloatBT="9968.301634968302" endFloatBT="13805.472138805471" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I can live without the milkman</span>
+				<br/>
+				<span tts:fontStyle="italic">and electricity ♪</span>
+			</p>
+			<p begin="00:00:13.889" end="00:00:16.308" beginFloat="13888.888888888889" endFloat="16307.974641307976" beginFloatBT="13888.888888888889" endFloatBT="16307.974641307976" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ But you're irreplaceable,</span>
+				<br/>
+				<span tts:fontStyle="italic">you're so embraceable ♪</span>
+			</p>
+			<p begin="00:00:16.391" end="00:00:17.976" beginFloat="16391.39139139139" endFloat="17976.30964297631" beginFloatBT="16391.39139139139" endFloatBT="17976.30964297631" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ By the lowly likes of me ♪</span>
+			</p>
+			<p begin="00:00:18.393" end="00:00:20.062" beginFloat="18393.393393393395" endFloat="20061.728395061727" beginFloatBT="18393.393393393395" endFloatBT="20061.728395061727" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ You can take the floor</span>
+				<br/>
+				<span tts:fontStyle="italic">below me ♪</span>
+			</p>
+			<p begin="00:00:20.145" end="00:00:22.189" beginFloat="20145.145145145147" endFloat="22188.855522188856" beginFloatBT="20145.145145145147" endFloatBT="22188.855522188856" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I can't believe
+				<br/>
+				Vanessa threw us a shower.
+			</p>
+			<p begin="00:00:22.272" end="00:00:24.608" beginFloat="22272.272272272272" endFloat="24607.941274607943" beginFloatBT="22272.272272272272" endFloatBT="24607.941274607943" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I... thought she hated me.</p>
+			<p begin="00:00:24.691" end="00:00:26.568" beginFloat="24691.35802469136" endFloat="26568.234901568234" beginFloatBT="24691.35802469136" endFloatBT="26568.234901568234" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Vanessa doesn't hate you.</p>
+			<p begin="00:00:26.818" end="00:00:28.612" beginFloat="26818.485151818484" endFloat="28611.945278611947" beginFloatBT="26818.485151818484" endFloatBT="28611.945278611947" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				If I'd have known we were gonna
+				<br/>
+				get so much cool shit,
+			</p>
+			<p begin="00:00:28.695" end="00:00:30.531" beginFloat="28695.362028695363" endFloat="30530.53053053053" beginFloatBT="28695.362028695363" endFloatBT="30530.53053053053" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I would have proposed to you
+				<br/>
+				a long time ago.
+			</p>
+			<p begin="00:00:31.698" end="00:00:33.325" beginFloat="31698.365031698366" endFloat="33324.99165832499" beginFloatBT="31698.365031698366" endFloatBT="33324.99165832499" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Thanks, baby.</p>
+			<p begin="00:00:34.409" end="00:00:36.078" beginFloat="34409.40940940941" endFloat="36077.74441107774" beginFloatBT="34409.40940940941" endFloatBT="36077.74441107774" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Do you think we could ask her</p>
+			<p begin="00:00:36.161" end="00:00:39.164" beginFloat="36161.16116116116" endFloat="39164.16416416416" beginFloatBT="36161.16116116116" endFloatBT="39164.16416416416" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				to throw us another one
+				<br/>
+				after the wedding?
+			</p>
+			<p begin="00:00:39.748" end="00:00:41.542" beginFloat="39748.081414748085" endFloat="41541.54154154154" beginFloatBT="39748.081414748085" endFloatBT="41541.54154154154" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I can't tell if you're joking.</p>
+			<p begin="00:00:46.129" end="00:00:47.881" beginFloat="46129.46279612947" endFloat="47881.214547881216" beginFloatBT="46129.46279612947" endFloatBT="47881.214547881216" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				-Oh, shit!
+				<br/>
+				-Stop!
+			</p>
+			<p begin="00:00:49.800" end="00:00:52.010" beginFloat="49799.7997997998" endFloat="52010.34367701034" beginFloatBT="49799.7997997998" endFloatBT="52010.34367701034" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">No, no, no, no, no.</p>
+			<p begin="00:00:54.888" end="00:00:56.306" beginFloat="54888.22155488822" endFloat="56306.30630630631" beginFloatBT="54888.22155488822" endFloatBT="56306.30630630631" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Oh, God.</p>
+			<p begin="00:00:56.390" end="00:00:58.100" beginFloat="56389.723056389725" endFloat="58099.766433099765" beginFloatBT="56389.723056389725" endFloatBT="58099.766433099765" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Maybe we didn't hit it.</p>
+			<p begin="00:00:58.892" end="00:01:00.185" beginFloat="58892.22555889223" endFloat="60185.18518518519" beginFloatBT="58892.22555889223" endFloatBT="60185.18518518519" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Go check.</p>
+			<p begin="00:01:06.692" end="00:01:08.110" beginFloat="66691.69169169168" endFloat="68109.77644310977" beginFloatBT="66691.69169169168" endFloatBT="68109.77644310977" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Wait here.</p>
+			<p begin="00:01:25.460" end="00:01:27.254" beginFloat="85460.46046046047" endFloat="87253.92058725393" beginFloatBT="85460.46046046047" endFloatBT="87253.92058725393" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Oh, f...</p>
+			<p begin="00:01:33.760" end="00:01:35.429" beginFloat="93760.42709376043" endFloat="95428.76209542877" beginFloatBT="93760.42709376043" endFloatBT="95428.76209542877" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Stupid door.</p>
+			<p begin="00:01:49.109" end="00:01:51.153" beginFloat="109109.10910910911" endFloat="111152.81948615282" beginFloatBT="109109.10910910911" endFloatBT="111152.81948615282" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				-Is it dead?
+				<br/>
+				-Nikki, don't look.
+			</p>
+			<p begin="00:01:51.737" end="00:01:53.405" beginFloat="111736.73673673674" endFloat="113405.07173840507" beginFloatBT="111736.73673673674" endFloatBT="113405.07173840507" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Did we hit it?</p>
+			<p begin="00:01:55.282" end="00:01:56.783" beginFloat="115281.94861528194" endFloat="116783.45011678345" beginFloatBT="115281.94861528194" endFloatBT="116783.45011678345" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yes.</p>
+			<p begin="00:02:00.329" end="00:02:02.789" beginFloat="120328.66199532867" endFloat="122789.45612278946" beginFloatBT="120328.66199532867" endFloatBT="122789.45612278946" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It's dead though, right?</p>
+			<p begin="00:02:05.000" end="00:02:06.960" beginFloat="125000" endFloat="126960.2936269603" beginFloatBT="125000" endFloatBT="126960.2936269603" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">No.</p>
+			<p begin="00:02:14.885" end="00:02:16.512" beginFloat="134884.88488488487" endFloat="136511.51151151152" beginFloatBT="134884.88488488487" endFloatBT="136511.51151151152" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">C'mon.</p>
+			<p begin="00:02:16.637" end="00:02:17.846" beginFloat="136636.63663663663" endFloat="137846.1795128462" beginFloatBT="136636.63663663663" endFloatBT="137846.1795128462" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">What?</p>
+			<p begin="00:02:19.681" end="00:02:22.226" beginFloat="139681.34801468137" endFloat="142225.55889222556" beginFloatBT="139681.34801468137" endFloatBT="142225.55889222556" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Well, you can't just leave it there.</p>
+			<p begin="00:02:22.893" end="00:02:24.144" beginFloat="142892.89289289288" endFloat="144144.14414414414" beginFloatBT="142892.89289289288" endFloatBT="144144.14414414414" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Why not?</p>
+			<p begin="00:02:24.228" end="00:02:26.355" beginFloat="144227.56089422756" endFloat="146354.6880213547" beginFloatBT="144227.56089422756" endFloatBT="146354.6880213547" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It'll die eventually.</p>
+			<p begin="00:02:26.563" end="00:02:28.482" beginFloat="146563.22989656322" endFloat="148481.8151484818" beginFloatBT="146563.22989656322" endFloatBT="148481.8151484818" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Jason, that is so cruel.</p>
+			<p begin="00:02:28.565" end="00:02:31.068" beginFloat="148565.23189856522" endFloat="151067.73440106775" beginFloatBT="148565.23189856522" endFloatBT="151067.73440106775" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You have to... do something!</p>
+			<p begin="00:02:37.241" end="00:02:38.951" beginFloat="157240.57390724058" endFloat="158950.61728395065" beginFloatBT="157240.57390724058" endFloatBT="158950.61728395065" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I need a rock.</p>
+			<p begin="00:02:41.286" end="00:02:43.455" beginFloat="161286.2862862863" endFloat="163455.12178845514" beginFloatBT="161286.2862862863" endFloatBT="163455.12178845514" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yeah.</p>
+			<p begin="00:02:59.721" end="00:03:01.431" beginFloat="179721.38805472138" endFloat="181431.43143143144" beginFloatBT="179721.38805472138" endFloatBT="181431.43143143144" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You all right?</p>
+			<p begin="00:03:02.975" end="00:03:05.435" beginFloat="182974.64130797464" endFloat="185435.43543543544" beginFloatBT="182974.64130797464" endFloatBT="185435.43543543544" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You need a ride?</p>
+			<p begin="00:03:07.688" end="00:03:09.857" beginFloat="187687.6876876877" endFloat="189856.52318985653" beginFloatBT="187687.6876876877" endFloatBT="189856.52318985653" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Did you guys run out of gas?</p>
+			<p begin="00:03:09.940" end="00:03:11.275" beginFloat="189939.93993993997" endFloat="191274.60794127462" beginFloatBT="189939.93993993997" endFloatBT="191274.60794127462" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Huh?</p>
+			<p begin="00:03:12.943" end="00:03:14.403" beginFloat="192942.94294294296" endFloat="194402.73606940274" beginFloatBT="192942.94294294296" endFloatBT="194402.73606940274" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Did he hurt you?</p>
+			<p begin="00:03:14.486" end="00:03:15.904" beginFloat="194486.15281948616" endFloat="195904.23757090425" beginFloatBT="194486.15281948616" endFloatBT="195904.23757090425" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It's just a squirrel.</p>
+			<p begin="00:03:15.988" end="00:03:19.241" beginFloat="195987.65432098767" endFloat="199240.9075742409" beginFloatBT="195987.65432098767" endFloatBT="199240.9075742409" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				It's-- it's just a poor,
+				<br/>
+				defenseless, little squirrel!
+			</p>
+			<p begin="00:03:19.825" end="00:03:21.618" beginFloat="199824.82482482484" endFloat="201618.2849516183" beginFloatBT="199824.82482482484" endFloatBT="201618.2849516183" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Aaah!</p>
+			<p begin="00:03:26.123" end="00:03:28.500" beginFloat="206122.78945612282" endFloat="208500.16683350017" beginFloatBT="206122.78945612282" endFloatBT="208500.16683350017" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Are you sure that we can't do
+				<br/>
+				anything for you?
+			</p>
+			<p begin="00:03:31.128" end="00:03:34.631" beginFloat="211127.79446112778" endFloat="214631.2979646313" beginFloatBT="211127.79446112778" endFloatBT="214631.2979646313" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Can we take you someplace...
+				<br/>
+				safe?
+			</p>
+			<p begin="00:03:39.469" end="00:03:41.346" beginFloat="219469.46946946948" endFloat="221346.34634634637" beginFloatBT="219469.46946946948" endFloatBT="221346.34634634637" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">She doesn't want our help.</p>
+			<p begin="00:03:41.430" end="00:03:42.973" beginFloat="221429.7630964298" endFloat="222972.97297297296" beginFloatBT="221429.7630964298" endFloatBT="222972.97297297296" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">We should just go.</p>
+			<p begin="00:03:48.937" end="00:03:50.564" beginFloat="228937.2706039373" endFloat="230563.8972305639" beginFloatBT="228937.2706039373" endFloatBT="230563.8972305639" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">C'mon, dude.</p>
+			<p begin="00:04:17.049" end="00:04:18.759" beginFloat="257048.71538204871" endFloat="258758.75875875875" beginFloatBT="257048.71538204871" endFloatBT="258758.75875875875" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">This is a sign.</p>
+			<p begin="00:04:18.842" end="00:04:22.346" beginFloat="258842.17550884216" endFloat="262345.6790123457" beginFloatBT="258842.17550884216" endFloatBT="262345.6790123457" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Oh, God, here we go.</p>
+			<p begin="00:04:23.055" end="00:04:26.683" beginFloat="263054.7213880548" endFloat="266683.35001668334" beginFloatBT="263054.7213880548" endFloatBT="266683.35001668334" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				You said you ran over a turtle
+				<br/>
+				on the way to pick up the rings.
+			</p>
+			<p begin="00:04:27.226" end="00:04:29.978" beginFloat="267225.5588922256" endFloat="269978.3116449783" beginFloatBT="267225.5588922256" endFloatBT="269978.3116449783" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Do you really think
+				<br/>
+				it's a coincidence
+			</p>
+			<p begin="00:04:30.103" end="00:04:34.149" beginFloat="270103.4367701034" endFloat="274149.14914914913" beginFloatBT="270103.4367701034" endFloatBT="274149.14914914913" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				that a squirrel would run
+				<br/>
+				right out in front of our car?
+			</p>
+			<p begin="00:04:35.609" end="00:04:37.319" beginFloat="275608.94227560895" endFloat="277318.985652319" beginFloatBT="275608.94227560895" endFloatBT="277318.985652319" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">That's two of God's creatures</p>
+			<p begin="00:04:37.402" end="00:04:40.239" beginFloat="277402.4024024024" endFloat="280238.5719052386" beginFloatBT="277402.4024024024" endFloatBT="280238.5719052386" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				that have given their lives
+				<br/>
+				to send us a message.
+			</p>
+			<p begin="00:04:40.322" end="00:04:42.241" beginFloat="280321.988655322" endFloat="282240.5739072406" beginFloatBT="280321.988655322" endFloatBT="282240.5739072406" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Nature doesn't want us
+				<br/>
+				to get married.
+			</p>
+			<p begin="00:04:42.324" end="00:04:44.326" beginFloat="282323.990657324" endFloat="284325.992659326" beginFloatBT="282323.990657324" endFloatBT="284325.992659326" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Why do you do this?</p>
+			<p begin="00:04:44.409" end="00:04:47.204" beginFloat="284409.40940940945" endFloat="287203.8705372039" beginFloatBT="284409.40940940945" endFloatBT="287203.8705372039" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				You make up all this bullshit,
+				<br/>
+				and it just spins you out of control.
+			</p>
+			<p begin="00:04:47.287" end="00:04:49.790" beginFloat="287287.2872872873" endFloat="289789.78978978976" beginFloatBT="287287.2872872873" endFloatBT="289789.78978978976" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Nature doesn't give
+				<br/>
+				a shit about us, Nikki.
+			</p>
+			<p begin="00:04:49.873" end="00:04:54.878" beginFloat="289873.2065398732" endFloat="294878.21154487826" beginFloatBT="289873.2065398732" endFloatBT="294878.21154487826" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				We're... we're getting married
+				<br/>
+				because we want to.
+			</p>
+			<p begin="00:04:54.962" end="00:04:57.798" beginFloat="294961.62829496164" endFloat="297797.7977977978" beginFloatBT="294961.62829496164" endFloatBT="297797.7977977978" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Because we're in love.</p>
+			<p begin="00:05:02.761" end="00:05:06.390" beginFloat="302761.0944277611" endFloat="306389.7230563898" beginFloatBT="302761.0944277611" endFloatBT="306389.7230563898" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">And so I can get on your insurance.</p>
+			<p begin="00:05:10.227" end="00:05:11.812" beginFloat="310226.89356022695" endFloat="311811.8118118118" beginFloatBT="310226.89356022695" endFloatBT="311811.8118118118" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Well, that, too.</p>
+			<p begin="00:05:13.105" end="00:05:14.690" beginFloat="313104.77143810474" endFloat="314689.6896896897" beginFloatBT="313104.77143810474" endFloatBT="314689.6896896897" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				What if we aren't meant
+				<br/>
+				to be together?
+			</p>
+			<p begin="00:05:14.773" end="00:05:16.108" beginFloat="314773.1064397731" endFloat="316107.77444110776" beginFloatBT="314773.1064397731" endFloatBT="316107.77444110776" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yes, we are.</p>
+			<p begin="00:05:17.860" end="00:05:19.611" beginFloat="317859.5261928596" endFloat="319611.27794461127" beginFloatBT="317859.5261928596" endFloatBT="319611.27794461127" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It's our choice.</p>
+			<p begin="00:05:19.695" end="00:05:22.739" beginFloat="319694.6946946947" endFloat="322739.40607273945" beginFloatBT="319694.6946946947" endFloatBT="322739.40607273945" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It's not fate, it's us.</p>
+			<p begin="00:05:24.867" end="00:05:26.368" beginFloat="324866.53319986654" endFloat="326368.0347013681" beginFloatBT="324866.53319986654" endFloatBT="326368.0347013681" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">We decide.</p>
+			<p begin="00:05:40.799" end="00:05:41.967" beginFloat="340799.1324657991" endFloat="341966.966966967" beginFloatBT="340799.1324657991" endFloatBT="341966.966966967" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Frank.</p>
+			<p begin="00:05:42.050" end="00:05:43.177" beginFloat="342050.3837170504" endFloat="343176.5098431765" beginFloatBT="342050.3837170504" endFloatBT="343176.5098431765" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Turn on your ringer.</p>
+			<p begin="00:05:43.260" end="00:05:44.761" beginFloat="343259.9265932599" endFloat="344761.4280947614" beginFloatBT="343259.9265932599" endFloatBT="344761.4280947614" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Your wife needs you.</p>
+			<p begin="00:05:44.845" end="00:05:49.641" beginFloat="344844.8448448449" endFloat="349641.3079746413" beginFloatBT="344844.8448448449" endFloatBT="349641.3079746413" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				She can't find the water shutoff valve,
+				<br/>
+				and the house is flooding.
+			</p>
+			<p begin="00:05:56.523" end="00:05:58.108" beginFloat="356523.18985652324" endFloat="358108.1081081081" beginFloatBT="356523.18985652324" endFloatBT="358108.1081081081" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Today's the big day.</p>
+			<p begin="00:05:58.192" end="00:05:59.943" beginFloat="358191.52485819155" endFloat="359943.27660994325" beginFloatBT="358191.52485819155" endFloatBT="359943.27660994325" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You ready?</p>
+			<p begin="00:06:00.027" end="00:06:01.195" beginFloat="360026.6933600267" endFloat="361194.52786119457" beginFloatBT="360026.6933600267" endFloatBT="361194.52786119457" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I guess so.</p>
+			<p begin="00:06:01.278" end="00:06:03.155" beginFloat="361277.94461127796" endFloat="363154.8214881548" beginFloatBT="361277.94461127796" endFloatBT="363154.8214881548" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Well, that Nikki's
+				<br/>
+				a fine-looking woman.
+			</p>
+			<p begin="00:06:03.238" end="00:06:05.741" beginFloat="363238.23823823826" endFloat="365740.7407407408" beginFloatBT="363238.23823823826" endFloatBT="365740.7407407408" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				If you don't marry her quick,
+				<br/>
+				I might just have to tap that myself.
+			</p>
+			<p begin="00:06:05.824" end="00:06:07.659" beginFloat="365824.1574908242" endFloat="367659.3259926593" beginFloatBT="365824.1574908242" endFloatBT="367659.3259926593" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Fuck you, Carl.</p>
+			<p begin="00:06:08.327" end="00:06:10.579" beginFloat="368326.6599933267" endFloat="370578.91224557895" beginFloatBT="368326.6599933267" endFloatBT="370578.91224557895" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">So, Nikki's good?</p>
+			<p begin="00:06:10.662" end="00:06:11.955" beginFloat="370662.32899566233" endFloat="371955.28862195526" beginFloatBT="370662.32899566233" endFloatBT="371955.28862195526" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">No second thoughts?</p>
+			<p begin="00:06:12.039" end="00:06:14.833" beginFloat="372038.7053720387" endFloat="374833.16649983317" beginFloatBT="372038.7053720387" endFloatBT="374833.16649983317" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Only from the animal kingdom.</p>
+			<p begin="00:06:16.084" end="00:06:18.629" beginFloat="376084.41775108443" endFloat="378628.6286286286" beginFloatBT="376084.41775108443" endFloatBT="378628.6286286286" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Oh, ah, we ran over
+				<br/>
+				a squirrel yesterday
+			</p>
+			<p begin="00:06:18.712" end="00:06:19.922" beginFloat="378712.04537871206" endFloat="379921.5882549216" beginFloatBT="378712.04537871206" endFloatBT="379921.5882549216" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">on the way home from the shower.</p>
+			<p begin="00:06:20.005" end="00:06:21.715" beginFloat="380005.00500500505" endFloat="381715.0483817151" beginFloatBT="380005.00500500505" endFloatBT="381715.0483817151" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Girls hate that shit.</p>
+			<p begin="00:06:22.007" end="00:06:23.425" beginFloat="382007.007007007" endFloat="383425.09175842506" beginFloatBT="382007.007007007" endFloatBT="383425.09175842506" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">No kidding.</p>
+			<p begin="00:06:25.010" end="00:06:27.513" beginFloat="385010.01001001004" endFloat="387512.5125125125" beginFloatBT="385010.01001001004" endFloatBT="387512.5125125125" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">The-- the thing is,</p>
+			<p begin="00:06:28.222" end="00:06:29.598" beginFloat="388221.5548882216" endFloat="389597.9312645979" beginFloatBT="388221.5548882216" endFloatBT="389597.9312645979" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">it was still alive.</p>
+			<p begin="00:06:29.681" end="00:06:31.433" beginFloat="389681.34801468137" endFloat="391433.09976643306" beginFloatBT="389681.34801468137" endFloatBT="391433.09976643306" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">His body was all messed up.</p>
+			<p begin="00:06:31.517" end="00:06:33.435" beginFloat="391516.5165165165" endFloat="393435.1017684351" beginFloatBT="391516.5165165165" endFloatBT="393435.1017684351" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				He was looking up at me
+				<br/>
+				like he knew.
+			</p>
+			<p begin="00:06:34.019" end="00:06:36.897" beginFloat="394019.01901901903" endFloat="396896.89689689694" beginFloatBT="394019.01901901903" endFloatBT="396896.89689689694" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				He knew I was gonna...
+				<br/>
+				help him.
+			</p>
+			<p begin="00:06:37.648" end="00:06:39.483" beginFloat="397647.64764764765" endFloat="399482.81614948285" beginFloatBT="397647.64764764765" endFloatBT="399482.81614948285" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				And Nikki's screaming her head off
+				<br/>
+				the whole time.
+			</p>
+			<p begin="00:06:39.566" end="00:06:40.609" beginFloat="399566.2328995663" endFloat="400608.94227560895" beginFloatBT="399566.2328995663" endFloatBT="400608.94227560895" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Of course.</p>
+			<p begin="00:06:40.692" end="00:06:43.237" beginFloat="400692.3590256924" endFloat="403236.5699032366" beginFloatBT="400692.3590256924" endFloatBT="403236.5699032366" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				The little guy, man,
+				<br/>
+				he was a real fighter.
+			</p>
+			<p begin="00:06:44.363" end="00:06:48.742" beginFloat="404362.69602936273" endFloat="408742.0754087421" beginFloatBT="404362.69602936273" endFloatBT="408742.0754087421" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I'll never forget the look in his eyes,
+				<br/>
+				like he was thanking me.
+			</p>
+			<p begin="00:06:51.203" end="00:06:54.164" beginFloat="411202.8695362029" endFloat="414164.16416416416" beginFloatBT="411202.8695362029" endFloatBT="414164.16416416416" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">And I bashed his head in.</p>
+			<p begin="00:06:54.498" end="00:06:56.124" beginFloat="414497.8311644978" endFloat="416124.45779112447" beginFloatBT="414497.8311644978" endFloatBT="416124.45779112447" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">With a rock.</p>
+			<p begin="00:06:56.792" end="00:06:58.752" beginFloat="416791.7917917918" endFloat="418752.08541875205" beginFloatBT="416791.7917917918" endFloatBT="418752.08541875205" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You did what you had to do.</p>
+			<p begin="00:06:59.253" end="00:07:00.587" beginFloat="419252.5859192526" endFloat="420587.25392058725" beginFloatBT="419252.5859192526" endFloatBT="420587.25392058725" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yeah.</p>
+			<p begin="00:07:00.671" end="00:07:02.297" beginFloat="420670.6706706707" endFloat="422297.2972972973" beginFloatBT="420670.6706706707" endFloatBT="422297.2972972973" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I did.</p>
+			<p begin="00:07:03.841" end="00:07:07.553" beginFloat="423840.50717384054" endFloat="427552.5525525526" beginFloatBT="423840.50717384054" endFloatBT="427552.5525525526" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				But Nikki, she's, she's always afraid
+				<br/>
+				I'm gonna start using again.
+			</p>
+			<p begin="00:07:07.636" end="00:07:08.804" beginFloat="427635.969302636" endFloat="428803.8038038038" beginFloatBT="427635.969302636" endFloatBT="428803.8038038038" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">She thought this was a sign,</p>
+			<p begin="00:07:08.887" end="00:07:11.682" beginFloat="428887.22055388725" endFloat="431681.6816816817" beginFloatBT="428887.22055388725" endFloatBT="431681.6816816817" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				like God's trying to tell us
+				<br/>
+				not to get married.
+			</p>
+			<p begin="00:07:12.182" end="00:07:15.227" beginFloat="432182.1821821822" endFloat="435226.89356022695" beginFloatBT="432182.1821821822" endFloatBT="435226.89356022695" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				And I know it's all bullshit,
+				<br/>
+				but it freaks me out
+			</p>
+			<p begin="00:07:15.310" end="00:07:17.229" beginFloat="435310.31031031033" endFloat="437228.8955622289" beginFloatBT="435310.31031031033" endFloatBT="437228.8955622289" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				when she says crap like that,
+				<br/>
+				y'know?
+			</p>
+			<p begin="00:07:17.646" end="00:07:19.606" beginFloat="437645.97931264597" endFloat="439606.2729396063" beginFloatBT="437645.97931264597" endFloatBT="439606.2729396063" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Maybe God is testing you.</p>
+			<p begin="00:07:19.690" end="00:07:21.275" beginFloat="439689.6896896897" endFloat="441274.6079412746" beginFloatBT="439689.6896896897" endFloatBT="441274.6079412746" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				A lesser man
+				<br/>
+				would've kept on driving.
+			</p>
+			<p begin="00:07:21.817" end="00:07:23.652" beginFloat="441816.8168168168" endFloat="443651.985318652" beginFloatBT="441816.8168168168" endFloatBT="443651.985318652" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I never know what God's thinking.</p>
+			<p begin="00:07:24.528" end="00:07:26.530" beginFloat="444527.8611945279" endFloat="446529.8631965299" beginFloatBT="444527.8611945279" endFloatBT="446529.8631965299" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It never makes any sense to me.</p>
+			<p begin="00:07:28.574" end="00:07:29.950" beginFloat="448573.5735735736" endFloat="449949.9499499499" beginFloatBT="448573.5735735736" endFloatBT="449949.9499499499" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You want that up?</p>
+			<p begin="00:07:34.162" end="00:07:35.831" beginFloat="454162.49582916254" endFloat="455830.83083083085" beginFloatBT="454162.49582916254" endFloatBT="455830.83083083085" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Oh, yeah.</p>
+			<p begin="00:07:43.839" end="00:07:44.756" beginFloat="463838.83883883886" endFloat="464756.4230897564" beginFloatBT="463838.83883883886" endFloatBT="464756.4230897564" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Good morning!</p>
+			<p begin="00:07:44.840" end="00:07:46.884" beginFloat="464839.83983983984" endFloat="466883.5502168836" beginFloatBT="464839.83983983984" endFloatBT="466883.5502168836" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Would you like to take her
+				<br/>
+				for a test drive?
+			</p>
+			<p begin="00:07:47.634" end="00:07:49.219" beginFloat="467634.3009676343" endFloat="469219.21921921923" beginFloatBT="467634.3009676343" endFloatBT="469219.21921921923" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yeah, okay, no problem.</p>
+			<p begin="00:07:49.303" end="00:07:51.138" beginFloat="469302.6359693026" endFloat="471137.8044711378" beginFloatBT="469302.6359693026" endFloatBT="471137.8044711378" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I'll be over here if you need me.</p>
+			<p begin="00:08:01.273" end="00:08:03.192" beginFloat="481272.93960627296" endFloat="483191.52485819155" beginFloatBT="481272.93960627296" endFloatBT="483191.52485819155" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I'll get 'em in a minute.</p>
+			<p begin="00:08:06.028" end="00:08:08.197" beginFloat="486027.69436102774" endFloat="488196.52986319654" beginFloatBT="486027.69436102774" endFloatBT="488196.52986319654" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You're divorced, right?</p>
+			<p begin="00:08:08.280" end="00:08:09.531" beginFloat="488279.9466132799" endFloat="489531.19786453125" beginFloatBT="488279.9466132799" endFloatBT="489531.19786453125" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Twice.</p>
+			<p begin="00:08:10.157" end="00:08:11.783" beginFloat="490156.82349015685" endFloat="491783.45011678344" beginFloatBT="490156.82349015685" endFloatBT="491783.45011678344" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Is that expensive?</p>
+			<p begin="00:08:13.619" end="00:08:16.038" beginFloat="493618.61861861864" endFloat="496037.7043710377" beginFloatBT="493618.61861861864" endFloatBT="496037.7043710377" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				What's your rush
+				<br/>
+				to get married, anyway?
+			</p>
+			<p begin="00:08:16.955" end="00:08:19.041" beginFloat="496955.2886219553" endFloat="499040.70737404074" beginFloatBT="496955.2886219553" endFloatBT="499040.70737404074" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Nikki says it's time.</p>
+			<p begin="00:08:19.333" end="00:08:20.918" beginFloat="499332.6659993327" endFloat="500917.5842509176" beginFloatBT="499332.6659993327" endFloatBT="500917.5842509176" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">She wants kids.</p>
+			<p begin="00:08:21.835" end="00:08:23.587" beginFloat="501835.1685018352" endFloat="503586.9202535869" beginFloatBT="501835.1685018352" endFloatBT="503586.9202535869" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I just don't wanna lose her.</p>
+			<p begin="00:08:23.921" end="00:08:25.422" beginFloat="503920.58725392056" endFloat="505422.0887554221" beginFloatBT="503920.58725392056" endFloatBT="505422.0887554221" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Gotcha.</p>
+			<p begin="00:08:26.548" end="00:08:32.012" beginFloat="506548.21488154825" endFloat="512012.01201201207" beginFloatBT="506548.21488154825" endFloatBT="512012.01201201207" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Jason, I think you and I should say
+				<br/>
+				a prayer for that squirrel.
+			</p>
+			<p begin="00:08:32.095" end="00:08:33.931" beginFloat="512095.42876209546" endFloat="513930.5972639306" beginFloatBT="512095.42876209546" endFloatBT="513930.5972639306" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Will you pray with me?</p>
+			<p begin="00:08:36.141" end="00:08:39.061" beginFloat="516141.1411411411" endFloat="519060.7273940608" beginFloatBT="516141.1411411411" endFloatBT="519060.7273940608" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Uh, okay.</p>
+			<p begin="00:08:39.394" end="00:08:42.439" beginFloat="519394.3943943945" endFloat="522439.1057724391" beginFloatBT="519394.3943943945" endFloatBT="522439.1057724391" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Frank, your wife says,
+				<br/>
+				"Never mind."
+			</p>
+			<p begin="00:08:43.607" end="00:08:46.985" beginFloat="523606.9402736069" endFloat="526985.3186519854" beginFloatBT="523606.9402736069" endFloatBT="526985.3186519854" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Dear Lord, thank You
+				<br/>
+				for all the creatures
+			</p>
+			<p begin="00:08:47.069" end="00:08:48.904" beginFloat="527068.7354020688" endFloat="528903.9039039039" beginFloatBT="527068.7354020688" endFloatBT="528903.9039039039" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You've placed upon this earth.</p>
+			<p begin="00:08:48.987" end="00:08:53.909" beginFloat="528987.3206539873" endFloat="533908.908908909" beginFloatBT="528987.3206539873" endFloatBT="533908.908908909" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				And thank You for the squirrel
+				<br/>
+				and the lesson he gave to Jason.
+			</p>
+			<p begin="00:08:53.992" end="00:08:56.995" beginFloat="533992.3256589924" endFloat="536995.3286619954" beginFloatBT="533992.3256589924" endFloatBT="536995.3286619954" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Thank You for all the tests
+				<br/>
+				You put before us.
+			</p>
+			<p begin="00:08:57.079" end="00:08:59.748" beginFloat="537078.7454120788" endFloat="539748.0814147481" beginFloatBT="537078.7454120788" endFloatBT="539748.0814147481" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Please continue to strengthen us,
+				<br/>
+				oh, Lord,
+			</p>
+			<p begin="00:08:59.831" end="00:09:01.917" beginFloat="539831.4981648315" endFloat="541916.916916917" beginFloatBT="539831.4981648315" endFloatBT="541916.916916917" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">and to show us the right path.</p>
+			<p begin="00:09:02.000" end="00:09:03.335" beginFloat="542000.3336670004" endFloat="543335.001668335" beginFloatBT="542000.3336670004" endFloatBT="543335.001668335" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Amen.</p>
+			<p begin="00:09:04.002" end="00:09:04.837" beginFloat="544002.3356690024" endFloat="544836.5031698365" beginFloatBT="544002.3356690024" endFloatBT="544836.5031698365" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Amen.</p>
+			<p begin="00:09:05.963" end="00:09:06.964" beginFloat="545962.6292959626" endFloat="546963.6302969636" beginFloatBT="545962.6292959626" endFloatBT="546963.6302969636" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Now...</p>
+			<p begin="00:09:07.047" end="00:09:09.800" beginFloat="547047.0470470471" endFloat="549799.7997997999" beginFloatBT="547047.0470470471" endFloatBT="549799.7997997999" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I'm gonna show these pussies
+				<br/>
+				how to lie down and buy a car.
+			</p>
+			<p begin="00:09:12.553" end="00:09:13.428" beginFloat="552552.5525525525" endFloat="553428.4284284285" beginFloatBT="552552.5525525525" endFloatBT="553428.4284284285" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Got 'im.</p>
+			<p begin="00:09:14.680" end="00:09:16.682" beginFloat="554679.6796796797" endFloat="556681.6816816817" beginFloatBT="554679.6796796797" endFloatBT="556681.6816816817" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It's probably a sign.</p>
+			<p begin="00:09:16.765" end="00:09:19.142" beginFloat="556765.0984317651" endFloat="559142.4758091426" beginFloatBT="556765.0984317651" endFloatBT="559142.4758091426" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Don't tell Nikki.</p>
+			<p begin="00:09:40.539" end="00:09:43.125" beginFloat="580538.8722055389" endFloat="583124.7914581249" beginFloatBT="580538.8722055389" endFloatBT="583124.7914581249" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You have never looked more lovely.</p>
+			<p begin="00:09:43.542" end="00:09:44.585" beginFloat="583541.8752085419" endFloat="584584.5845845846" beginFloatBT="583541.8752085419" endFloatBT="584584.5845845846" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Thank you, Carl.</p>
+			<p begin="00:09:46.461" end="00:09:48.672" beginFloat="586461.4614614615" endFloat="588672.0053386721" beginFloatBT="586461.4614614615" endFloatBT="588672.0053386721" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">He's gonna be here.</p>
+			<p begin="00:09:54.511" end="00:09:55.679" beginFloat="594511.1778445111" endFloat="595679.012345679" beginFloatBT="594511.1778445111" endFloatBT="595679.012345679" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">He's late.</p>
+			<p begin="00:09:55.762" end="00:09:56.763" beginFloat="595762.4290957624" endFloat="596763.4300967635" beginFloatBT="595762.4290957624" endFloatBT="596763.4300967635" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">What a surprise.</p>
+			<p begin="00:09:56.847" end="00:09:59.308" beginFloat="596846.8468468469" endFloat="599307.6409743077" beginFloatBT="596846.8468468469" endFloatBT="599307.6409743077" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Mom, it's rush hour.</p>
+			<p begin="00:09:59.391" end="00:10:01.560" beginFloat="599391.0577243911" endFloat="601559.8932265599" beginFloatBT="599391.0577243911" endFloatBT="601559.8932265599" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				And he had a big sale
+				<br/>
+				to wrap up at work.
+			</p>
+			<p begin="00:10:01.643" end="00:10:03.687" beginFloat="601643.3099766433" endFloat="603687.020353687" beginFloatBT="601643.3099766433" endFloatBT="603687.020353687" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Two pounder.</p>
+			<p begin="00:10:04.229" end="00:10:06.940" beginFloat="604229.2292292293" endFloat="606940.2736069403" beginFloatBT="604229.2292292293" endFloatBT="606940.2736069403" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				You've been making excuses for him
+				<br/>
+				ever since you met him.
+			</p>
+			<p begin="00:10:07.024" end="00:10:09.193" beginFloat="607023.6903570237" endFloat="609192.5258591925" beginFloatBT="607023.6903570237" endFloatBT="609192.5258591925" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I'm marrying a wonderful man.</p>
+			<p begin="00:10:09.276" end="00:10:12.321" beginFloat="609275.9426092759" endFloat="612320.6539873207" beginFloatBT="609275.9426092759" endFloatBT="612320.6539873207" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I mean, he's gonna be
+				<br/>
+				a great husband and daddy.
+			</p>
+			<p begin="00:10:12.404" end="00:10:13.447" beginFloat="612404.0707374042" endFloat="613446.7801134469" beginFloatBT="612404.0707374042" endFloatBT="613446.7801134469" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">He makes me proud.</p>
+			<p begin="00:10:13.530" end="00:10:15.574" beginFloat="613530.1968635302" endFloat="615573.9072405739" beginFloatBT="613530.1968635302" endFloatBT="615573.9072405739" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				A year ago you wanted
+				<br/>
+				nothing to do with him.
+			</p>
+			<p begin="00:10:15.657" end="00:10:17.159" beginFloat="615657.3239906573" endFloat="617158.8254921589" beginFloatBT="615657.3239906573" endFloatBT="617158.8254921589" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">A year from now, who knows?</p>
+			<p begin="00:10:17.242" end="00:10:18.785" beginFloat="617242.2422422422" endFloat="618785.4521187855" beginFloatBT="617242.2422422422" endFloatBT="618785.4521187855" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">He has no common sense.</p>
+			<p begin="00:10:18.869" end="00:10:19.995" beginFloat="618868.8688688688" endFloat="619994.9949949951" beginFloatBT="618868.8688688688" endFloatBT="619994.9949949951" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">That's not true.</p>
+			<p begin="00:10:20.078" end="00:10:21.496" beginFloat="620078.4117450785" endFloat="621496.4964964965" beginFloatBT="620078.4117450785" endFloatBT="621496.4964964965" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Vee?</p>
+			<p begin="00:10:22.289" end="00:10:24.708" beginFloat="622288.955622289" endFloat="624708.0413747081" beginFloatBT="622288.955622289" endFloatBT="624708.0413747081" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I mean, it's your life.</p>
+			<p begin="00:10:24.791" end="00:10:26.168" beginFloat="624791.4581247915" endFloat="626167.8345011678" beginFloatBT="624791.4581247915" endFloatBT="626167.8345011678" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				It's not that
+				<br/>
+				he's completely hopeless.
+			</p>
+			<p begin="00:10:26.251" end="00:10:29.963" beginFloat="626251.2512512512" endFloat="629963.2966299633" beginFloatBT="626251.2512512512" endFloatBT="629963.2966299633" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">More like, 70% hopeless.</p>
+			<p begin="00:10:33.342" end="00:10:34.843" beginFloat="633341.6750083417" endFloat="634843.1765098431" beginFloatBT="633341.6750083417" endFloatBT="634843.1765098431" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Ah.</p>
+			<p begin="00:10:40.224" end="00:10:41.975" beginFloat="640223.5568902235" endFloat="641975.3086419753" beginFloatBT="640223.5568902235" endFloatBT="641975.3086419753" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				-Hey, Honey.
+				<br/>
+				-Hi.
+			</p>
+			<p begin="00:10:42.059" end="00:10:43.101" beginFloat="642058.7253920587" endFloat="643101.4347681015" beginFloatBT="642058.7253920587" endFloatBT="643101.4347681015" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">I got here as quick as I could.</p>
+			<p begin="00:10:43.185" end="00:10:44.645" beginFloat="643184.8515181849" endFloat="644644.6446446447" beginFloatBT="643184.8515181849" endFloatBT="644644.6446446447" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Good.</p>
+			<p begin="00:10:44.728" end="00:10:46.146" beginFloat="644728.0613947281" endFloat="646146.1461461462" beginFloatBT="644728.0613947281" endFloatBT="646146.1461461462" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Hi, Lucille.</p>
+			<p begin="00:10:46.480" end="00:10:47.481" beginFloat="646479.8131464799" endFloat="647480.8141474809" beginFloatBT="646479.8131464799" endFloatBT="647480.8141474809" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Vanessa.</p>
+			<p begin="00:10:47.564" end="00:10:48.524" beginFloat="647564.2308975642" endFloat="648523.5235235235" beginFloatBT="647564.2308975642" endFloatBT="648523.5235235235" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Hey.</p>
+			<p begin="00:10:49.399" end="00:10:52.277" beginFloat="649399.3993993994" endFloat="652277.2772772773" beginFloatBT="649399.3993993994" endFloatBT="652277.2772772773" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Okay, uh, Baby, let's go on up.</p>
+			<p begin="00:10:52.361" end="00:10:53.445" beginFloat="652360.6940273608" endFloat="653445.1117784452" beginFloatBT="652360.6940273608" endFloatBT="653445.1117784452" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				-Yes.
+				<br/>
+				-Yeah?
+			</p>
+			<p begin="00:10:53.529" end="00:10:54.696" beginFloat="653528.5285285285" endFloat="654696.3630296964" beginFloatBT="653528.5285285285" endFloatBT="654696.3630296964" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Um-hm.</p>
+			<p begin="00:10:54.780" end="00:10:56.114" beginFloat="654779.7797797798" endFloat="656114.4477811145" beginFloatBT="654779.7797797798" endFloatBT="656114.4477811145" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Thank you.</p>
+			<p begin="00:10:58.659" end="00:11:01.703" beginFloat="658658.6586586587" endFloat="661703.3700367034" beginFloatBT="658658.6586586587" endFloatBT="661703.3700367034" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Now that we're all here,
+				<br/>
+				we can get started.
+			</p>
+			<p begin="00:11:02.371" end="00:11:03.789" beginFloat="662370.7040373707" endFloat="663788.7887887888" beginFloatBT="662370.7040373707" endFloatBT="663788.7887887888" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">You do have the rings?</p>
+			<p begin="00:11:06.834" end="00:11:07.918" beginFloat="666833.5001668335" endFloat="667917.917917918" beginFloatBT="666833.5001668335" endFloatBT="667917.917917918" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Yeah.</p>
+			<p begin="00:11:08.001" end="00:11:09.878" beginFloat="668001.3346680014" endFloat="669878.2115448782" beginFloatBT="668001.3346680014" endFloatBT="669878.2115448782" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Well, alrighty, then.</p>
+			<p begin="00:11:10.379" end="00:11:14.967" beginFloat="670378.7120453788" endFloat="674966.6332999667" beginFloatBT="670378.7120453788" endFloatBT="674966.6332999667" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Marriage is an honorable estate,
+				<br/>
+				not to be entered into lightly,
+			</p>
+			<p begin="00:11:15.050" end="00:11:18.595" beginFloat="675050.0500500501" endFloat="678595.2619285953" beginFloatBT="675050.0500500501" endFloatBT="678595.2619285953" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">but thoughtfully and reverently.</p>
+			<p begin="00:11:18.679" end="00:11:22.432" beginFloat="678678.6786786787" endFloat="682432.4324324325" beginFloatBT="678678.6786786787" endFloatBT="682432.4324324325" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				Nicole, have you come here today
+				<br/>
+				of your own free will
+			</p>
+			<p begin="00:11:22.516" end="00:11:24.309" beginFloat="682515.8491825159" endFloat="684309.3093093093" beginFloatBT="682515.8491825159" endFloatBT="684309.3093093093" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">to take Jason to be your lawful--?</p>
+			<p begin="00:11:26.270" end="00:11:28.522" beginFloat="686269.6029362696" endFloat="688521.8551885218" beginFloatBT="686269.6029362696" endFloatBT="688521.8551885218" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				All right.
+				<br/>
+				Everybody stay calm.
+			</p>
+			<p begin="00:11:28.605" end="00:11:31.024" beginFloat="688605.2719386052" endFloat="691024.3576910244" beginFloatBT="688605.2719386052" endFloatBT="691024.3576910244" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">That was not gunfire you just heard.</p>
+			<p begin="00:11:31.108" end="00:11:33.652" beginFloat="691107.7744411079" endFloat="693651.985318652" beginFloatBT="691107.7744411079" endFloatBT="693651.985318652" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">A bird flew into the window up there.</p>
+			<p begin="00:11:34.444" end="00:11:36.738" beginFloat="694444.4444444445" endFloat="696738.4050717384" beginFloatBT="694444.4444444445" endFloatBT="696738.4050717384" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">It happens now and then.</p>
+			<p begin="00:11:37.489" end="00:11:39.658" beginFloat="697489.1558224893" endFloat="699657.991324658" beginFloatBT="697489.1558224893" endFloatBT="699657.991324658" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				I guess we need to put up
+				<br/>
+				some of those stickers.
+			</p>
+			<p begin="00:11:45.581" end="00:11:47.666" beginFloat="705580.5805805806" endFloat="707665.999332666" beginFloatBT="705580.5805805806" endFloatBT="707665.999332666" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">Oh, come on!</p>
+			<p begin="00:12:22.034" end="00:12:25.245" beginFloat="742033.7003670337" endFloat="745245.2452452453" beginFloatBT="742033.7003670337" endFloatBT="745245.2452452453" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ How'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:12:25.329" end="00:12:29.208" beginFloat="745328.6619953287" endFloat="749207.5408742075" beginFloatBT="745328.6619953287" endFloatBT="749207.5408742075" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so good ♪</span>
+			</p>
+			<p begin="00:12:29.875" end="00:12:33.337" beginFloat="749874.8748748748" endFloat="753336.6700033367" beginFloatBT="749874.8748748748" endFloatBT="753336.6700033367" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ How'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:12:33.420" end="00:12:37.633" beginFloat="753420.0867534202" endFloat="757632.6326326326" beginFloatBT="753420.0867534202" endFloatBT="757632.6326326326" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so bad ♪</span>
+			</p>
+			<p begin="00:12:54.483" end="00:12:57.694" beginFloat="774482.8161494829" endFloat="777694.3610276944" beginFloatBT="774482.8161494829" endFloatBT="777694.3610276944" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ How'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:12:57.778" end="00:13:01.532" beginFloat="777777.7777777779" endFloat="781531.5315315315" beginFloatBT="777777.7777777779" endFloatBT="781531.5315315315" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so good ♪</span>
+			</p>
+			<p begin="00:13:02.449" end="00:13:05.869" beginFloat="782449.1157824491" endFloat="785869.2025358692" beginFloatBT="782449.1157824491" endFloatBT="785869.2025358692" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ How'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:13:05.953" end="00:13:09.957" beginFloat="785952.6192859526" endFloat="789956.6232899566" beginFloatBT="785952.6192859526" endFloatBT="789956.6232899566" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so bad ♪</span>
+			</p>
+			<p begin="00:13:10.040" end="00:13:13.502" beginFloat="790040.04004004" endFloat="793501.8351685018" beginFloatBT="790040.04004004" endFloatBT="793501.8351685018" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I've got my baby beside me ♪</span>
+			</p>
+			<p begin="00:13:13.585" end="00:13:18.131" beginFloat="793585.2519185853" endFloat="798131.4647981315" beginFloatBT="793585.2519185853" endFloatBT="798131.4647981315" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ And she's the best thing</span>
+				<br/>
+				<span tts:fontStyle="italic">I ever had ♪</span>
+			</p>
+			<p begin="00:13:18.215" end="00:13:21.677" beginFloat="798214.8815482148" endFloat="801676.6766766767" beginFloatBT="798214.8815482148" endFloatBT="801676.6766766767" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I've got my one true love</span>
+				<br/>
+				<span tts:fontStyle="italic">beside me ♪</span>
+			</p>
+			<p begin="00:13:21.760" end="00:13:26.682" beginFloat="801760.0934267602" endFloat="806681.6816816818" beginFloatBT="801760.0934267602" endFloatBT="806681.6816816818" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ And she's the best thing</span>
+				<br/>
+				<span tts:fontStyle="italic">I ever, I ever ♪</span>
+			</p>
+			<p begin="00:13:59.631" end="00:14:02.801" beginFloat="839631.2979646313" endFloat="842801.1344678012" beginFloatBT="839631.2979646313" endFloatBT="842801.1344678012" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ How'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:14:02.885" end="00:14:05.846" beginFloat="842884.5512178845" endFloat="845845.8458458459" beginFloatBT="842884.5512178845" endFloatBT="845845.8458458459" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so good ♪</span>
+			</p>
+			<p begin="00:14:05.929" end="00:14:11.977" beginFloat="845929.2625959293" endFloat="851976.976976977" beginFloatBT="845929.2625959293" endFloatBT="851976.976976977" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ And how'd you get to be</span>
+				<br/>
+				<span tts:fontStyle="italic">the powers that be ♪</span>
+			</p>
+			<p begin="00:14:12.060" end="00:14:15.105" beginFloat="852060.3937270604" endFloat="855105.1051051052" beginFloatBT="852060.3937270604" endFloatBT="855105.1051051052" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ Fucking up everything</span>
+				<br/>
+				<span tts:fontStyle="italic">so bad ♪</span>
+			</p>
+			<p begin="00:14:15.189" end="00:14:18.567" beginFloat="855188.5218551885" endFloat="858566.9002335669" beginFloatBT="855188.5218551885" endFloatBT="858566.9002335669" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I've got my one true love</span>
+				<br/>
+				<span tts:fontStyle="italic">beside me ♪</span>
+			</p>
+			<p begin="00:14:18.650" end="00:14:23.155" beginFloat="858650.3169836503" endFloat="863154.8214881549" beginFloatBT="858650.3169836503" endFloatBT="863154.8214881549" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ And she's the best thing</span>
+				<br/>
+				<span tts:fontStyle="italic">I ever had ♪</span>
+			</p>
+			<p begin="00:14:23.405" end="00:14:26.658" beginFloat="863405.0717384052" endFloat="866658.3249916583" beginFloatBT="863405.0717384052" endFloatBT="866658.3249916583" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ I've got my baby beside me ♪</span>
+			</p>
+			<p begin="00:14:26.742" end="00:14:31.538" beginFloat="866741.7417417418" endFloat="871538.2048715382" beginFloatBT="866741.7417417418" endFloatBT="871538.2048715382" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				<span tts:fontStyle="italic">♪ And she's the best thing</span>
+				<br/>
+				<span tts:fontStyle="italic">I ever had ♪</span>
+			</p>
+			<p begin="00:14:41.215" end="00:14:45.093" beginFloat="881214.5478812145" endFloat="885093.4267600935" beginFloatBT="881214.5478812145" endFloatBT="885093.4267600935" textJustify="1" tts:textAlign="center" tts:displayAlign="after" ccPositions="0,13|0,14|0,15|0,16" ccSplitGroup="false" errorType="0" errorSeverity="0" errorName="" ssRowEditable="true" ssCaptionMode="pop-on">
+				No live animals showed up to work
+				<br/>
+				on this film.
+			</p>
+		</div>
+	</body>
+	<stops beforeFrames="4" afterFrames="4"></stops>
+	<editorFlags></editorFlags>
+	<penalties></penalties>
+</tt>

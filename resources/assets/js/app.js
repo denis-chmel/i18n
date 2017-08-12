@@ -6,8 +6,22 @@
  */
 
 require('./bootstrap');
+let yandexKey = 'trnsl.1.1.20170812T114925Z.1d5a2b5e46b3dc19.6be110234dfafb6f3d1925304f792ea638992fc2';
+window.translateYandex = require('yandex-translate')(yandexKey);
+window.pluralize = require('pluralize');
 
+window.googleTranslate = require('google-translator');
+window.download = require('download-file');
+
+
+// window.googleTranslator = new Translator('google');
+
+// translate.translate('You can burn my house, steal my car, drink my liquor from an old fruitjar.', { to: 'ru' }, function(err, res) {
+//     console.log(res.text);
+// });
+//
 window.Vue = require('vue');
+require('vue-resource');
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -17,6 +31,11 @@ window.Vue = require('vue');
 
 Vue.component('example', require('./components/Example.vue'));
 
-const app = new Vue({
-    el: '#app'
-});
+window.Vue.use(require('vue-textarea-autosize'));
+window.Vue.use(require('vue-resource'));
+
+window.Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
+
+// const app = new Vue({
+//     el: '#app'
+// });

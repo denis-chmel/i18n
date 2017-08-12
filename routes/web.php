@@ -11,6 +11,10 @@
 |
 */
 
+Route::get('translate', 'TranslateController@index')->name('translate');
+Route::get('translate-google', 'TranslateController@google')->name('translate.google');
+Route::any('export-all', 'TranslateController@export')->name('translate.export');
+
 Route::get('/', function () {
     return view('welcome');
 });

@@ -5,7 +5,7 @@
  * @var int $jobId
  */
 
-$lines = array_slice($lines, 0, 20);
+$lines = array_slice($lines, 0, 30);
 
 @endphp
 
@@ -37,32 +37,53 @@ $lines = array_slice($lines, 0, 20);
         </div>
     </nav>
 
+
+    <video
+        id="my-player"
+        class="video-js hidden"
+        controls
+        preload="auto"
+        poster="//vjs.zencdn.net/v/oceans.png"
+        data-setup='{}'>
+        <source src1="https://d1fevocuvkxjlg.cloudfront.net/_dash/VISUAL_DATA_ASPERA/Aug_2017/Creatures_Of_God_-_SOS_-_H2641080pLtRt_23/Creatures_Of_God_-_SOS_-_H2641080pLtRt_2.mp4" type="video/mp4"></source>
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a
+            web browser that
+            <a href="http://videojs.com/html5-video-support/" target="_blank">
+                supports HTML5 video
+            </a>
+        </p>
+    </video>
+
     <div class="container">
     <table class="translations">
 
         <tbody>
         <tr valign="top" v-for="entry in subLines">
             <td>
-                @{{entry['begin']}}<br>
-                @{{entry['end']}}<br>
+                 @{{ entry.index }}
+{{--                @{{entry['begin']}}<br>--}}
+{{--                @{{entry['end']}}<br>--}}
             </td>
             <td>
                 <pre v-html="entry['html']"></pre>
             </td>
-            <td>
-                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(entry)">Я</button>
-                <textarea-autosize
-                    @click.native="approveYandex(entry)"
-                    v-bind:class="{ loading: entry.loadingYandex, approved: entry.approveYandex }"
-                    v-model="entry['translationYandex']"
-                ></textarea-autosize>
-            </td>
-            <td>
+            <td v-if="entry.editable">
                 <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(entry)">G</button>
                 <textarea-autosize
+                    :disabled="entry.disabled == true"
                     @click.native="approveGoogle(entry)"
                     v-bind:class="{ loading: entry.loadingGoogle, approved: entry.approveGoogle }"
                     v-model="entry['translationGoogle']"
+                ></textarea-autosize>
+            </td>
+            <td v-if="entry.editable">
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(entry)">Я</button>
+                <textarea-autosize
+                    :disabled="entry.disabled == true"
+                    @click.native="approveYandex(entry)"
+                    v-bind:class="{ loading: entry.loadingYandex, approved: entry.approveYandex }"
+                    v-model="entry['translationYandex']"
                 ></textarea-autosize>
             </td>
         </tr>
@@ -140,8 +161,11 @@ $lines = array_slice($lines, 0, 20);
                 },
                 translateAll: function () {
                     this.subLines.forEach((line, index) => {
-                        line.approveYandex = true;
-                        line.approveGoogle = false;
+                        if (!line.editable) {
+                            return;
+                        }
+                        line.approveYandex = false;
+                        line.approveGoogle = true;
                         this.translateYandex(line, index * 200);
                         this.translateGoogle(line, index * 200);
                     });
@@ -228,6 +252,11 @@ $lines = array_slice($lines, 0, 20);
         });
 
     </script>
+
+    <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
+    <script src="//vjs.zencdn.net/5.19/video.min.js"></script>
+
+
     <style>
     </style>
 @append

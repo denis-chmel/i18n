@@ -2,7 +2,6 @@
 
 use Illuminate\Http\Request;
 use PHPHtmlParser\Dom;
-use SebastianBergmann\CodeCoverage\Report\PHP;
 
 /**
  * Class HomepageController
@@ -14,12 +13,21 @@ class TranslateController extends Controller
     {
         $from = $request->get('from');
         $to = $request->get('to');
-        $text = $request->get('text');
-        $text = str_replace(PHP_EOL, '<br>', $text);
+        $origText = $request->get('text');
+        $text = str_replace(PHP_EOL, '<br>', $origText);
         $encodedText = urlencode($text);
-        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
-        $translation = $response[0][0][0];
+//        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
+        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&sl=$from&tl=$to&dt=t&q=$encodedText"));
+        $translation = '';
+        foreach ($response[0] as $a) {
+            $translation .= $a[0];
+        }
+
+//        $translation = $response[0][0][0];
+//        dd($origText, $text, $response, $translation);
         $translation = preg_replace('~<br>\s*~', PHP_EOL, $translation);
+        $translation = str_replace(' ...', '...', $translation);
+
         return response()->json([
             'translation' => $translation,
         ]);
@@ -84,14 +92,15 @@ class TranslateController extends Controller
         $dom->load($engSubs);
 
         $lines = [];
-        foreach ($dom->find('body div p') as $node) {
+        foreach ($dom->find('body div p') as $i => $node) {
             /** @var Dom\HtmlNode $node */
             $line = [];
             $line['begin'] = $node->getAttribute('begin');
             $line['end'] = $node->getAttribute('end');
+            $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
             $line['html'] = $node->innerHtml();
             $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
-            $line['text'] = trim($text);
+            $line['text'] = html_entity_decode(trim($text));
             $line['original'] = $line['text'];
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
@@ -100,6 +109,7 @@ class TranslateController extends Controller
             $line['approveYandex'] = false;
             $line['approveGoogle'] = false;
             $line['translation'] = '';
+            $line['index'] = $i + 1;
             $lines[] = $line;
         }
 

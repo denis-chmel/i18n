@@ -95,6 +95,8 @@ class TranslateController extends Controller
             $line['original'] = $line['text'];
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
+            $line['loadingYandex'] = false;
+            $line['loadingGoogle'] = false;
             $line['approveYandex'] = false;
             $line['approveGoogle'] = false;
             $line['translation'] = '';

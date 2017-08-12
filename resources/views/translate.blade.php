@@ -5,7 +5,7 @@
  * @var int $jobId
  */
 
-$lines = array_slice($lines, 0, 10);
+$lines = array_slice($lines, 0, 20);
 
 @endphp
 
@@ -25,11 +25,11 @@ $lines = array_slice($lines, 0, 10);
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <button type="button" class="btn btn-default navbar-btn" @click="translateAll()">Translate All</button>
+                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate All</button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
-                            <button type="button" class="btn btn-default navbar-btn" @click="exportAll()">Export</button>
+                            <button type="button" class="btn btn-default navbar-btn" @click="exportAll()">Download</button>
                         </li>
                     </ul>
                 </div>
@@ -50,18 +50,18 @@ $lines = array_slice($lines, 0, 10);
                 <pre v-html="entry['html']"></pre>
             </td>
             <td>
-                <button tabindex="-1" class="pull-left" type="button" @click="translateYandex(entry)">Y</button>
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(entry)">Я</button>
                 <textarea-autosize
                     @click.native="approveYandex(entry)"
-                    v-bind:class="{ loading: entry.loading, approved: entry.approveYandex }"
+                    v-bind:class="{ loading: entry.loadingYandex, approved: entry.approveYandex }"
                     v-model="entry['translationYandex']"
                 ></textarea-autosize>
             </td>
             <td>
-                <button tabindex="-1" class="pull-left" type="button" @click="translateGoogle(entry)">G</button>
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(entry)">G</button>
                 <textarea-autosize
                     @click.native="approveGoogle(entry)"
-                    v-bind:class="{ loading: entry.loading, approved: entry.approveGoogle }"
+                    v-bind:class="{ loading: entry.loadingGoogle, approved: entry.approveGoogle }"
                     v-model="entry['translationGoogle']"
                 ></textarea-autosize>
             </td>
@@ -107,13 +107,13 @@ $lines = array_slice($lines, 0, 10);
             },
             methods: {
                 translateYandex: function (line, delay) {
-                    Vue.set(line, 'loading', true);
-                    Vue.set(line, 'translation', line.original);
+                    Vue.set(line, 'loadingYandex', true);
+                    Vue.set(line, 'translationYandex', line.original);
                     Vue.set(this.subLines, 'reload', Math.random());
                     setTimeout(a => {
                         window.translateYandex.translate(line.text, { to: 'ru' }, function (err, res) {
                             line.translationYandex = res.text[0];
-                            line.loading = false;
+                            line.loadingYandex = false;
                         });
                     }, delay || 200);
                 },
@@ -126,17 +126,17 @@ $lines = array_slice($lines, 0, 10);
                     Vue.set(line, 'approveGoogle', true);
                 },
                 translateGoogle: function (line, delay) {
-                    Vue.set(line, 'loading', true);
-                    Vue.set(line, 'translation', line.original);
+                    Vue.set(line, 'loadingGoogle', true);
+                    Vue.set(line, 'translationGoogle', line.original);
                     setTimeout(a => {
 
                         window.googleTranslate('en', 'ru', line.text, response => {
                             response = JSON.parse(response);
                             line.translationGoogle = response.translation;
-                            line.loading = false;
+                            line.loadingGoogle = false;
                         });
 
-                    }, delay || 200);
+                    }, delay || 0);
                 },
                 translateAll: function () {
                     this.subLines.forEach((line, index) => {
@@ -217,18 +217,17 @@ $lines = array_slice($lines, 0, 10);
             //you know the position.
             $(window).scroll(function () {
 
-                console.log($(window).scrollTop());
                 if ($(window).scrollTop() > 250) {
-                    console.log("ok");
                     $('#nav_bar').addClass('navbar-fixed-top');
                 }
 
                 if ($(window).scrollTop() < 251) {
-                    console.log("not ok");
                     $('#nav_bar').removeClass('navbar-fixed-top');
                 }
             });
         });
 
     </script>
+    <style>
+    </style>
 @append

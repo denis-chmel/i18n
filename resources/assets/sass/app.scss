@@ -26,8 +26,8 @@ textarea {
 
 .translations {
   td {
-    border-bottom: 1px dotted silver;
     padding: 10px;
+    position: relative;
   }
   textarea {
     @extend pre;
@@ -38,6 +38,14 @@ textarea {
       background: #e6ffdf;
     }
   }
+
+  .btn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    padding-right: 1ex;
+  }
+
 }
 
 .navbar {

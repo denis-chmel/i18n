@@ -11,15 +11,7 @@ window.translateYandex = require('yandex-translate')(yandexKey);
 window.pluralize = require('pluralize');
 
 window.googleTranslate = require('google-translator');
-window.download = require('download-file');
 
-
-// window.googleTranslator = new Translator('google');
-
-// translate.translate('You can burn my house, steal my car, drink my liquor from an old fruitjar.', { to: 'ru' }, function(err, res) {
-//     console.log(res.text);
-// });
-//
 window.Vue = require('vue');
 require('vue-resource');
 

@@ -32,8 +32,20 @@ $lines = array_slice($lines, 0, 10);
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
-                            <button type="button" class="btn btn-default navbar-btn" @click="exportAll()">Download</button>
+                            <button type="button" class="btn btn-default navbar-btn" @click="saveApproved()"
+                                :disabled="isSaving"
+                            >Save Approved</button>
                         </li>
+                        <li class="divider">&nbsp;&nbsp;</li>
+                        <li>
+                            <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(1)"
+                                :disabled="isSaving"
+                            >Download All</button>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a style="text-decoration: none">Approved @{{ percentDone }}%</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,8 +59,6 @@ $lines = array_slice($lines, 0, 10);
         <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
             <td>
                  @{{ line.index }}
-{{--                @{{line['begin']}}<br>--}}
-{{--                @{{line['end']}}<br>--}}
             </td>
             <td>
                 <pre class="original" v-html="line.html"></pre>
@@ -148,6 +158,8 @@ $lines = array_slice($lines, 0, 10);
         const app = new Vue({
             el: '#app',
             data: {
+                isSaving: false,
+                percentDone: 0,
                 subLines: {!! j($lines) !!}
             },
             methods: {
@@ -165,10 +177,12 @@ $lines = array_slice($lines, 0, 10);
                 approveYandex: function (line) {
                     Vue.set(line, 'approveYandex', true);
                     Vue.set(line, 'approveGoogle', false);
+                    this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
                     Vue.set(line, 'approveYandex', false);
                     Vue.set(line, 'approveGoogle', true);
+                    this.calculatePercentDone();
                 },
                 translateGoogle: function (line, delay) {
                     Vue.set(line, 'loadingGoogle', true);
@@ -208,6 +222,14 @@ $lines = array_slice($lines, 0, 10);
                         this.translateGoogle(line, index * 200);
                     });
                 },
+                calculatePercentDone: function() {
+                    let total = this.subLines.length;
+                    let translated = this.subLines.filter(line => {
+                        return line.approveYandex || line.approveGoogle ? line : false;
+                    });
+                    let percent = Math.ceil(translated.length * 100 / this.subLines.length);
+                    Vue.set(this, 'percentDone', percent);
+                },
                 exportAll: function () {
                     this.$http.post('/export-all', {
                         lines: this.subLines,
@@ -221,6 +243,27 @@ $lines = array_slice($lines, 0, 10);
                         link.click();
                     });
                 },
+                saveApproved: function (download) {
+                    this.isSaving = true;
+                    this.$http.post('/save-approved', {
+                        lines: this.subLines,
+                        jobId: {{ $jobId }},
+                        download: download,
+                    }).then((response) => {
+                        if (download) {
+                            let headers = {};
+                            let blob = new Blob([response.data], { type: headers['content-type'] });
+                            let link = document.createElement('a');
+                            link.href = window.URL.createObjectURL(blob);
+                            link.download = response.headers.map['content-filename'][0];
+                            link.click();
+                        }
+                    }).finally((response) => {
+                        this.isSaving = false;
+                    }).catch((response) => {
+                        alert(response.bodyText);
+                    });
+                },
             },
             mounted: function () {
                 this.subLines.forEach(line => {
@@ -231,6 +274,8 @@ $lines = array_slice($lines, 0, 10);
                     }
 
                     line = addLinksToMultitran(line);
+
+                    this.calculatePercentDone();
 
                 });
             }

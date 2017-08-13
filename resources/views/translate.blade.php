@@ -62,13 +62,15 @@ if ($no = request('box')) {
         </div>
     </nav>
 
+    <video data-dashjs-player id="videoPlayer" controls></video>
+
     <div class="container">
         <table class="translations">
 
             <tbody>
             <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
                 <td>
-                    @{{ line.index }}
+                    <a @click="playPhrase(line)">@{{ line.index }}</a>
                 </td>
                 <td>
                     <pre class="original" v-html="line.html"></pre>
@@ -173,7 +175,8 @@ if ($no = request('box')) {
                 isSaving: false,
                 percentDone: 0,
                 autosave: false,
-                subLines: {!! j($lines) !!}
+                videoUrl: {!! j($videoUrl) !!},
+                subLines: {!! j($lines) !!},
             },
             methods: {
                 translateYandex: function (line, delay) {
@@ -188,11 +191,13 @@ if ($no = request('box')) {
                     }, delay || 200);
                 },
                 approveYandex: function (line) {
+                    window.player.pause();
                     Vue.set(line, 'approveYandex', true);
                     Vue.set(line, 'approveGoogle', false);
                     this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
+                    window.player.pause();
                     Vue.set(line, 'approveYandex', false);
                     Vue.set(line, 'approveGoogle', true);
                     this.calculatePercentDone();
@@ -307,6 +312,11 @@ if ($no = request('box')) {
                         }
                     }
                 },
+                playPhrase: function(line){
+                    window.player.play();
+                    window.player.seek(line.secondStart);
+//                    document.getElementById('videoPlayer').seek(100);
+                }
             },
             mounted: function () {
                 this.subLines.forEach(line => {
@@ -326,9 +336,17 @@ if ($no = request('box')) {
                 setInterval(this.updateWorklog, 60 * second); // each 1 min
                 setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
 
+                setTimeout(a => {
+                    startVideo(this.videoUrl);
+                }, 1000);
             }
         });
 
+
+        function startVideo(url) {
+            window.player = dashjs.MediaPlayer().create();
+            window.player.initialize(document.querySelector("#videoPlayer"), url, false);
+        }
 
         $(document).ready(function () {
             $(window).scroll(function () {
@@ -344,5 +362,19 @@ if ($no = request('box')) {
         });
 
     </script>
-
+    <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
+    <style>
+        video {
+            width: 400px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            transform: scale(0.5) translate(100px, 100px);
+            transition: all 500ms;
+        }
+        video:hover {
+            transform: scale(1) translate(0, 100px);
+        }
+    </style>
 @append

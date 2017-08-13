@@ -136,6 +136,7 @@ class TranslateController extends Controller
                 continue;
             }
 
+            $lastTime = $node->getAttribute('begin');
             $translatedClount++;
             while ($node->hasChildNodes()) {
                 $node->removeChild($node->firstChild);
@@ -214,6 +215,7 @@ class TranslateController extends Controller
         if ($node = $xpath->query('//source_subtitle/url')) {
             $engSubsUrl = $node->item(0)->nodeValue;
             $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
+            $videoUrl = $xpath->query('//video/url')->item(0)->nodeValue;
         } else {
             throw new \Exception('cannot find //source_subtitle/url');
         }
@@ -229,6 +231,11 @@ class TranslateController extends Controller
         foreach ($dom->find('body div p') as $i => $node) {
             /** @var Dom\HtmlNode $node */
             $line = [];
+            $start = $node->getAttribute('begin');
+            $end = $node->getAttribute('end');
+            $line['start'] = $start;
+            $line['end'] = $end;
+            $line['secondStart'] = $this->getCurrentTimeDec($start) * 60 - 0.5; // 0.5 sec before
             $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
             $line['html'] = $node->innerHtml();
             $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
@@ -248,6 +255,7 @@ class TranslateController extends Controller
         return view('translate', [
             'lines' => $lines,
             'jobId' => $jobId,
+            'videoUrl' => $videoUrl,
             'bannedWords' => config('bannedWords.list'),
         ]);
     }
@@ -353,8 +361,8 @@ class TranslateController extends Controller
         );
 
         \Log::debug('setUserWorkingActivityStatus sent', [
-            'request' => $data,
-            'response' => $response,
+                'request' => $data,
+                'response' => $response,
         ]);
     }
 
@@ -398,7 +406,7 @@ class TranslateController extends Controller
             'activeTime' => rand(0, 1),
             'background' => $isAutosave ? 1 : 0,
             'subtitleType' => 'target',
-            'current_minute' => '2.5945833333333335', // FIXME randomize?
+            'current_minute' => $this->getCurrentTimeDec($lastTime),
         ];
 
         $lentgh = strlen($xml);

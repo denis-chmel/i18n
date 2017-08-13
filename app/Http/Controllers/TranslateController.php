@@ -11,6 +11,8 @@ class TranslateController extends Controller
 {
     protected $sessionId = 'h98ufcbd8f3nkoelgjj7pq7im4';
 
+    protected $debug = 1;
+
     public function google(Request $request)
     {
         $from = $request->get('from');
@@ -19,8 +21,8 @@ class TranslateController extends Controller
         $text = $origText;
 //        $text = str_replace(PHP_EOL, '<br>', $text);
         $encodedText = urlencode($text);
-//        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
-        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&sl=$from&tl=$to&dt=t&q=$encodedText"));
+        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
+//        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&sl=$from&tl=$to&dt=t&q=$encodedText"));
         $translation = '';
         foreach ($response[0] as $a) {
             $translation .= $a[0];
@@ -44,7 +46,7 @@ class TranslateController extends Controller
 //        $translation = preg_replace('/\s*$/', '', $translation);
 //        $translation = preg_replace('/^- /', '-', $translation);
         if ($request->get('debug')) {
-            dd($origText, $text, $translation);
+            dd($origText, $text, $translation, $response);
         }
 
         return response()->json([
@@ -90,6 +92,7 @@ class TranslateController extends Controller
     {
         $jobId = $request->get('jobId');
         $lines = $request->get('lines');
+        $isAutosave = $request->get('isAutosave');
         $download = $request->get('download');
 
         if (!$jobId) {
@@ -114,8 +117,12 @@ class TranslateController extends Controller
 
         $doc = new \DomDocument();
         $doc->loadXML($rusSubs);
+        $totalCount = 0;
+        $translatedClount = 0;
+        $lastTime = 0;
         foreach ($doc->getElementsByTagName('p') as $i => $node) {
             /** @var \DOMElement $node */
+            $totalCount++;
             $line = array_get($lines, $i);
             if (!$line) {
                 continue;
@@ -128,6 +135,8 @@ class TranslateController extends Controller
             if (!trim($translation)) {
                 continue;
             }
+
+            $translatedClount++;
             while ($node->hasChildNodes()) {
                 $node->removeChild($node->firstChild);
             }
@@ -173,7 +182,7 @@ class TranslateController extends Controller
             ]);
         } else {
 
-            $this->submitTranslations($jobId, $newXml);
+            $this->submitTranslations($jobId, $newXml, $isAutosave, $totalCount, $translatedClount, $lastTime);
 
             $response = response()->json([
                 'success' => true,
@@ -245,10 +254,10 @@ class TranslateController extends Controller
 
     private function loadAndCache($url, $minutes = 120)
     {
-        $key = 'yulia7.' . md5($url); // FIXME - never recaches :-/
-//        return \Cache::remember($key, $minutes, function () use ($url) {
+        $key = 'yulia10.' . md5($url);
+        return \Cache::remember($key, $minutes, function () use ($url) {
             return $this->loadUrl($url);
-//        });
+        });
     }
 
     private function loadUrl($url)
@@ -291,11 +300,69 @@ class TranslateController extends Controller
         die();
     }
 
-    private function submitTranslations($jobId, $xml)
+    private function getCurrentTimeDec($timeString = '00:08:33.931')
     {
-        $debug = 0;
+        if (preg_match('~(\d\d):(\d\d):(\d\d)\.(\d+)~', $timeString, $matches)) {
+            list($all, $hour, $min, $sec, $dec) = $matches;
+            $minutes = $hour * 60 + $min;
+            $minutesDec = $minutes + ($sec / 60) + round((float)('0.' . $dec) * 1000) / 60 / 1000;
+            return $minutesDec;
+        }
+        return 0;
+    }
 
-        \Log::info('Saving...', ['debug' => $debug]);
+    public function updateWorklog(Request $request)
+    {
+        $jobId = $request->get('jobId');
+
+        $url = 'https://visualdata.sferalabs.com/webservice/jobs/updateWorklog?userJobId=' . $jobId;
+        if ($this->debug) {
+            $url = 'http://yulia-trans.app/test?jobId=' . $jobId;
+        }
+        $response = $this->sendPost(
+            $url,
+            [],
+            'https://visualdata.sferalabs.com/flex/main?userJobId=' . $jobId
+        );
+
+        \Log::debug('updateWorklog sent', [
+            'jobId' => $jobId,
+            'response' => $response,
+        ]);
+
+    }
+
+    public function setUserWorkingActivityStatus(Request $request)
+    {
+        $jobId = $request->get('jobId');
+
+        $data = [
+            'user_job_id' => $jobId,
+            'exit_from_flex' => 0,
+            'active' => 1,
+        ];
+
+        $url = 'https://visualdata.sferalabs.com/webservice/user/setUserWorkingActivityStatus';
+        if ($this->debug) {
+            $url = 'http://yulia-trans.app/test';
+        }
+        $response = $this->sendPost(
+            $url,
+            $data,
+            'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4'
+        );
+
+        \Log::debug('setUserWorkingActivityStatus sent', [
+            'request' => $data,
+            'response' => $response,
+        ]);
+    }
+
+    private function submitTranslations($jobId, $xml, $isAutosave, $totalCount, $translatedClount, $lastTime)
+    {
+        $debug = $this->debug;
+
+        \Log::info('Saving...', ['debug' => $debug, 'isAutosave' => $isAutosave]);
 
         $data = [
             'userJobId' => $jobId,
@@ -303,58 +370,58 @@ class TranslateController extends Controller
             'subtitleType' => 'target',
         ];
 
-        $ch = curl_init();
         $url1 = 'https://visualdata.sferalabs.com/webservice/simple/save';
         if ($debug) {
             $url1 = 'http://yulia-trans.app/test';
         }
 
-        curl_setopt($ch, CURLOPT_URL, $url1);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_REFERER, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4'); // FIXME what is 4?
-        curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Cookie: PHPSESSID={$this->sessionId}; ReleaseNotification_sessionID={$this->sessionId}; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
-            "Origin: https://visualdata.sferalabs.com",
-            // "Accept-Encoding: gzip, deflate, br",
-            "Accept-Language: en-US,en;q=0.8,ru;q=0.6,uk;q=0.4",
-            "Content-Type: application/x-www-form-urlencoded",
-            "Accept: */*",
-            "X-Requested-With: ShockwaveFlash/26.0.0.151",
-            "Connection: keep-alive",
-        ]);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
-        $html = curl_exec($ch);
-        curl_close($ch);
+        $response = $this->sendPost($url1, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4');
 
         \Log::info('Save1 is done', [
-            'response' => $html,
+            'response' => $response,
         ]);
 
         $data = [
+            'box_count' => $totalCount,
+            'totalCount' => $totalCount,
+            'current_box_number' => $translatedClount,
+            'secondarySubtitleType' => null,
+            'secondarySubtitleContent' => null,
+            'isNewlyImported' => 0,
             'subtitleContent' => $xml,
             'userJobId' => $jobId,
             'current_words_number' => 0,
             'subtitleFormat' => 'dfxp',
-            'current_box_time' => '155.675', // FIXME randomize?
+            'current_box_time' => round($translatedClount * 2.1819, 3),
             'demoMode' => 0,
-            'progress' => '0.22002200220022', // FIXME calculate?
-            'activeTime' => '0',
-            'background' => '0',
+            'progress' => $translatedClount*100/$totalCount,
+            'activeTime' => rand(0, 1),
+            'background' => $isAutosave ? 1 : 0,
             'subtitleType' => 'target',
             'current_minute' => '2.5945833333333335', // FIXME randomize?
         ];
 
-        $ch = curl_init();
         $lentgh = strlen($xml);
         $url2 = 'https://visualdata.sferalabs.com/webservice/jobs/save?contentLength=' . $lentgh . '&secondaryContentLength=0';
         if ($debug) {
             $url2 = 'http://yulia-trans.app/test?contentLength=' . $lentgh;
         }
-        curl_setopt($ch, CURLOPT_URL, $url2);
+
+        $response = $this->sendPost($url2, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf');
+
+        \Log::info('Save2 is done', [
+            'data' => array_except($data, ['subtitleContent']),
+            'response' => $response,
+        ]);
+    }
+
+    private function sendPost($url, $data, $customRefered = null)
+    {
+        $referer = $customRefered ?: 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_REFERER, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf');
+        curl_setopt($ch, CURLOPT_REFERER, $referer);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36");
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             "Cookie: PHPSESSID={$this->sessionId}; ReleaseNotification_sessionID={$this->sessionId}; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
@@ -371,43 +438,6 @@ class TranslateController extends Controller
         $html = curl_exec($ch);
         curl_close($ch);
 
-        \Log::info('Save2 is done', [
-            'response' => $html,
-        ]);
-
-//        https://visualdata.sferalabs.com/webservice/simple/save
-//        userJobId=158351&subtitleContent=%3C%3Fxml%20version
-//        &subtitleType=target
-//        -H
-// 'Cookie: PHPSESSID=h98ufcbd8f3nkoelgjj7pq7im4; ReleaseNotification_sessionID=h98ufcbd8f3nkoelgjj7pq7im4; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
-// -H 'Origin: https://visualdata.sferalabs.com'
-// -H 'Accept-Encoding: gzip, deflate, br'
-// -H 'Accept-Language: en-US,en;q=0.8,ru;q=0.6,uk;q=0.4'
-//    -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
-//     -H 'Content-Type: application/x-www-form-urlencoded'
-//     -H 'Accept: */*'
-//    -H 'Referer: https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4'
-//    -H 'X-Requested-With: ShockwaveFlash/26.0.0.151'
-//    -H 'Connection: keep-alive'
-
-//        -H 'Cookie: PHPSESSID=h98ufcbd8f3nkoelgjj7pq7im4; ReleaseNotification_sessionID=h98ufcbd8f3nkoelgjj7pq7im4; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'
-// -H 'Origin: https://visualdata.sferalabs.com'
-// -H 'Accept-Encoding: gzip, deflate, br' -H 'Accept-Language: en-US,en;q=0.8,ru;q=0.6,uk;q=0.4'
-// -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
-// -H 'Content-Type: application/x-www-form-urlencoded' -H 'Accept: */*' -H 'Referer: https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf'
-// -H 'X-Requested-With: ShockwaveFlash/26.0.0.151'
-// -H 'Connection: keep-alive'
-//        https://visualdata.sferalabs.com/webservice/jobs/save?contentLength=336979&secondaryContentLength=0
-//        subtitleContent=%3C%3Fxml%20version
-//        &userJobId=158351
-//&current%5Fwords%5Fnumber=0
-//&subtitleFormat=dfxp
-//&current%5Fbox%5Ftime=155%2E675
-//&demoMode=0
-//&progress=0%2E22002200220022
-//&activeTime=0
-//&background=0
-//&subtitleType=target
-//&current%5Fminute=2%2E5945833333333335
+        return $html;
     }
 }

@@ -8,7 +8,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-$lines = array_slice($lines, 0, 10);
+//$lines = array_slice($lines, 0, 10);
 
 @endphp
 
@@ -16,7 +16,7 @@ $lines = array_slice($lines, 0, 10);
 
 @section('contents')
 
-    <nav id='nav_bar'>
+    <nav id='nav_bar' v-bind:class="{ autosave: autosave }">
         <div class="navbar navbar-default navbar-static">
             <div class="container">
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -28,19 +28,29 @@ $lines = array_slice($lines, 0, 10);
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate Unapproved</button>
+                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate
+                                Unapproved
+                            </button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
-                            <button type="button" class="btn btn-default navbar-btn" @click="saveApproved()"
+                            <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(0)"
                                 :disabled="isSaving"
-                            >Save Approved</button>
+                            >Save Approved
+                            </button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
                             <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(1)"
                                 :disabled="isSaving"
-                            >Download All</button>
+                            >Download All
+                            </button>
+                        </li>
+                        <li>
+                            <label>
+                                <input type="checkbox" v-model="autosave" />
+                                Autosave &amp; send heartbeat
+                            </label>
                         </li>
                     </ul>
 
@@ -53,38 +63,42 @@ $lines = array_slice($lines, 0, 10);
     </nav>
 
     <div class="container">
-    <table class="translations">
+        <table class="translations">
 
-        <tbody>
-        <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
-            <td>
-                 @{{ line.index }}
-            </td>
-            <td>
-                <pre class="original" v-html="line.html"></pre>
-            </td>
-            <td v-if="line.editable">
-                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">G</button>
-                <textarea
-                    :disabled="line.disabled == true"
-                    @click="approveGoogle(line)"
-                    v-bind:class="{ loading: line.loadingGoogle, approved: line.approveGoogle }"
-                    v-model="line.translationGoogle"
-                ></textarea>
-            </td>
-            <td v-if="line.editable">
-                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(line)">Я</button>
-                <textarea
-                    :disabled="line.disabled == true"
-                    @click="approveYandex(line)"
-                    v-bind:class="{ loading: line.loadingYandex, approved: line.approveYandex }"
-                    v-model="line.translationYandex"
-                ></textarea>
-            </td>
-        </tr>
-        </tbody>
+            <tbody>
+            <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
+                <td>
+                    @{{ line.index }}
+                </td>
+                <td>
+                    <pre class="original" v-html="line.html"></pre>
+                </td>
+                <td v-if="line.editable">
+                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
+                        G
+                    </button>
+                    <textarea
+                        :disabled="line.disabled == true"
+                        @click="approveGoogle(line)"
+                        v-bind:class="{ loading: line.loadingGoogle, approved: line.approveGoogle }"
+                        v-model="line.translationGoogle"
+                    ></textarea>
+                </td>
+                <td v-if="line.editable">
+                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(line)">
+                        Я
+                    </button>
+                    <textarea
+                        :disabled="line.disabled == true"
+                        @click="approveYandex(line)"
+                        v-bind:class="{ loading: line.loadingYandex, approved: line.approveYandex }"
+                        v-model="line.translationYandex"
+                    ></textarea>
+                </td>
+            </tr>
+            </tbody>
 
-    </table>
+        </table>
     </div>
 
 @endsection
@@ -151,8 +165,6 @@ $lines = array_slice($lines, 0, 10);
                 html = html.replace(regex, `<a target="_blank" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
             });
             line.html = html;
-
-            return line;
         }
 
         const app = new Vue({
@@ -160,6 +172,7 @@ $lines = array_slice($lines, 0, 10);
             data: {
                 isSaving: false,
                 percentDone: 0,
+                autosave: false,
                 subLines: {!! j($lines) !!}
             },
             methods: {
@@ -222,7 +235,7 @@ $lines = array_slice($lines, 0, 10);
                         this.translateGoogle(line, index * 200);
                     });
                 },
-                calculatePercentDone: function() {
+                calculatePercentDone: function () {
                     let total = this.subLines.length;
                     let translated = this.subLines.filter(line => {
                         return line.approveYandex || line.approveGoogle ? line : false;
@@ -243,12 +256,13 @@ $lines = array_slice($lines, 0, 10);
                         link.click();
                     });
                 },
-                saveApproved: function (download) {
+                saveApproved: function (download, isAutosave) {
                     this.isSaving = true;
                     this.$http.post('/save-approved', {
                         lines: this.subLines,
                         jobId: {{ $jobId }},
                         download: download,
+                        isAutosave: isAutosave,
                     }).then((response) => {
                         if (download) {
                             let headers = {};
@@ -264,6 +278,35 @@ $lines = array_slice($lines, 0, 10);
                         alert(response.bodyText);
                     });
                 },
+                autosaveIfNeeded: function () {
+                    if (this.autosave) {
+                        this.saveApproved(0, 1);
+                    }
+                },
+                updateWorklog: function () {
+                    if (this.autosave) {
+                        this.$http.post('/updateWorklog', {
+                            jobId: {{ $jobId }},
+                        }).then((response) => {
+                            // nothing
+                        }).catch((response) => {
+                            alert('updateWorklog error:' + response.bodyText);
+                        });
+                    }
+                },
+                setUserWorkingActivityStatus: function () {
+                    if (this.autosave) {
+                        if (this.autosave) {
+                            this.$http.post('/setUserWorkingActivityStatus', {
+                                jobId: {{ $jobId }},
+                            }).then((response) => {
+                                // nothing
+                            }).catch((response) => {
+                                alert('setUserWorkingActivityStatus error:' + response.bodyText);
+                            });
+                        }
+                    }
+                },
             },
             mounted: function () {
                 this.subLines.forEach(line => {
@@ -273,11 +316,16 @@ $lines = array_slice($lines, 0, 10);
                         line.approveGoogle = true;
                     }
 
-                    line = addLinksToMultitran(line);
+                    addLinksToMultitran(line);
 
                     this.calculatePercentDone();
-
                 });
+
+                let second = 100;
+                setInterval(this.autosaveIfNeeded, 3 * 60 * second); // each 3 min
+                setInterval(this.updateWorklog, 60 * second); // each 1 min
+                setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
+
             }
         });
 

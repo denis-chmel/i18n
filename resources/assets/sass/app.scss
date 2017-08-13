@@ -85,9 +85,20 @@ html, body {
   }
 }
 
+#nav_bar.autosave {
+  .navbar {
+    background: #e2ffdd !important;
+  }
+}
+
 .navbar {
   border-color: silver;
   background: #f3f3f3;
+
+  label {
+    padding: 13px;
+    font-weight: normal;
+  }
 }
 
 .navbar-fixed-top {

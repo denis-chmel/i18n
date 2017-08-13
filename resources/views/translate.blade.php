@@ -82,6 +82,7 @@ if ($no = request('box')) {
                     <textarea
                         :disabled="line.disabled == true"
                         @click="approveGoogle(line)"
+                        @keyup="approveGoogle(line)"
                         v-bind:class="{ loading: line.loadingGoogle, approved: line.approveGoogle }"
                         v-model="line.translationGoogle"
                     ></textarea>
@@ -93,6 +94,7 @@ if ($no = request('box')) {
                     <textarea
                         :disabled="line.disabled == true"
                         @click="approveYandex(line)"
+                        @keyup="approveYandex(line)"
                         v-bind:class="{ loading: line.loadingYandex, approved: line.approveYandex }"
                         v-model="line.translationYandex"
                     ></textarea>
@@ -192,14 +194,20 @@ if ($no = request('box')) {
                 },
                 approveYandex: function (line) {
                     window.player.pause();
-                    Vue.set(line, 'approveYandex', true);
-                    Vue.set(line, 'approveGoogle', false);
+                    let hasTranslation = line.translationYandex.length > 0;
+                    Vue.set(line, 'approveYandex', hasTranslation);
+                    if (hasTranslation) {
+                        Vue.set(line, 'approveGoogle', false);
+                    }
                     this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
                     window.player.pause();
-                    Vue.set(line, 'approveYandex', false);
-                    Vue.set(line, 'approveGoogle', true);
+                    let hasTranslation = line.translationGoogle.length > 0;
+                    Vue.set(line, 'approveGoogle', hasTranslation);
+                    if (hasTranslation) {
+                        Vue.set(line, 'approveYandex', false);
+                    }
                     this.calculatePercentDone();
                 },
                 translateGoogle: function (line, delay) {

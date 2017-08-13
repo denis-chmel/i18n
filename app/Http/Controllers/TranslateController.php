@@ -11,7 +11,7 @@ class TranslateController extends Controller
 {
     protected $sessionId = 'h98ufcbd8f3nkoelgjj7pq7im4';
 
-    protected $debug = 1;
+    protected $debug = 0;
 
     public function google(Request $request)
     {
@@ -221,7 +221,7 @@ class TranslateController extends Controller
         }
 
         $engSubs = $this->loadAndCache($engSubsUrl);
-        $rusSubs = $this->loadAndCache($rusSubsUrl);
+        $rusSubs = $this->loadAndCache($rusSubsUrl, 0);
         $translations = $this->getReadyTranslations($rusSubs);
 
         $dom = new Dom;
@@ -263,6 +263,9 @@ class TranslateController extends Controller
     private function loadAndCache($url, $minutes = 120)
     {
         $key = 'yulia10.' . md5($url);
+        if (!$minutes) {
+            return $this->loadUrl($url);
+        }
         return \Cache::remember($key, $minutes, function () use ($url) {
             return $this->loadUrl($url);
         });

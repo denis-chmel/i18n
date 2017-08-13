@@ -9,12 +9,15 @@ use PHPHtmlParser\Dom;
  */
 class TranslateController extends Controller
 {
+    protected $sessionId = 'h98ufcbd8f3nkoelgjj7pq7im4';
+
     public function google(Request $request)
     {
         $from = $request->get('from');
         $to = $request->get('to');
         $origText = $request->get('text');
-        $text = str_replace(PHP_EOL, '<br>', $origText);
+        $text = $origText;
+//        $text = str_replace(PHP_EOL, '<br>', $text);
         $encodedText = urlencode($text);
 //        $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
         $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&sl=$from&tl=$to&dt=t&q=$encodedText"));
@@ -23,10 +26,26 @@ class TranslateController extends Controller
             $translation .= $a[0];
         }
 
-//        $translation = $response[0][0][0];
-//        dd($origText, $text, $response, $translation);
         $translation = preg_replace('~<br>\s*~', PHP_EOL, $translation);
         $translation = str_replace(' ...', '...', $translation);
+
+        // if first original is lowercase make 1st translation letter lowercase
+        $cleanOrigText = ltrim($origText, '\'');
+        preg_match('/^[A-Za-z]/u', $cleanOrigText, $matches);
+        $firstIsALetter = array_get($matches, 0);
+        if ($firstIsALetter) {
+            if ($firstIsALetter && $firstIsALetter === mb_strtolower($firstIsALetter)) {
+                $translation = mb_lcfirst($translation);
+            } else {
+                $translation = mb_ucfirst($translation);
+            }
+        }
+        $translation = preg_replace('/ -([А-Я])/', PHP_EOL . '-$1', $translation);
+//        $translation = preg_replace('/\s*$/', '', $translation);
+//        $translation = preg_replace('/^- /', '-', $translation);
+        if ($request->get('debug')) {
+            dd($origText, $text, $translation);
+        }
 
         return response()->json([
             'translation' => $translation,
@@ -79,14 +98,18 @@ class TranslateController extends Controller
         }
 
         $jobXml = $this->loadAndCache('https://visualdata.sferalabs.com/webservice/jobs/' . $jobId);
+//        dd($jobXml);
 
         $xml = new \DomDocument('1.0', 'utf-8');
         $xml->loadXML($jobXml);
         $xpath = new \DOMXpath($xml);
 
         $engSubsUrl = $xpath->query('//source_subtitle/url')->item(0)->nodeValue;
+        $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
 
         $engSubs = $this->loadAndCache($engSubsUrl);
+        $rusSubs = $this->loadAndCache($rusSubsUrl);
+        $translations = $this->getReadyTranslations($rusSubs);
 
         $dom = new Dom;
         $dom->load($engSubs);
@@ -100,15 +123,15 @@ class TranslateController extends Controller
             $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
             $line['html'] = $node->innerHtml();
             $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
-            $line['text'] = html_entity_decode(trim($text));
-            $line['original'] = $line['text'];
+            $line['original'] = html_entity_decode(trim($text));
+            $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
+            $line['translation'] = array_get($translations, $i, '');
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
             $line['loadingYandex'] = false;
             $line['loadingGoogle'] = false;
             $line['approveYandex'] = false;
             $line['approveGoogle'] = false;
-            $line['translation'] = '';
             $line['index'] = $i + 1;
             $lines[] = $line;
         }
@@ -130,7 +153,7 @@ class TranslateController extends Controller
 
     private function loadUrl($url)
     {
-        $sessionId = 'm6tu40vff81dfcqjvss40kiej2';
+        $sessionId = $this->sessionId;
         $opts = array(
             'http'=>array(
                 'method'=>"GET",
@@ -143,6 +166,22 @@ class TranslateController extends Controller
         $content = file_get_contents($url, false, $context);
 
         return $content;
+    }
+
+    private function getReadyTranslations($targetXml)
+    {
+        $dom = new Dom;
+        $dom->load($targetXml);
+        $translations = [];
+        foreach ($dom->find('body div p') as $i => $node) {
+            /** @var Dom\HtmlNode $node */
+            $text = $node->innerHtml();
+            $text = str_replace('<br />', PHP_EOL, $text);
+            $text = strip_tags($text);
+            $text = html_entity_decode(trim($text));
+            $translations[$i] = $text;
+        }
+        return $translations;
     }
 
 }

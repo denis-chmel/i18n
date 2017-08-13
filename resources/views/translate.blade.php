@@ -5,7 +5,10 @@
  * @var int $jobId
  */
 
-$lines = array_slice($lines, 0, 30);
+if ($no = request('box')) {
+    $lines = array_slice($lines, $no - 1, 1);
+}
+$lines = array_slice($lines, 0, 10);
 
 @endphp
 
@@ -25,7 +28,7 @@ $lines = array_slice($lines, 0, 30);
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate All</button>
+                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate Unapproved</button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
@@ -37,54 +40,36 @@ $lines = array_slice($lines, 0, 30);
         </div>
     </nav>
 
-
-    <video
-        id="my-player"
-        class="video-js hidden"
-        controls
-        preload="auto"
-        poster="//vjs.zencdn.net/v/oceans.png"
-        data-setup='{}'>
-        <source src1="https://d1fevocuvkxjlg.cloudfront.net/_dash/VISUAL_DATA_ASPERA/Aug_2017/Creatures_Of_God_-_SOS_-_H2641080pLtRt_23/Creatures_Of_God_-_SOS_-_H2641080pLtRt_2.mp4" type="video/mp4"></source>
-        <p class="vjs-no-js">
-            To view this video please enable JavaScript, and consider upgrading to a
-            web browser that
-            <a href="http://videojs.com/html5-video-support/" target="_blank">
-                supports HTML5 video
-            </a>
-        </p>
-    </video>
-
     <div class="container">
     <table class="translations">
 
         <tbody>
-        <tr valign="top" v-for="entry in subLines">
+        <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
             <td>
-                 @{{ entry.index }}
-{{--                @{{entry['begin']}}<br>--}}
-{{--                @{{entry['end']}}<br>--}}
+                 @{{ line.index }}
+{{--                @{{line['begin']}}<br>--}}
+{{--                @{{line['end']}}<br>--}}
             </td>
             <td>
-                <pre v-html="entry['html']"></pre>
+                <pre class="original" v-html="line.html"></pre>
             </td>
-            <td v-if="entry.editable">
-                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(entry)">G</button>
-                <textarea-autosize
-                    :disabled="entry.disabled == true"
-                    @click.native="approveGoogle(entry)"
-                    v-bind:class="{ loading: entry.loadingGoogle, approved: entry.approveGoogle }"
-                    v-model="entry['translationGoogle']"
-                ></textarea-autosize>
+            <td v-if="line.editable">
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">G</button>
+                <textarea
+                    :disabled="line.disabled == true"
+                    @click="approveGoogle(line)"
+                    v-bind:class="{ loading: line.loadingGoogle, approved: line.approveGoogle }"
+                    v-model="line.translationGoogle"
+                ></textarea>
             </td>
-            <td v-if="entry.editable">
-                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(entry)">Я</button>
-                <textarea-autosize
-                    :disabled="entry.disabled == true"
-                    @click.native="approveYandex(entry)"
-                    v-bind:class="{ loading: entry.loadingYandex, approved: entry.approveYandex }"
-                    v-model="entry['translationYandex']"
-                ></textarea-autosize>
+            <td v-if="line.editable">
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(line)">Я</button>
+                <textarea
+                    :disabled="line.disabled == true"
+                    @click="approveYandex(line)"
+                    v-bind:class="{ loading: line.loadingYandex, approved: line.approveYandex }"
+                    v-model="line.translationYandex"
+                ></textarea>
             </td>
         </tr>
         </tbody>
@@ -121,6 +106,45 @@ $lines = array_slice($lines, 0, 30);
             return s;
         }
 
+        function addLinksToMultitran(line) {
+
+            let words = line.original.match(/\S+/g);
+
+            words.forEach((word, index) => {
+                words[index] = trim(word, '.,-!?:');
+            });
+
+            let unique = Array.from(new Set(words));
+
+            unique = unique.filter(word => {
+                if (word.length < 3) {
+                    return;
+                }
+                if (word.startsWithAny([
+                        'you\'', 'it\'', 'can\'', 'we\'', 'haven\''
+                    ])) {
+                    return;
+                }
+                return true;
+            });
+
+            let html = line.original;
+
+            unique.sort();
+
+            unique.forEach((word) => {
+                let singular = window.pluralize.singular(word);
+                if (bannedWords.includes(singular.toLowerCase())) {
+                    return;
+                }
+                let regex = new RegExp('\\b' + word + '\\b');
+                html = html.replace(regex, `<a target="_blank" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
+            });
+            line.html = html;
+
+            return line;
+        }
+
         const app = new Vue({
             el: '#app',
             data: {
@@ -132,7 +156,7 @@ $lines = array_slice($lines, 0, 30);
                     Vue.set(line, 'translationYandex', line.original);
                     Vue.set(this.subLines, 'reload', Math.random());
                     setTimeout(a => {
-                        window.translateYandex.translate(line.text, { to: 'ru' }, function (err, res) {
+                        window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
                             line.translationYandex = res.text[0];
                             line.loadingYandex = false;
                         });
@@ -151,7 +175,7 @@ $lines = array_slice($lines, 0, 30);
                     Vue.set(line, 'translationGoogle', line.original);
                     setTimeout(a => {
 
-                        window.googleTranslate('en', 'ru', line.text, response => {
+                        window.googleTranslate('en', 'ru', line.original, response => {
                             response = JSON.parse(response);
                             line.translationGoogle = response.translation;
                             line.loadingGoogle = false;
@@ -164,10 +188,14 @@ $lines = array_slice($lines, 0, 30);
                         if (!line.editable) {
                             return;
                         }
-                        line.approveYandex = false;
-                        line.approveGoogle = true;
-                        this.translateYandex(line, index * 200);
-                        this.translateGoogle(line, index * 200);
+                        if (!line.approveYandex || !line.translationYandex.length) {
+                            this.translateYandex(line, index * 200);
+                            line.approveYandex = false;
+                        }
+                        if (!line.approveGoogle || !line.translationGoogle.length) {
+                            this.translateGoogle(line, index * 200);
+                            line.approveGoogle = false;
+                        }
                     });
                 },
                 translateAllYandex: function () {
@@ -197,48 +225,19 @@ $lines = array_slice($lines, 0, 30);
             mounted: function () {
                 this.subLines.forEach(line => {
 
-                    let words = line.text.match(/\S+/g);
+                    if (line.translation.length) {
+                        line.translationGoogle = line.translation;
+                        line.approveGoogle = true;
+                    }
 
-                    words.forEach((word, index) => {
-                        words[index] = trim(word, '.,-!?:');
-                    });
+                    line = addLinksToMultitran(line);
 
-                    let unique = Array.from(new Set(words));
-
-                    unique = unique.filter(word => {
-                        if (word.length < 4) {
-                            return;
-                        }
-                        if (word.startsWithAny([
-                                'you\'', 'it\'', 'can\''
-                            ])) {
-                            return;
-                        }
-                        return true;
-                    });
-
-                    let html = line.text;
-
-                    unique.forEach((word) => {
-                        let singular = window.pluralize.singular(word);
-                        if (bannedWords.includes(singular.toLowerCase())) {
-                            return;
-                        }
-                        word = trim(word, '.,-');
-                        html = html.replace(word, `<a target="_blank" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
-                    });
-                    line.html = html;
                 });
             }
         });
 
 
         $(document).ready(function () {
-            //change the integers below to match the height of your upper dive, which I called
-            //banner.  Just add a 1 to the last number.  console.log($(window).scrollTop())
-            //to figure out what the scroll position is when exactly you want to fix the nav
-            //bar or div or whatever.  I stuck in the console.log for you.  Just remove when
-            //you know the position.
             $(window).scroll(function () {
 
                 if ($(window).scrollTop() > 250) {
@@ -253,10 +252,4 @@ $lines = array_slice($lines, 0, 30);
 
     </script>
 
-    <link href="//vjs.zencdn.net/5.19/video-js.min.css" rel="stylesheet">
-    <script src="//vjs.zencdn.net/5.19/video.min.js"></script>
-
-
-    <style>
-    </style>
 @append

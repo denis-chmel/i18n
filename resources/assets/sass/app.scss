@@ -14,23 +14,48 @@ html, body {
   margin: 0;
   padding: 1ex;
 }
-textarea {
-  font-size: 15px;
-  padding: 1ex;
-  height: 4em;
-  width: 300px;
-}
 
 [v-cloak] > * { display:none }
 [v-cloak]::before { content: "Loading..." }
 
 .translations {
+  a {
+    border-bottom: 1px dotted;
+
+    &:hover {
+      text-decoration: none;
+      border-bottom: 1px solid;
+    }
+  }
+  tr.italic {
+    pre.original, textarea {
+      font-style: italic;
+    }
+    pre.original {
+      &, a {
+        color: #777;
+      }
+    }
+  }
   td {
     padding: 10px;
     position: relative;
   }
+
+  textarea {
+    width: 300px;
+  }
+
+  pre.original {
+    padding: 3px;
+    background: transparent;
+    border: none;
+  }
   textarea {
     @extend pre;
+    word-break: normal;
+    padding: 1ex;
+    height: 75px;
   }
   textarea:not(.loading) {
     background: #FFF;
@@ -42,7 +67,7 @@ textarea {
   .btn {
     position: absolute;
     right: 10px;
-    top: 10px;
+    bottom: 21px;
     padding-right: 1ex;
   }
 

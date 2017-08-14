@@ -10,6 +10,7 @@ his
 I'm
 she
 I'd
+target
 TXT;
 
 $list = explode(PHP_EOL, $list);

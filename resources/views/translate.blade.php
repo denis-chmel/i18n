@@ -62,7 +62,7 @@ if ($no = request('box')) {
         </div>
     </nav>
 
-    <video data-dashjs-player id="videoPlayer" controls></video>
+    <video data-dashjs-player id="mediaPlayer" controls></video>
 
     <div class="container">
         <table class="translations">
@@ -158,7 +158,11 @@ if ($no = request('box')) {
 
             let html = line.original;
 
-            unique.sort();
+            unique.sort(function(a, b){
+                // ASC  -> a.length - b.length
+                // DESC -> b.length - a.length
+                return a.length - b.length;
+            });
 
             unique.forEach((word) => {
                 let singular = window.pluralize.singular(word);
@@ -166,7 +170,7 @@ if ($no = request('box')) {
                     return;
                 }
                 let regex = new RegExp('\\b' + word + '\\b');
-                html = html.replace(regex, `<a target="_blank" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
+                html = html.replace(regex, `<a target="multitran" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
             });
             line.html = html;
         }
@@ -193,7 +197,7 @@ if ($no = request('box')) {
                     }, delay || 200);
                 },
                 approveYandex: function (line) {
-                    window.player.pause();
+                    window.mediaPlayer.pause();
                     let hasTranslation = line.translationYandex.length > 0;
                     Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
@@ -202,7 +206,7 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
-                    window.player.pause();
+                    window.mediaPlayer.pause();
                     let hasTranslation = line.translationGoogle.length > 0;
                     Vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {
@@ -321,9 +325,8 @@ if ($no = request('box')) {
                     }
                 },
                 playPhrase: function(line){
-                    window.player.play();
-                    window.player.seek(line.secondStart);
-//                    document.getElementById('videoPlayer').seek(100);
+                    window.mediaPlayer.play();
+                    window.mediaPlayer.seek(line.secondStart);
                 }
             },
             mounted: function () {
@@ -352,8 +355,9 @@ if ($no = request('box')) {
 
 
         function startVideo(url) {
-            window.player = dashjs.MediaPlayer().create();
-            window.player.initialize(document.querySelector("#videoPlayer"), url, false);
+            window.mediaPlayer = dashjs.MediaPlayer().create();
+            window.mediaPlayer.getDebug().setLogToBrowserConsole(false);
+            window.mediaPlayer.initialize(document.querySelector("#videoPlayer"), url, false);
         }
 
         $(document).ready(function () {

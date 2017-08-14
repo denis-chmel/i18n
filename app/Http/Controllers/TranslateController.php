@@ -22,7 +22,7 @@ class TranslateController extends Controller
         $from = $request->get('from');
         $to = $request->get('to');
         $origText = $request->get('text');
-        $text = $origText;
+        $text = str_replace(PHP_EOL, ' ', $origText);
 //        $text = str_replace(PHP_EOL, '<br>', $text);
         $encodedText = urlencode($text);
         $response = json_decode(file_get_contents("http://translate.google.com/translate_a/single?client=gtx&ie=UTF-8&oe=UTF-8&sl=$from&tl=$to&dt=t&q=$encodedText&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=at"));
@@ -56,40 +56,6 @@ class TranslateController extends Controller
         return response()->json([
             'translation' => $translation,
         ]);
-    }
-
-    public function export(Request $request)
-    {
-        $filename = 'translations-' . $request->get('jobId') . '.xml';
-        $lines = $request->get('lines');
-
-        $root = new \SimpleXMLElement('<?xml version="1.0" encoding="UTF-8"?><root/>');
-        $root->addAttribute('movie', 'movie');
-        $root->addAttribute('language', 'English');
-        $reel = $root->addChild('reel');
-
-        foreach ($lines as $i => $line) {
-            if (array_get($line, 'approveGoogle')) {
-                $translation = array_get($line, 'translationGoogle');
-            } else {
-                $translation = array_get($line, 'translationYandex');
-            }
-            $translation = str_replace(PHP_EOL, '|', $translation);
-            $title = $reel->addChild('title', $translation);
-            $title->addAttribute('start', $line['begin']);
-            $title->addAttribute('end', $line['end']);
-        }
-
-        $dom = dom_import_simplexml($root)->ownerDocument;
-        $dom->formatOutput = true;
-
-        $response = response($dom->saveXML(), 200, [
-            'Content-Type' => 'application/xml',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-            'Content-Filename' => $filename,
-        ]);
-
-        return $response;
     }
 
     public function saveApproved(Request $request)
@@ -267,7 +233,7 @@ class TranslateController extends Controller
         }
 
         $engSubs = $this->loadAndCache($engSubsUrl);
-        $rusSubs = $this->loadAndCache($rusSubsUrl, 0);
+        $rusSubs = $this->loadAndCache($rusSubsUrl, $this->debug ? 120 : 0);
         $translations = $this->getReadyTranslations($rusSubs);
 
         $dom = new Dom;

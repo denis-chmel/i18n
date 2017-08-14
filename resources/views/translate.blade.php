@@ -8,7 +8,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-//$lines = array_slice($lines, 0, 10);
+// $lines = array_slice($lines, 0, 30);
 
 @endphp
 
@@ -70,16 +70,19 @@ if ($no = request('box')) {
             <tbody>
             <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
                 <td>
-                    <a @click="playPhrase(line)">@{{ line.index }}</a>
+                    @{{ line.index }}
                 </td>
                 <td>
                     <pre class="original" v-html="line.html"></pre>
                 </td>
                 <td v-if="line.editable">
+                    <button type="button" class="btn btn-default btn-xs btn-play-phrase" tabindex="-1" @click="playPhrase(line)"
+                    >►</button>
                     <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
                         G
                     </button>
                     <textarea
+                        v-bind:tabindex="line.approveYandex ? -1 : null"
                         :disabled="line.disabled == true"
                         @click="approveGoogle(line)"
                         @keyup="approveGoogle(line)"
@@ -92,6 +95,7 @@ if ($no = request('box')) {
                         Я
                     </button>
                     <textarea
+                        v-bind:tabindex="line.approveGoogle ? -1 : null"
                         :disabled="line.disabled == true"
                         @click="approveYandex(line)"
                         @keyup="approveYandex(line)"
@@ -189,7 +193,7 @@ if ($no = request('box')) {
                     Vue.set(line, 'loadingYandex', true);
                     Vue.set(line, 'translationYandex', line.original);
                     Vue.set(this.subLines, 'reload', Math.random());
-                    setTimeout(a => {
+                    setTimeout(() => {
                         window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
                             line.translationYandex = res.text[0];
                             line.loadingYandex = false;
@@ -197,7 +201,11 @@ if ($no = request('box')) {
                     }, delay || 200);
                 },
                 approveYandex: function (line) {
-                    window.mediaPlayer.pause();
+                    if (window.mediaPlayer.isPaused()) {
+                        window.mediaPlayer.seek(line.secondStart);
+                    } else {
+                        window.mediaPlayer.pause();
+                    }
                     let hasTranslation = line.translationYandex.length > 0;
                     Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
@@ -206,7 +214,11 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
-                    window.mediaPlayer.pause();
+                    if (window.mediaPlayer.isPaused()) {
+                        window.mediaPlayer.seek(line.secondStart);
+                    } else {
+                        window.mediaPlayer.pause();
+                    }
                     let hasTranslation = line.translationGoogle.length > 0;
                     Vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {
@@ -217,7 +229,7 @@ if ($no = request('box')) {
                 translateGoogle: function (line, delay) {
                     Vue.set(line, 'loadingGoogle', true);
                     Vue.set(line, 'translationGoogle', line.original);
-                    setTimeout(a => {
+                    setTimeout(() => {
 
                         window.googleTranslate('en', 'ru', line.original, response => {
                             response = JSON.parse(response);
@@ -253,25 +265,11 @@ if ($no = request('box')) {
                     });
                 },
                 calculatePercentDone: function () {
-                    let total = this.subLines.length;
                     let translated = this.subLines.filter(line => {
                         return line.approveYandex || line.approveGoogle ? line : false;
                     });
                     let percent = Math.ceil(translated.length * 100 / this.subLines.length);
                     Vue.set(this, 'percentDone', percent);
-                },
-                exportAll: function () {
-                    this.$http.post('/export-all', {
-                        lines: this.subLines,
-                        jobId: {{ $jobId }},
-                    }).then((response) => {
-                        let headers = {};
-                        let blob = new Blob([response.data], { type: headers['content-type'] });
-                        let link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = response.headers.map['content-filename'][0];
-                        link.click();
-                    });
                 },
                 saveApproved: function (download, isAutosave) {
                     this.isSaving = true;
@@ -347,9 +345,9 @@ if ($no = request('box')) {
                 setInterval(this.updateWorklog, 60 * second); // each 1 min
                 setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
 
-                setTimeout(a => {
+                setTimeout(() => {
                     startVideo(this.videoUrl);
-                }, 1000);
+                }, 2000);
             }
         });
 
@@ -357,7 +355,7 @@ if ($no = request('box')) {
         function startVideo(url) {
             window.mediaPlayer = dashjs.MediaPlayer().create();
             window.mediaPlayer.getDebug().setLogToBrowserConsole(false);
-            window.mediaPlayer.initialize(document.querySelector("#videoPlayer"), url, false);
+            window.mediaPlayer.initialize(document.querySelector("#mediaPlayer"), url, false);
         }
 
         $(document).ready(function () {
@@ -376,17 +374,11 @@ if ($no = request('box')) {
     </script>
     <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
     <style>
-        video {
-            width: 400px;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            right: 0;
-            transform: scale(0.5) translate(100px, 100px);
-            transition: all 500ms;
-        }
-        video:hover {
-            transform: scale(1) translate(0, 100px);
+        .translations .btn.btn-play-phrase {
+            position: absolute;
+            left: -10px;
+            top: 10px;
+            padding: 5px;
         }
     </style>
 @append

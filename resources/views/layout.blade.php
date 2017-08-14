@@ -13,7 +13,13 @@
     </head>
     <body>
 
-        <div id="app" v-cloak>
+    <?php if ( \Session::has('error') ): ?>
+    <div class="alert alert-danger">
+        <strong><?php echo e(\Session::get('error')) ?></strong>
+    </div>
+    <?php endif ?>
+
+    <div id="app" v-cloak>
         @yield('contents')
         </div>
 

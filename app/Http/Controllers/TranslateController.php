@@ -9,9 +9,13 @@ use PHPHtmlParser\Dom;
  */
 class TranslateController extends Controller
 {
-    protected $sessionId = 'h98ufcbd8f3nkoelgjj7pq7im4';
-
     protected $debug = 0;
+
+    public function getSessionToken()
+    {
+        $request = app(Request::class);
+        return $request->session()->get('session_token');
+    }
 
     public function google(Request $request)
     {
@@ -194,6 +198,39 @@ class TranslateController extends Controller
         return $response;
     }
 
+    public function homepage(Request $request)
+    {
+        $session = $request->session();
+        $token = $session->get('session_token');
+        if ($postToken = $request->get('session_token')) {
+            $token = $postToken;
+            $session->put('session_token', $token);
+            return redirect()->back();
+        }
+
+        $jobs = [];
+        $jobsXml = $this->loadUrl('https://visualdata.sferalabs.com/webservice/jobs');
+        if (!str_contains($jobsXml, 'Unauthorized')) {
+
+            $xml = new \DomDocument('1.0', 'utf-8');
+            $xml->loadXML($jobsXml);
+            $xpath = new \DOMXpath($xml);
+
+            foreach ($xpath->query('//Job') as $node) {
+                /** @var $node \DOMElement */
+                $jobs[] = [
+                    'id' => $node->getElementsByTagName('id')->item(0)->textContent,
+                    'name' => $node->getElementsByTagName('project_name')->item(0)->textContent,
+                ];
+            }
+        }
+
+        return view('homepage', [
+            'token' => $token,
+            'jobs' => $jobs,
+        ]);
+    }
+
     /**
      * @param Request $request
      * @return \Illuminate\View\View
@@ -206,15 +243,23 @@ class TranslateController extends Controller
             abort(404, 'must pass ?jobId=');
         }
 
-        $jobXml = $this->loadAndCache('https://visualdata.sferalabs.com/webservice/jobs/' . $jobId);
+        $url = 'https://visualdata.sferalabs.com/webservice/jobs/' . $jobId;
+        $jobXml = $this->loadAndCache($url);
+        if (str_contains($jobXml, 'Unauthorized')) {
+            \Session::flash('error', $jobXml);
+            $this->forgetCacheFor($url);
+            return redirect(route('homepage', [
+                'jobId' => $jobId,
+            ]));
+        }
 //        dd($jobXml);
 
         $xml = new \DomDocument('1.0', 'utf-8');
         $xml->loadXML($jobXml);
         $xpath = new \DOMXpath($xml);
 
-        if ($node = $xpath->query('//source_subtitle/url')) {
-            $engSubsUrl = $node->item(0)->nodeValue;
+        if ($node = $xpath->query('//source_subtitle/url')->item(0)) {
+            $engSubsUrl = $node->nodeValue;
             $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
             $videoUrl = $xpath->query('//video/url')->item(0)->nodeValue;
         } else {
@@ -272,9 +317,15 @@ class TranslateController extends Controller
         });
     }
 
+    private function forgetCacheFor($url)
+    {
+        $key = 'yulia10.' . md5($url);
+        \Cache::forget($key);
+    }
+
     private function loadUrl($url)
     {
-        $sessionId = $this->sessionId;
+        $sessionId = $this->getSessionToken();
         $opts = [
             'http' => [
                 'method' => "GET",
@@ -341,7 +392,6 @@ class TranslateController extends Controller
             'jobId' => $jobId,
             'response' => $response,
         ]);
-
     }
 
     public function setUserWorkingActivityStatus(Request $request)
@@ -429,6 +479,7 @@ class TranslateController extends Controller
 
     private function sendPost($url, $data, $customRefered = null)
     {
+        $sessionId = $this->getSessionToken();
         $referer = $customRefered ?: 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -436,7 +487,7 @@ class TranslateController extends Controller
         curl_setopt($ch, CURLOPT_REFERER, $referer);
         curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36");
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Cookie: PHPSESSID={$this->sessionId}; ReleaseNotification_sessionID={$this->sessionId}; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
+            "Cookie: PHPSESSID={$sessionId}; ReleaseNotification_sessionID={$sessionId}; __utma=121129999.1513241323.1496301115.1502567661.1502607103.111; __utmb=121129999.8.10.1502607103; __utmc=121129999; __utmz=121129999.1496301115.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)",
             "Origin: https://visualdata.sferalabs.com",
             // "Accept-Encoding: gzip, deflate, br",
             "Accept-Language: en-US,en;q=0.8,ru;q=0.6,uk;q=0.4",

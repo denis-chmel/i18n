@@ -172,7 +172,7 @@ if ($no = request('box')) {
                 let regex = new RegExp('\\b' + word + '\\b');
                 html = html.replace(regex, `<a target="multitran" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
             });
-            line.html = html;
+            line.html = html.replace(/\n/,'<span class="enter"></span>\n');
         }
 
         const app = new Vue({

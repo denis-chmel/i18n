@@ -339,7 +339,7 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 });
 
-                let second = 100;
+                let second = 1000;
                 setInterval(this.autosaveIfNeeded, 3 * 60 * second); // each 3 min
                 setInterval(this.updateWorklog, 60 * second); // each 1 min
                 setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min

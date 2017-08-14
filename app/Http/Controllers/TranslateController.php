@@ -127,9 +127,10 @@ class TranslateController extends Controller
             if (!$line) {
                 continue;
             }
+            $translation = '';
             if (array_get($line, 'approveGoogle')) {
                 $translation = array_get($line, 'translationGoogle');
-            } else {
+            } elseif (array_get($line, 'approveYandex')) {
                 $translation = array_get($line, 'translationYandex');
             }
             if (!trim($translation)) {

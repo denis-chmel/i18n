@@ -140,7 +140,7 @@ if ($no = request('box')) {
 
         function addLinksToMultitran(line) {
 
-            let words = line.original.match(/\S+/g);
+            let words = line.original.match(/\S+/g) || [];
 
             words.forEach((word, index) => {
                 words[index] = trim(word, '.,-!?:');
@@ -240,16 +240,22 @@ if ($no = request('box')) {
                     }, delay || 0);
                 },
                 translateAll: function () {
+		    let limit = 50;
                     this.subLines.forEach((line, index) => {
+                        if (limit < 0) {
+			    return;
+			}
                         if (!line.editable) {
                             return;
                         }
-                        if (!line.approveYandex || !line.translationYandex.length) {
+                        if (!line.translationYandex.length) {
                             this.translateYandex(line, index * 200);
+			    limit--;
                             line.approveYandex = false;
                         }
-                        if (!line.approveGoogle || !line.translationGoogle.length) {
+                        if (!line.translationGoogle.length) {
                             this.translateGoogle(line, index * 200);
+			    limit--;
                             line.approveGoogle = false;
                         }
                     });

@@ -28,8 +28,8 @@ if ($no = request('box')) {
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
-                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll()">Translate
-                                Unapproved
+                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll(50)">
+                                Translate 50
                             </button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
@@ -76,8 +76,12 @@ if ($no = request('box')) {
                     <pre class="original" v-html="line.html"></pre>
                 </td>
                 <td v-if="line.editable">
-                    <button type="button" class="btn btn-default btn-xs btn-play-phrase" tabindex="-1" @click="playPhrase(line)"
-                    >►</button>
+                    <button type="button"
+                        class="btn btn-default btn-xs btn-play-phrase"
+                        tabindex="-1"
+                        @click="playPhrase(line)"
+                    >►
+                    </button>
                     <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
                         G
                     </button>
@@ -162,7 +166,7 @@ if ($no = request('box')) {
 
             let html = line.original;
 
-            unique.sort(function(a, b){
+            unique.sort(function (a, b) {
                 // ASC  -> a.length - b.length
                 // DESC -> b.length - a.length
                 return a.length - b.length;
@@ -176,7 +180,7 @@ if ($no = request('box')) {
                 let regex = new RegExp('\\b' + word + '\\b');
                 html = html.replace(regex, `<a target="multitran" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
             });
-            line.html = html.replace(/\n/,'<span class="enter"></span>\n');
+            line.html = html.replace(/\n/, '<span class="enter"></span>\n');
         }
 
         const app = new Vue({
@@ -190,6 +194,9 @@ if ($no = request('box')) {
             },
             methods: {
                 translateYandex: function (line, delay) {
+                    if (!line.original.length) {
+                        return;
+                    }
                     Vue.set(line, 'loadingYandex', true);
                     Vue.set(line, 'translationYandex', line.original);
                     Vue.set(this.subLines, 'reload', Math.random());
@@ -227,6 +234,9 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 },
                 translateGoogle: function (line, delay) {
+                    if (!line.original.length) {
+                        return;
+                    }
                     Vue.set(line, 'loadingGoogle', true);
                     Vue.set(line, 'translationGoogle', line.original);
                     setTimeout(() => {
@@ -239,23 +249,23 @@ if ($no = request('box')) {
 
                     }, delay || 0);
                 },
-                translateAll: function () {
-		    let limit = 50;
+                translateAll: function (limit) {
+                    limit = limit || 50;
                     this.subLines.forEach((line, index) => {
                         if (limit < 0) {
-			    return;
-			}
+                            return;
+                        }
                         if (!line.editable) {
                             return;
                         }
                         if (!line.translationYandex.length) {
                             this.translateYandex(line, index * 200);
-			    limit--;
+                            limit--;
                             line.approveYandex = false;
                         }
                         if (!line.translationGoogle.length) {
                             this.translateGoogle(line, index * 200);
-			    limit--;
+                            limit--;
                             line.approveGoogle = false;
                         }
                     });
@@ -328,7 +338,7 @@ if ($no = request('box')) {
                         }
                     }
                 },
-                playPhrase: function(line){
+                playPhrase: function (line) {
                     window.mediaPlayer.play();
                     window.mediaPlayer.seek(line.secondStart);
                 }

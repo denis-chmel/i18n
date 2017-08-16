@@ -171,6 +171,9 @@ class TranslateController extends Controller
         if ($postToken = $request->get('session_token')) {
             $token = $postToken;
             $session->put('session_token', $token);
+            if ($jobId = $request->get('jobId')) {
+                return redirect(route('translate', ['jobId' => $jobId]));
+            }
             return redirect()->back();
         }
 

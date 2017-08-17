@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
 
+use App\Exceptions\UnauthorizedException;
 use Illuminate\Http\Request;
 use PHPHtmlParser\Dom;
 
@@ -11,10 +12,22 @@ class TranslateController extends Controller
 {
     protected $debug = 0;
 
-    public function getSessionToken()
+    protected $token;
+
+    private function getSessionToken()
     {
         $request = app(Request::class);
-        return $request->session()->get('session_token');
+        if (!$this->token) {
+            $this->token = $request->session()->get('session_token');
+        }
+        return $this->token;
+    }
+
+    private function setSessionToken(string $sessionToken)
+    {
+        $request = app(Request::class);
+        $this->token = $sessionToken;
+        $request->session()->put('session_token', $this->token);
     }
 
     public function google(Request $request)
@@ -64,6 +77,9 @@ class TranslateController extends Controller
         $lines = $request->get('lines');
         $isAutosave = $request->get('isAutosave');
         $download = $request->get('download');
+        if ($sessionToken = $request->get('sessionToken')) {
+            $this->setSessionToken($sessionToken);
+        }
 
         if (!$jobId) {
             throw new \Exception('jobId is missing');
@@ -169,8 +185,7 @@ class TranslateController extends Controller
         $session = $request->session();
         $token = $session->get('session_token');
         if ($postToken = $request->get('session_token')) {
-            $token = $postToken;
-            $session->put('session_token', $token);
+            $this->setSessionToken($postToken);
             if ($jobId = $request->get('jobId')) {
                 return redirect(route('translate', ['jobId' => $jobId]));
             }
@@ -271,6 +286,7 @@ class TranslateController extends Controller
             'lines' => $lines,
             'jobId' => $jobId,
             'videoUrl' => $videoUrl,
+            'sessionToken' => $this->getSessionToken(),
             'bannedWords' => config('bannedWords.list'),
         ]);
     }
@@ -407,6 +423,14 @@ class TranslateController extends Controller
         }
 
         $response = $this->sendPost($url1, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4');
+        if (str_contains($response, 'Unauthorized')) {
+            // "<Response><message>Unauthorized</message><httpStatus>401</httpStatus></Response>"
+            \Log::warning('Unauthorized1', [
+                'token' => $this->getSessionToken(),
+                'response' => $response,
+            ]);
+            throw new UnauthorizedException('Unauthorized');
+        }
 
         \Log::info('Save1 is done', [
             'response' => $response,
@@ -439,6 +463,14 @@ class TranslateController extends Controller
         }
 
         $response = $this->sendPost($url2, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf');
+        if (str_contains($response, 'Unauthorized')) {
+            // "<Response><message>Unauthorized</message><httpStatus>401</httpStatus></Response>"
+            \Log::warning('Unauthorized2', [
+                'token' => $this->getSessionToken(),
+                'response' => $response,
+            ]);
+            throw new UnauthorizedException('Unauthorized');
+        }
 
         \Log::info('Save2 is done', [
             'data' => array_except($data, ['subtitleContent']),

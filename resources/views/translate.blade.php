@@ -2,6 +2,7 @@
 /**
  * @var array $lines
  * @var array $bannedWords
+ * @var string $sessionToken
  * @var int $jobId
  */
 
@@ -289,13 +290,14 @@ if ($no = request('box')) {
                     let percent = Math.ceil(translated.length * 100 / this.subLines.length);
                     Vue.set(this, 'percentDone', percent);
                 },
-                saveApproved: function (download, isAutosave) {
+                saveApproved: function (download, isAutosave, sessionToken) {
                     this.isSaving = true;
                     this.$http.post('/save-approved', {
                         lines: this.subLines,
                         jobId: {{ $jobId }},
                         download: download,
                         isAutosave: isAutosave,
+                        sessionToken: sessionToken
                     }).then((response) => {
                         if (download) {
                             let headers = {};
@@ -308,7 +310,14 @@ if ($no = request('box')) {
                     }).finally((response) => {
                         this.isSaving = false;
                     }).catch((response) => {
-                        alert(response.bodyText);
+                        if (response.body.error === "Unauthorized") {
+                            let sessionToken = prompt('Save has failed. Enter new PHPSESSID', '{{ $sessionToken }}');
+                            if (sessionToken) {
+                                this.saveApproved(download, 0, sessionToken);
+                            }
+                        } else {
+                            alert(response.bodyText);
+                        }
                     });
                 },
                 autosaveIfNeeded: function () {

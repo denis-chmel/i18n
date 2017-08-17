@@ -8,7 +8,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 30);
+// $lines = array_slice($lines, 0, 50);
 
 @endphp
 
@@ -142,6 +142,12 @@ if ($no = request('box')) {
             return s;
         }
 
+        function addExtraMethods(line) {
+            line.hasTranslations = function() {
+                return (line.translationYandex.length + line.translationGoogle.length > 0);
+            }
+        }
+
         function addLinksToMultitran(line) {
 
             let words = line.original.match(/\S+/g) || [];
@@ -172,13 +178,14 @@ if ($no = request('box')) {
                 return a.length - b.length;
             });
 
+            let target = '{{ uniqid() }}';
             unique.forEach((word) => {
                 let singular = window.pluralize.singular(word);
                 if (bannedWords.includes(singular.toLowerCase())) {
                     return;
                 }
                 let regex = new RegExp('\\b' + word + '\\b');
-                html = html.replace(regex, `<a target="multitran" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
+                html = html.replace(regex, `<a target="${target}" tabindex="-1" href="https://www.multitran.ru/c/m.exe?s=${encodeURIComponent(singular)}">${word}</a>`);
             });
             line.html = html.replace(/\n/, '<span class="enter"></span>\n');
         }
@@ -193,19 +200,18 @@ if ($no = request('box')) {
                 subLines: {!! j($lines) !!},
             },
             methods: {
-                translateYandex: function (line, delay) {
+                translateYandex: function (line, callback) {
                     if (!line.original.length) {
                         return;
                     }
                     Vue.set(line, 'loadingYandex', true);
                     Vue.set(line, 'translationYandex', line.original);
                     Vue.set(this.subLines, 'reload', Math.random());
-                    setTimeout(() => {
-                        window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
-                            line.translationYandex = res.text[0];
-                            line.loadingYandex = false;
-                        });
-                    }, delay || 200);
+                    window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
+                        line.translationYandex = res.text[0];
+                        line.loadingYandex = false;
+                        if (callback) callback();
+                    });
                 },
                 approveYandex: function (line) {
                     if (window.mediaPlayer.isPaused()) {
@@ -233,51 +239,47 @@ if ($no = request('box')) {
                     }
                     this.calculatePercentDone();
                 },
-                translateGoogle: function (line, delay) {
+                translateGoogle: function (line, callback) {
                     if (!line.original.length) {
                         return;
                     }
                     Vue.set(line, 'loadingGoogle', true);
                     Vue.set(line, 'translationGoogle', line.original);
-                    setTimeout(() => {
-
-                        window.googleTranslate('en', 'ru', line.original, response => {
-                            response = JSON.parse(response);
-                            line.translationGoogle = response.translation;
-                            line.loadingGoogle = false;
-                        });
-
-                    }, delay || 0);
+                    window.googleTranslate('en', 'ru', line.original, response => {
+                        response = JSON.parse(response);
+                        line.translationGoogle = response.translation;
+                        line.loadingGoogle = false;
+                        if (callback) callback();
+                    });
                 },
                 translateAll: function (limit) {
-                    limit = limit || 50;
-                    this.subLines.forEach((line, index) => {
-                        if (limit < 0) {
+                    if (limit === undefined) {
+                        limit = 50;
+                    }
+                    let found = false;
+                    this.subLines.forEach((line) => {
+                        if (found || limit <= 0) {
+                            return;
+                        }
+                        if (!line.original.length) {
                             return;
                         }
                         if (!line.editable) {
                             return;
                         }
+                        if (line.hasTranslations()) {
+                            return;
+                        }
                         if (!line.translationYandex.length) {
-                            this.translateYandex(line, index * 200);
-                            limit--;
-                            line.approveYandex = false;
+                            this.translateYandex(line);
+                            found = true;
                         }
                         if (!line.translationGoogle.length) {
-                            this.translateGoogle(line, index * 200);
-                            limit--;
-                            line.approveGoogle = false;
+                            this.translateGoogle(line, () => {
+                                this.translateAll(limit - 1);
+                            });
+                            found = true;
                         }
-                    });
-                },
-                translateAllYandex: function () {
-                    this.subLines.forEach((line, index) => {
-                        this.translateYandex(line, index * 200);
-                    });
-                },
-                translateAllGoogle: function () {
-                    this.subLines.forEach((line, index) => {
-                        this.translateGoogle(line, index * 200);
                     });
                 },
                 calculatePercentDone: function () {
@@ -352,6 +354,7 @@ if ($no = request('box')) {
                     }
 
                     addLinksToMultitran(line);
+                    addExtraMethods(line);
 
                     this.calculatePercentDone();
                 });
@@ -384,7 +387,7 @@ if ($no = request('box')) {
                 if ($(window).scrollTop() < 251) {
                     $('#nav_bar').removeClass('navbar-fixed-top');
                 }
-            });
+            }).scroll();
         });
 
     </script>

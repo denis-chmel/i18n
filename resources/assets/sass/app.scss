@@ -4,6 +4,9 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono");
+
 body {
   background: #FCFCFC;
   overflow-y: scroll;
@@ -73,6 +76,13 @@ html body {
     width: 300px;
   }
 
+  pre {
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 15px;
+    line-height: 1.4;
+    border-radius: 0;
+  }
+
   pre.original {
     padding: 3px;
     background: transparent;
@@ -80,9 +90,10 @@ html body {
   }
   textarea {
     @extend pre;
-    word-break: normal;
-    padding: 1ex;
     height: 75px;
+    word-wrap: break-word;
+    padding: 0.5ex;
+    width: 21.7em;
   }
   textarea:not(.loading) {
     background: #FFF;
@@ -95,7 +106,7 @@ html body {
     position: absolute;
     bottom: 24px;
     font-size: 11px;
-    right: 35px;
+    right: 37px;
     text-align: right;
   }
 
@@ -116,12 +127,13 @@ html body {
 
   .btn {
     position: absolute;
-    right: 10px;
+    right: 11px;
     bottom: 21px;
     padding-right: 1ex;
   }
 
   span.enter {
+    display: none;
     &::after {
       content: "↵";
       color: #AAA;
@@ -129,6 +141,23 @@ html body {
       line-height: 1;
       margin-left: 3px;
     }
+  }
+
+  .btn.btn-play-phrase {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    padding: 5px;
+    z-index: -1;
+  }
+
+  .btn.btn-play-phrase + textarea {
+    margin-left: 12px;
+  }
+
+  .block-no {
+    font-size: 12px;
+    padding-top: 14px;
   }
 
 }
@@ -179,13 +208,6 @@ video:hover {
   position: absolute;
   top: 8px;
   opacity: 0.3;
-}
-
-.translations .btn.btn-play-phrase {
-  position: absolute;
-  left: -10px;
-  top: 10px;
-  padding: 5px;
 }
 
 .timer {

@@ -80,7 +80,7 @@ if ($no = request('box')) {
 
             <tbody>
             <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
-                <td>
+                <td class="block-no">
                     @{{ line.index }}
                 </td>
                 <td>
@@ -91,6 +91,12 @@ if ($no = request('box')) {
                         'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
                     }">
 
+                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
+                        G
+                    </button>
+
+                    <div class="chars-left">@{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
+
                     <button type="button"
                         class="btn btn-default btn-xs btn-play-phrase"
                         tabindex="-1"
@@ -98,13 +104,8 @@ if ($no = request('box')) {
                     >►
                     </button>
 
-                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
-                        G
-                    </button>
-
-                    <div class="chars-left">@{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
-
                     <textarea
+                        class="google"
                         v-bind:tabindex="line.approveYandex ? -1 : null"
                         :disabled="line.disabled == true"
                         @focus="focusGoogle(line)"
@@ -127,6 +128,7 @@ if ($no = request('box')) {
                     <div class="chars-left">@{{ getCharsLeft(line.translationYandex, line.chars) }}</div>
 
                     <textarea
+                        class="yandex"
                         v-bind:tabindex="line.approveGoogle ? -1 : null"
                         :disabled="line.disabled == true"
                         @focus="focusYandex(line)"
@@ -262,7 +264,7 @@ if ($no = request('box')) {
                     return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
                 },
                 getCharsLeft: function (text, limit) {
-                    return limit - text.length;
+                    return limit - text.split("\n").join('').length;
                 },
                 secondsToTime: function (seconds) {
                     return seconds;
@@ -271,7 +273,7 @@ if ($no = request('box')) {
                     if (this.autosave) {
                         this.timerHandle = setInterval(() => {
                             this.timer++;
-                            this.$cookie.set("timer." + this.jobId, this.timer);
+                            this.$cookie.set("timer." + this.jobId, this.timer, 365);
                         }, 1000);
                     } else {
                         clearInterval(this.timerHandle);

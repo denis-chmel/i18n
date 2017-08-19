@@ -103,7 +103,7 @@ if ($no = request('box')) {
                     <textarea
                         v-bind:tabindex="line.approveYandex ? -1 : null"
                         :disabled="line.disabled == true"
-                        @click="approveGoogle(line)"
+                        @focus="focusGoogle(line)"
                         @keyup="approveGoogle(line)"
                         v-bind:class="{
                             loading: line.loadingGoogle,
@@ -125,7 +125,7 @@ if ($no = request('box')) {
                     <textarea
                         v-bind:tabindex="line.approveGoogle ? -1 : null"
                         :disabled="line.disabled == true"
-                        @click="approveYandex(line)"
+                        @focus="focusYandex(line)"
                         @keyup="approveYandex(line)"
                         v-bind:class="{
                             loading: line.loadingYandex,
@@ -248,12 +248,22 @@ if ($no = request('box')) {
                         if (callback) callback();
                     });
                 },
-                approveYandex: function (line) {
+                seekLineInPlayer: function (line) {
                     if (window.mediaPlayer.isPaused()) {
                         window.mediaPlayer.seek(line.secondStart);
                     } else {
                         window.mediaPlayer.pause();
                     }
+                },
+                focusYandex: function (line) {
+                    this.seekLineInPlayer(line);
+                    this.approveYandex(line);
+                },
+                focusGoogle: function (line) {
+                    this.seekLineInPlayer(line);
+                    this.approveGoogle(line);
+                },
+                approveYandex: function (line) {
                     let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
                     Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
@@ -262,11 +272,6 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 },
                 approveGoogle: function (line) {
-                    if (window.mediaPlayer.isPaused()) {
-                        window.mediaPlayer.seek(line.secondStart);
-                    } else {
-                        window.mediaPlayer.pause();
-                    }
                     let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                     Vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {

@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "fs": "0.0.1-security",
-    "google-translator": "^1.0.1",
     "inherits": "^2.0.3",
     "net": "^1.0.2",
     "pluralize": "^6.0.0",

@@ -280,9 +280,10 @@ $lines = array_slice($lines, 0, 20); // FIXME
                     }
                     Vue.set(line, 'loadingGoogle', true);
                     Vue.set(line, 'translationGoogle', line.original);
-                    window.googleTranslate('en', 'ru', line.original, response => {
-                        response = JSON.parse(response);
-                        line.translationGoogle = response.translation;
+
+                    let original = encodeURI(line.original);
+                    this.$http.get('/translate-google?from=en&to=ru&text=' + original).then((response) => {
+                        line.translationGoogle = response.body.translation;
                         line.loadingGoogle = false;
                         if (callback) callback();
                     });

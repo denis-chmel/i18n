@@ -282,6 +282,7 @@ class TranslateController extends Controller
 
         $lines = [];
         $length = $limits = [];
+        $untranslatedCount = 0;
         foreach ($dom->find('body div p') as $i => $node) {
             /** @var Dom\HtmlNode $node */
 //            if ($i >= 11) continue;
@@ -300,7 +301,8 @@ class TranslateController extends Controller
             $line['translation'] = array_get($translations, $i, '');
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
-            if (!$line['translation']) {
+            if (!$line['translation'] && $line['editable']) {
+                $untranslatedCount++;
                 $line['translationGoogle'] = $this->getSuggestedTranslation($line['original']);
             }
             $line['loadingYandex'] = false;
@@ -338,6 +340,7 @@ class TranslateController extends Controller
             'jobId' => $jobId,
             'isDebug' => $this->debug,
             'videoUrl' => $videoUrl,
+            'untranslatedCount' => $untranslatedCount,
             'sessionToken' => $this->getSessionToken(),
             'bannedWords' => config('bannedWords.list'),
         ]);

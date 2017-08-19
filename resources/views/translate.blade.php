@@ -5,12 +5,13 @@
  * @var string $sessionToken
  * @var int $jobId
  * @var boolean $isDebug
+ * @var int $untranslatedCount
  */
 
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 20);
+// $lines = array_slice($lines, 0, 40);
 
 @endphp
 
@@ -31,7 +32,7 @@ if ($no = request('box')) {
                     <ul class="nav navbar-nav">
                         <li>
                             <div v-if="isSaving" class="saving-spinner">
-                                <i class="fa-li fa fa-2x fa-refresh fa-spin"></i>
+                                <i class="fa-li fa fa-2x fa-cog fa-spin"></i>
                             </div>
                             <button type="button" class="btn btn-default navbar-btn" @click="translateAll(50)">
                                 Translate 50
@@ -64,7 +65,7 @@ if ($no = request('box')) {
                             <i class="fa fa-pause" aria-hidden="true" v-if="!autosave"></i>
                             <input class="timer" readonly type="text" v-bind:value="timer.toString().toHHMMSS()">
                         </li>
-                        <li>Approved @{{ percentDone }}%</li>
+                        <li>Done @{{ percentDone }}%</li>
                     </ul>
                 </div>
             </div>
@@ -363,6 +364,19 @@ if ($no = request('box')) {
                     });
                     let percent = Math.ceil(translated.length * 100 / this.subLines.length);
                     Vue.set(this, 'percentDone', percent);
+                    @if ($untranslatedCount)
+                    if (percent === 100) {
+                        if (!$('canvas').length) {
+                            window.firework.start({ autoPlay: true });
+                            window.firework.fireworks();
+                            setTimeout(()=>{
+                                $('canvas').closest('div').fadeOut(5000, function(){
+                                    $('canvas').closest('div').remove();
+                                });
+                            }, 60000);
+                        }
+                    }
+                    @endif
                 },
                 saveApproved: function (download, isAutosave, sessionToken) {
                     this.isSaving = true;
@@ -370,6 +384,7 @@ if ($no = request('box')) {
                         lines: this.subLines,
                         jobId: {{ $jobId }},
                         download: download,
+                        debug: {{ (int)$isDebug }},
                         isAutosave: isAutosave,
                         sessionToken: sessionToken
                     }).then((response) => {
@@ -403,6 +418,7 @@ if ($no = request('box')) {
                     if (this.autosave) {
                         this.$http.post('/updateWorklog', {
                             jobId: {{ $jobId }},
+                            debug: {{ (int)$isDebug }},
                         }).then((response) => {
                             // nothing
                         }).catch((response) => {
@@ -415,6 +431,7 @@ if ($no = request('box')) {
                         if (this.autosave) {
                             this.$http.post('/setUserWorkingActivityStatus', {
                                 jobId: {{ $jobId }},
+                                debug: {{ (int)$isDebug }},
                             }).then((response) => {
                                 // nothing
                             }).catch((response) => {

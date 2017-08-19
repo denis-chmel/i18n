@@ -194,3 +194,9 @@ video:hover {
   text-align: center;
   margin-left: 1ex;
 }
+
+canvas {
+  position: fixed;
+  top: 100px;
+  pointer-events: none;
+}

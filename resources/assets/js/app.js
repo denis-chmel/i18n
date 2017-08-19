@@ -9,6 +9,7 @@ require('./bootstrap');
 let yandexKey = 'trnsl.1.1.20170812T114925Z.1d5a2b5e46b3dc19.6be110234dfafb6f3d1925304f792ea638992fc2';
 window.translateYandex = require('yandex-translate')(yandexKey);
 window.pluralize = require('pluralize');
+window.firework = require('fireworks-effect');
 
 window.Vue = require('vue');
 require('vue-resource');

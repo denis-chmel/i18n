@@ -64,8 +64,9 @@ if ($no = request('box')) {
                         <li v-if="timer">
                             <i class="fa fa-pause" aria-hidden="true" v-if="!autosave"></i>
                             <input class="timer" readonly type="text" v-bind:value="timer.toString().toHHMMSS()">
+                            <input class="timer" readonly type="text" v-bind:value="getEstimateTime().toHHMMSS()">
                         </li>
-                        <li>Done @{{ percentDone }}%</li>
+                        <li>@{{ percentDone }}%</li>
                     </ul>
                 </div>
             </div>
@@ -182,7 +183,7 @@ if ($no = request('box')) {
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }
-            return hours + ':' + minutes + ':' + seconds;
+            return hours + ':' + minutes;
         };
 
         function trim(s, mask) {
@@ -246,15 +247,20 @@ if ($no = request('box')) {
         const app = new Vue({
             el: '#app',
             data: {
-                timer: 0,
+                timer: undefined,
                 timerHandle: null,
                 isSaving: false,
                 percentDone: 0,
+                jobId: {{ $jobId }},
+                isDebug: {{ (int)$isDebug }},
                 autosave: false,
                 videoUrl: {!! j($videoUrl) !!},
                 subLines: {!! j($lines) !!},
             },
             methods: {
+                getEstimateTime: function(){
+                    return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
+                },
                 getCharsLeft: function (text, limit) {
                     return limit - text.length;
                 },
@@ -265,6 +271,7 @@ if ($no = request('box')) {
                     if (this.autosave) {
                         this.timerHandle = setInterval(() => {
                             this.timer++;
+                            this.$cookie.set("timer." + this.jobId, this.timer);
                         }, 1000);
                     } else {
                         clearInterval(this.timerHandle);
@@ -382,9 +389,9 @@ if ($no = request('box')) {
                     this.isSaving = true;
                     this.$http.post('/save-approved', {
                         lines: this.subLines,
-                        jobId: {{ $jobId }},
+                        jobId: this.jobId,
                         download: download,
-                        debug: {{ (int)$isDebug }},
+                        debug: this.isDebug,
                         isAutosave: isAutosave,
                         sessionToken: sessionToken
                     }).then((response) => {
@@ -395,6 +402,9 @@ if ($no = request('box')) {
                             link.href = window.URL.createObjectURL(blob);
                             link.download = map[0];
                             link.click();
+                        } else if (!isAutosave) {
+                            console.error(response);
+                            alert("Failed to save, ask Denis to check logs for " + (new Date()));
                         }
                     }).finally((response) => {
                         this.isSaving = false;
@@ -417,8 +427,8 @@ if ($no = request('box')) {
                 updateWorklog: function () {
                     if (this.autosave) {
                         this.$http.post('/updateWorklog', {
-                            jobId: {{ $jobId }},
-                            debug: {{ (int)$isDebug }},
+                            jobId: this.jobId,
+                            debug: this.isDebug,
                         }).then((response) => {
                             // nothing
                         }).catch((response) => {
@@ -430,8 +440,8 @@ if ($no = request('box')) {
                     if (this.autosave) {
                         if (this.autosave) {
                             this.$http.post('/setUserWorkingActivityStatus', {
-                                jobId: {{ $jobId }},
-                                debug: {{ (int)$isDebug }},
+                                jobId: this.jobId,
+                                debug: this.isDebug,
                             }).then((response) => {
                                 // nothing
                             }).catch((response) => {
@@ -446,6 +456,9 @@ if ($no = request('box')) {
                 }
             },
             mounted: function () {
+
+                this.timer = this.$cookie.get("timer." + this.jobId) || 0;
+
                 this.subLines.forEach(line => {
 
                     if (line.translation.length) {

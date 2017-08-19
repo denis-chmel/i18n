@@ -24,6 +24,7 @@ Vue.component('example', require('./components/Example.vue'));
 
 window.Vue.use(require('vue-textarea-autosize'));
 window.Vue.use(require('vue-resource'));
+window.Vue.use(require('vue-cookie'));
 
 window.Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 

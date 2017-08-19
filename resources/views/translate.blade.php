@@ -33,17 +33,15 @@ if ($no = request('box')) {
                             <div v-if="isSaving" class="saving-spinner">
                                 <i class="fa-li fa fa-2x fa-refresh fa-spin"></i>
                             </div>
-                            <button type="button" class="btn btn-primary navbar-btn" @click="translateAll(50)">
+                            <button type="button" class="btn btn-default navbar-btn" @click="translateAll(50)">
                                 Translate 50
                             </button>
                         </li>
-                        <li class="divider">&nbsp;&nbsp;</li>
                         <li>
                             <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(0)"
                                 :disabled="isSaving"
                             >Save Approved</button>
                         </li>
-                        <li class="divider">&nbsp;&nbsp;</li>
                         <li>
                             <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(1)"
                                 :disabled="isSaving"
@@ -51,18 +49,22 @@ if ($no = request('box')) {
                         </li>
                         <li>
                             <label>
-                                <input type="checkbox" v-model="autosave" />
+                                <input type="checkbox" v-model="autosave" @change="toggleTimer()"/>
                                 Autosave &amp; send heartbeat
 
                                 @if ($isDebug)
-                                    (DEBUG MODE)
+                                    <span class="text-danger">(DEBUG MODE)</span>
                                 @endif
                             </label>
                         </li>
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a style="text-decoration: none">Approved @{{ percentDone }}%</a></li>
+                        <li v-if="timer">
+                            <i class="fa fa-pause" aria-hidden="true" v-if="!autosave"></i>
+                            <input class="timer" readonly type="text" v-bind:value="timer.toString().toHHMMSS()">
+                        </li>
+                        <li>Approved @{{ percentDone }}%</li>
                     </ul>
                 </div>
             </div>
@@ -140,7 +142,7 @@ if ($no = request('box')) {
         </table>
 
         <footer>
-            <p>© 2001-2017, Denis</p>
+            <p>© 2001-2017, Denis feat. Love</p>
         </footer>
 
     </div>
@@ -162,6 +164,24 @@ if ($no = request('box')) {
 
             });
             return found;
+        };
+
+        String.prototype.toHHMMSS = function () {
+            var sec_num = parseInt(this, 10); // don't forget the second param
+            var hours = Math.floor(sec_num / 3600);
+            var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+            var seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+            if (hours < 10) {
+                hours = "0" + hours;
+            }
+            if (minutes < 10) {
+                minutes = "0" + minutes;
+            }
+            if (seconds < 10) {
+                seconds = "0" + seconds;
+            }
+            return hours + ':' + minutes + ':' + seconds;
         };
 
         function trim(s, mask) {
@@ -225,6 +245,8 @@ if ($no = request('box')) {
         const app = new Vue({
             el: '#app',
             data: {
+                timer: 0,
+                timerHandle: null,
                 isSaving: false,
                 percentDone: 0,
                 autosave: false,
@@ -234,6 +256,18 @@ if ($no = request('box')) {
             methods: {
                 getCharsLeft: function (text, limit) {
                     return limit - text.length;
+                },
+                secondsToTime: function (seconds) {
+                    return seconds;
+                },
+                toggleTimer: function() {
+                    if (this.autosave) {
+                        this.timerHandle = setInterval(() => {
+                            this.timer++;
+                        }, 1000);
+                    } else {
+                        clearInterval(this.timerHandle);
+                    }
                 },
                 translateYandex: function (line, callback) {
                     if (!line.original.length) {

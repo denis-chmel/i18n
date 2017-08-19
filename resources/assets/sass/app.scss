@@ -1,19 +1,13 @@
-
-// Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
-
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-
 body {
   background: #FCFCFC;
   overflow-y: scroll;
   min-width: 640px;
-  font-family: 'Tahoma', sans-serif;
 }
 
 .navbar {
@@ -48,7 +42,10 @@ html body {
 }
 
 [v-cloak] > * { display:none }
-[v-cloak]::before { content: "Loading..." }
+[v-cloak]::before {
+  padding: 50px;
+  content: "Loading...";
+}
 
 .translations {
   a {
@@ -93,6 +90,29 @@ html body {
     background: #FFF;
     &.approved {
       background: #e6ffdf;
+    }
+  }
+
+  .chars-left {
+    position: absolute;
+    bottom: 24px;
+    font-size: 11px;
+    right: 35px;
+    text-align: right;
+  }
+
+  .too-long {
+    textarea:not(.loading) {
+      &.approved {
+        background: #fff1f1;
+      }
+    }
+
+    .chars-left {
+      background: red;
+      color: #FFF;
+      padding: 0 .8ex;
+      border-radius: 10px;
     }
   }
 
@@ -157,6 +177,7 @@ video:hover {
 .saving-spinner {
   position: absolute;
   top: 8px;
+  opacity: 0.3;
 }
 
 .translations .btn.btn-play-phrase {

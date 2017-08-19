@@ -281,8 +281,11 @@ class TranslateController extends Controller
         $dom->load($engSubs);
 
         $lines = [];
+        $length = $limits = [];
         foreach ($dom->find('body div p') as $i => $node) {
             /** @var Dom\HtmlNode $node */
+//            if ($i >= 11) continue;
+
             $line = [];
             $start = $node->getAttribute('begin');
             $end = $node->getAttribute('end');
@@ -302,8 +305,29 @@ class TranslateController extends Controller
             $line['approveYandex'] = false;
             $line['approveGoogle'] = false;
             $line['index'] = $i + 1;
+
+            $startFloat = $node->getAttribute('beginfloat');
+            $endFloat = $node->getAttribute('endfloat');
+            $line['length'] = ($endFloat - $startFloat) / 1000;
+            $coef = 21;
+            $line['chars'] = (int)floor($line['length'] * $coef);
+            $length[] = ($endFloat - $startFloat) / 1000;
+            $limits[] = $line['chars'];
+
             $lines[] = $line;
         }
+
+//        $expect = [
+//            40, 71, 93, 72, 22,22,45,48,46,49,53
+//        ];
+//        foreach ($limits as $k => $v) {
+//            if ($expect[$k] != $v) {
+//                echo $k . ' - ' . $expect[$k] . '<br>';
+//                echo $k . ' + ' . $v . ' = ' . $lines[$k]['length'] * $coef . '<br>';
+//            }
+//        }
+//        dd($lines);
+//        dd($length, $limits, $expect, array_diff($expect, $limits), array_diff($limits, $expect));
 
         return view('translate', [
             'lines' => $lines,
@@ -324,7 +348,7 @@ class TranslateController extends Controller
     private function loadAndCache($url, $jobId, $minutes = 1440)
     {
         $tag = $this->cache->tags('job.' . $jobId);
-        $key = 'yulia.' . md5($url);
+        $key = $this->getCacheKey($url);
         if (!$minutes) {
             $this->clearCache($jobId);
         }
@@ -343,8 +367,12 @@ class TranslateController extends Controller
 
     private function forgetCacheFor($url)
     {
-        $key = 'yulia10.' . md5($url);
-        \Cache::forget($key);
+        \Cache::forget($this->getCacheKey($url));
+    }
+
+    private function getCacheKey($url)
+    {
+        return 'yulia.' . md5($url);
     }
 
     private function loadUrl($url)
@@ -383,7 +411,7 @@ class TranslateController extends Controller
     public function test(Request $request)
     {
         $request->all();
-        echo "<pre>very good!</pre>";
+        echo "<pre>very good!</pre><httpStatus>200</httpStatus>";
 //        print_r($_SERVER);
 //        print_r($_POST);
         die();
@@ -407,7 +435,7 @@ class TranslateController extends Controller
 
         $url = 'https://visualdata.sferalabs.com/webservice/jobs/updateWorklog?userJobId=' . $jobId;
         if ($this->debug) {
-            $url = 'http://yulia-trans.app/test?jobId=' . $jobId;
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/test?jobId=' . $jobId;
         }
         $response = $this->sendPost(
             $url,
@@ -433,7 +461,7 @@ class TranslateController extends Controller
 
         $url = 'https://visualdata.sferalabs.com/webservice/user/setUserWorkingActivityStatus';
         if ($this->debug) {
-            $url = 'http://yulia-trans.app/test';
+            $url = 'http://' . $_SERVER['HTTP_HOST'] . '/test';
         }
         $response = $this->sendPost(
             $url,
@@ -465,7 +493,7 @@ class TranslateController extends Controller
 
         $url1 = 'https://visualdata.sferalabs.com/webservice/simple/save';
         if ($debug) {
-            $url1 = 'http://yulia-trans.app/test';
+            $url1 = 'http://' . $_SERVER['HTTP_HOST'] . '/test';
         }
 
         $response = $this->sendPost($url1, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4');
@@ -505,7 +533,7 @@ class TranslateController extends Controller
         $lentgh = strlen($xml);
         $url2 = 'https://visualdata.sferalabs.com/webservice/jobs/save?contentLength=' . $lentgh . '&secondaryContentLength=0';
         if ($debug) {
-            $url2 = 'http://yulia-trans.app/test?contentLength=' . $lentgh;
+            $url2 = 'http://' . $_SERVER['HTTP_HOST'] . '/test?contentLength=' . $lentgh;
         }
 
         $response = $this->sendPost($url2, $data, 'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf');
@@ -547,6 +575,10 @@ class TranslateController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $html = curl_exec($ch);
         curl_close($ch);
+
+        if (!str_contains($html, '<httpStatus>200</httpStatus>')) {
+            throw new \Exception('aaaa');
+        }
 
         return $html;
     }

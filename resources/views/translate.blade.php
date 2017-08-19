@@ -10,7 +10,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 20);
+$lines = array_slice($lines, 0, 20); // FIXME
 
 @endphp
 
@@ -18,7 +18,7 @@ if ($no = request('box')) {
 
 @section('contents')
 
-    <nav class="navbar-fixed-top" v-bind:class="{ autosave: autosave }">
+    <nav class="navbar-fixed-top" v-bind:class="{ autosave: autosave }" xmlns:v-bind="http://www.w3.org/1999/xhtml">
         <div class="navbar navbar-default navbar-static">
             <div class="container">
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -41,15 +41,13 @@ if ($no = request('box')) {
                         <li>
                             <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(0)"
                                 :disabled="isSaving"
-                            >Save Approved
-                            </button>
+                            >Save Approved</button>
                         </li>
                         <li class="divider">&nbsp;&nbsp;</li>
                         <li>
                             <button type="button" class="btn btn-default navbar-btn" @click="saveApproved(1)"
                                 :disabled="isSaving"
-                            >Download All
-                            </button>
+                            >Download</button>
                         </li>
                         <li>
                             <label>
@@ -84,35 +82,55 @@ if ($no = request('box')) {
                 <td>
                     <pre class="original" v-html="line.html"></pre>
                 </td>
-                <td v-if="line.editable">
+                <td v-if="line.editable"
+                    v-bind:class="{
+                        'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
+                    }">
+
                     <button type="button"
                         class="btn btn-default btn-xs btn-play-phrase"
                         tabindex="-1"
                         @click="playPhrase(line)"
                     >►
                     </button>
+
                     <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
                         G
                     </button>
+
+                    <div class="chars-left">@{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
+
                     <textarea
                         v-bind:tabindex="line.approveYandex ? -1 : null"
                         :disabled="line.disabled == true"
                         @click="approveGoogle(line)"
                         @keyup="approveGoogle(line)"
-                        v-bind:class="{ loading: line.loadingGoogle, approved: line.approveGoogle }"
+                        v-bind:class="{
+                            loading: line.loadingGoogle,
+                            approved: line.approveGoogle,
+                        }"
                         v-model="line.translationGoogle"
                     ></textarea>
                 </td>
-                <td v-if="line.editable">
+                <td v-if="line.editable"
+                    v-bind:class="{
+                        'too-long': 0 > getCharsLeft(line.translationYandex, line.chars)
+                    }">
                     <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(line)">
                         Я
                     </button>
+
+                    <div class="chars-left">@{{ getCharsLeft(line.translationYandex, line.chars) }}</div>
+
                     <textarea
                         v-bind:tabindex="line.approveGoogle ? -1 : null"
                         :disabled="line.disabled == true"
                         @click="approveYandex(line)"
                         @keyup="approveYandex(line)"
-                        v-bind:class="{ loading: line.loadingYandex, approved: line.approveYandex }"
+                        v-bind:class="{
+                            loading: line.loadingYandex,
+                            approved: line.approveYandex,
+                        }"
                         v-model="line.translationYandex"
                     ></textarea>
                 </td>
@@ -157,7 +175,7 @@ if ($no = request('box')) {
         }
 
         function addExtraMethods(line) {
-            line.hasTranslations = function() {
+            line.hasTranslations = function () {
                 return (line.translationYandex.length + line.translationGoogle.length > 0);
             }
         }
@@ -214,6 +232,9 @@ if ($no = request('box')) {
                 subLines: {!! j($lines) !!},
             },
             methods: {
+                getCharsLeft: function (text, limit) {
+                    return limit - text.length;
+                },
                 translateYandex: function (line, callback) {
                     if (!line.original.length) {
                         return;
@@ -233,7 +254,7 @@ if ($no = request('box')) {
                     } else {
                         window.mediaPlayer.pause();
                     }
-                    let hasTranslation = line.translationYandex.length > 0;
+                    let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
                     Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
                         Vue.set(line, 'approveGoogle', false);
@@ -246,7 +267,7 @@ if ($no = request('box')) {
                     } else {
                         window.mediaPlayer.pause();
                     }
-                    let hasTranslation = line.translationGoogle.length > 0;
+                    let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                     Vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {
                         Vue.set(line, 'approveYandex', false);

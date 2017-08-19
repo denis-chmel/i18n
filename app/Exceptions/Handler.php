@@ -34,6 +34,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if ($exception instanceof TechException) {
+            echo '<b>Error: ' . $exception->getMessage() . '</b><br>';
+            if ($xml = $exception->getXml()) {
+                echo '<pre>' . htmlentities($xml) . '</pre>';
+            }
+            exit;
+        }
         parent::report($exception);
     }
 

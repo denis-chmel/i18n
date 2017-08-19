@@ -55,6 +55,30 @@ function mb_ucfirst($value)
     return mb_strtoupper(mb_substr($value, 0, 1)) . mb_substr($value, 1);
 }
 
+function beautifyXml($xml = '')
+{
+    if (!strlen(trim($xml))) {
+        // to avoid "DOMDocument::loadXML(): Empty string supplied as input"
+        return '';
+    }
+
+    $result = $xml;
+    $doc = new \DomDocument('1.0');
+    $doc->preserveWhiteSpace = false;
+    $doc->formatOutput = true;
+    try {
+        $doc->loadXML($xml);
+        $result = $doc->saveXML();
+    } catch (\Exception $e) {
+        \Log::warning('beautifyXml(): Cannot parse XML document', [
+            'error' => $e->getMessage(),
+            'xml' => $xml,
+        ]);
+    }
+
+    return (string)$result;
+}
+
 function __wrap_output($contents)
 {
     static $lastTimestamp;

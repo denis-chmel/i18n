@@ -8,11 +8,43 @@
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
-html, body {
-  background: #FFF;
+
+body {
+  background: #FCFCFC;
+  overflow-y: scroll;
+  min-width: 640px;
   font-family: 'Tahoma', sans-serif;
-  margin: 0;
-  padding: 1ex;
+}
+
+.navbar {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid #e6e6e6;
+  padding: 5px;
+  -webkit-box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-form,
+.form-control:focus {
+  border-color: transparent;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.form-control:focus {
+  border-color: #CCC;
+}
+
+footer {
+  border-top: 1px solid #DDD;
+  margin: 50px 0 30px;
+  padding-top: 10px;
+  color: #999;
+}
+
+html body {
+  padding-top: 100px;
 }
 
 [v-cloak] > * { display:none }
@@ -95,26 +127,16 @@ html, body {
   }
 }
 
-#nav_bar.autosave {
+.navbar-fixed-top.autosave {
   .navbar {
     background: #e2ffdd !important;
   }
 }
 
 .navbar {
-  border-color: silver;
-  background: #f3f3f3;
-
   label {
     padding: 13px;
     font-weight: normal;
-  }
-}
-
-.navbar-fixed-top {
-  .navbar {
-    border-radius: 0 !important;
-    background: rgba(240,240,240,0.8) !important;
   }
 }
 
@@ -127,6 +149,19 @@ video {
   transform: scale(0.5) translate(100px, 100px);
   transition: all 500ms;
 }
+
 video:hover {
   transform: scale(1) translate(0, 100px);
+}
+
+.saving-spinner {
+  position: absolute;
+  top: 8px;
+}
+
+.translations .btn.btn-play-phrase {
+  position: absolute;
+  left: -10px;
+  top: 10px;
+  padding: 5px;
 }

@@ -4,12 +4,13 @@
  * @var array $bannedWords
  * @var string $sessionToken
  * @var int $jobId
+ * @var boolean $isDebug
  */
 
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 50);
+// $lines = array_slice($lines, 0, 20);
 
 @endphp
 
@@ -17,7 +18,7 @@ if ($no = request('box')) {
 
 @section('contents')
 
-    <nav id='nav_bar' v-bind:class="{ autosave: autosave }">
+    <nav class="navbar-fixed-top" v-bind:class="{ autosave: autosave }">
         <div class="navbar navbar-default navbar-static">
             <div class="container">
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -29,6 +30,9 @@ if ($no = request('box')) {
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li>
+                            <div v-if="isSaving" class="saving-spinner">
+                                <i class="fa-li fa fa-2x fa-refresh fa-spin"></i>
+                            </div>
                             <button type="button" class="btn btn-primary navbar-btn" @click="translateAll(50)">
                                 Translate 50
                             </button>
@@ -51,6 +55,10 @@ if ($no = request('box')) {
                             <label>
                                 <input type="checkbox" v-model="autosave" />
                                 Autosave &amp; send heartbeat
+
+                                @if ($isDebug)
+                                    (DEBUG MODE)
+                                @endif
                             </label>
                         </li>
                     </ul>
@@ -112,6 +120,11 @@ if ($no = request('box')) {
             </tbody>
 
         </table>
+
+        <footer>
+            <p>© 2001-2017, Denis</p>
+        </footer>
+
     </div>
 
 @endsection
@@ -299,12 +312,12 @@ if ($no = request('box')) {
                         isAutosave: isAutosave,
                         sessionToken: sessionToken
                     }).then((response) => {
-                        if (download) {
+                        if (map = response.headers.map['content-filename']) {
                             let headers = {};
                             let blob = new Blob([response.data], { type: headers['content-type'] });
                             let link = document.createElement('a');
                             link.href = window.URL.createObjectURL(blob);
-                            link.download = response.headers.map['content-filename'][0];
+                            link.download = map[0];
                             link.click();
                         }
                     }).finally((response) => {
@@ -368,7 +381,7 @@ if ($no = request('box')) {
                     this.calculatePercentDone();
                 });
 
-                let second = 1000;
+                let second = {{ $isDebug ? 100 : 1000 }};
                 setInterval(this.autosaveIfNeeded, 3 * 60 * second); // each 3 min
                 setInterval(this.updateWorklog, 60 * second); // each 1 min
                 setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
@@ -386,27 +399,6 @@ if ($no = request('box')) {
             window.mediaPlayer.initialize(document.querySelector("#mediaPlayer"), url, false);
         }
 
-        $(document).ready(function () {
-            $(window).scroll(function () {
-
-                if ($(window).scrollTop() > 250) {
-                    $('#nav_bar').addClass('navbar-fixed-top');
-                }
-
-                if ($(window).scrollTop() < 251) {
-                    $('#nav_bar').removeClass('navbar-fixed-top');
-                }
-            }).scroll();
-        });
-
     </script>
     <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
-    <style>
-        .translations .btn.btn-play-phrase {
-            position: absolute;
-            left: -10px;
-            top: 10px;
-            padding: 5px;
-        }
-    </style>
 @append

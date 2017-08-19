@@ -1,8 +1,11 @@
 <?php namespace App\Http\Controllers;
 
+use App\Exceptions\TechException;
 use App\Exceptions\UnauthorizedException;
 use Illuminate\Http\Request;
 use PHPHtmlParser\Dom;
+use Illuminate\Cache\Repository as TaggableCache;
+use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
  * Class HomepageController
@@ -10,9 +13,18 @@ use PHPHtmlParser\Dom;
  */
 class TranslateController extends Controller
 {
-    protected $debug = 0;
+    protected $debug;
 
     protected $token;
+
+    /** @var TaggableCache */
+    protected $cache;
+
+    public function __construct(Cache $cache)
+    {
+        $this->debug = $_SERVER['HTTP_HOST'] == 'yulia-trans.app';
+        $this->cache = $cache;
+    }
 
     private function getSessionToken()
     {
@@ -76,7 +88,7 @@ class TranslateController extends Controller
         $jobId = $request->get('jobId');
         $lines = $request->get('lines');
         $isAutosave = $request->get('isAutosave');
-        $download = $request->get('download');
+        $downloadOnly = $request->get('download');
         if ($sessionToken = $request->get('sessionToken')) {
             $this->setSessionToken($sessionToken);
         }
@@ -89,7 +101,7 @@ class TranslateController extends Controller
             throw new \Exception('lines is missing');
         }
 
-        $jobXml = $this->loadAndCache('https://visualdata.sferalabs.com/webservice/jobs/' . $jobId);
+        $jobXml = $this->loadAndCache('https://visualdata.sferalabs.com/webservice/jobs/' . $jobId, $jobId);
 
         $job = new \DomDocument('1.0', 'utf-8');
         $job->loadXML($jobXml);
@@ -99,7 +111,7 @@ class TranslateController extends Controller
         } else {
             throw new \Exception('cannot find //target_subtitle/url');
         }
-        $rusSubs = $this->loadAndCache($rusSubsUrl);
+        $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
 
         $doc = new \DomDocument();
         $doc->loadXML($rusSubs);
@@ -132,7 +144,7 @@ class TranslateController extends Controller
             if (count($translationLines) > 2) {
                 $translationLines = [
                     $translationLines[0],
-                    implode(' ', array_slice($translationLines, 1))
+                    implode(' ', array_slice($translationLines, 1)),
                 ];
             }
 
@@ -158,8 +170,16 @@ class TranslateController extends Controller
         $newXml = $doc->saveXML();
         $newXml = preg_replace('~<p ([^>]*)/>(\s*)$~m', '<p $1></p>$2', $newXml);
 
-        if ($download) {
-            $filename = 'translations-' . $request->get('jobId') . '.xml';
+        if (!$downloadOnly) {
+            $this->submitTranslations($jobId, $newXml, $isAutosave, $totalCount, $translatedClount, $lastTime);
+        }
+
+        $response = response()->json([
+            'success' => true,
+        ]);
+
+        if (!$isAutosave) {
+            $filename = sprintf('translations-%d-%s.xml', $request->get('jobId'), date('Ymd-his'));
             $doc->formatOutput = true;
             $doc->preserveWhiteSpace = false;
 
@@ -167,13 +187,6 @@ class TranslateController extends Controller
                 'Content-Type' => 'application/xml',
                 'Content-Disposition' => 'attachment; filename="' . $filename . '"',
                 'Content-Filename' => $filename,
-            ]);
-        } else {
-
-            $this->submitTranslations($jobId, $newXml, $isAutosave, $totalCount, $translatedClount, $lastTime);
-
-            $response = response()->json([
-                'success' => true,
             ]);
         }
 
@@ -227,8 +240,12 @@ class TranslateController extends Controller
             abort(404, 'must pass ?jobId=');
         }
 
+        if (!$this->debug) {
+            $this->clearCache($jobId);
+        }
+
         $url = 'https://visualdata.sferalabs.com/webservice/jobs/' . $jobId;
-        $jobXml = $this->loadAndCache($url);
+        $jobXml = $this->loadAndCache($url, $jobId);
         if (str_contains($jobXml, 'Unauthorized')) {
             \Session::flash('error', $jobXml);
             $this->forgetCacheFor($url);
@@ -236,7 +253,6 @@ class TranslateController extends Controller
                 'jobId' => $jobId,
             ]));
         }
-//        dd($jobXml);
 
         $xml = new \DomDocument('1.0', 'utf-8');
         $xml->loadXML($jobXml);
@@ -247,11 +263,18 @@ class TranslateController extends Controller
             $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
             $videoUrl = $xpath->query('//video/url')->item(0)->nodeValue;
         } else {
-            throw new \Exception('cannot find //source_subtitle/url');
+            throw new TechException('cannot find //source_subtitle/url', $jobXml);
         }
 
-        $engSubs = $this->loadAndCache($engSubsUrl);
-        $rusSubs = $this->loadAndCache($rusSubsUrl, $this->debug ? 120 : 0);
+        if (!$rusSubsUrl) {
+            throw new TechException('Cannot find //target_subtitle/url, ask Denis', $jobXml);
+        }
+        if (!$videoUrl) {
+            throw new TechException('Cannot find //video/url, ask Denis', $jobXml);
+        }
+
+        $engSubs = $this->loadAndCache($engSubsUrl, $jobId);
+        $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
         $translations = $this->getReadyTranslations($rusSubs);
 
         $dom = new Dom;
@@ -285,21 +308,37 @@ class TranslateController extends Controller
         return view('translate', [
             'lines' => $lines,
             'jobId' => $jobId,
+            'isDebug' => $this->debug,
             'videoUrl' => $videoUrl,
             'sessionToken' => $this->getSessionToken(),
             'bannedWords' => config('bannedWords.list'),
         ]);
     }
 
-    private function loadAndCache($url, $minutes = 120)
+    private function clearCache($jobId)
     {
-        $key = 'yulia10.' . md5($url);
+        $tag = $this->cache->tags('job.' . $jobId);
+        $tag->flush();
+    }
+
+    private function loadAndCache($url, $jobId, $minutes = 1440)
+    {
+        $tag = $this->cache->tags('job.' . $jobId);
+        $key = 'yulia.' . md5($url);
         if (!$minutes) {
-            return $this->loadUrl($url);
+            $this->clearCache($jobId);
         }
-        return \Cache::remember($key, $minutes, function () use ($url) {
-            return $this->loadUrl($url);
-        });
+        if ($tag->has($key)) {
+            \Log::debug('Getting from cache: ' . $url);
+            return $tag->get($key);
+        }
+        $response = $this->loadUrl($url);
+        if (!str_contains($response, 'Unauthorized')) {
+            \Log::debug('Putting to cache: ' . $url);
+            $tag->put($key, $response, $minutes);
+        }
+
+        return $response;
     }
 
     private function forgetCacheFor($url)
@@ -341,7 +380,9 @@ class TranslateController extends Controller
         return $translations;
     }
 
-    public function test(Request $request) {
+    public function test(Request $request)
+    {
+        $request->all();
         echo "<pre>very good!</pre>";
 //        print_r($_SERVER);
 //        print_r($_POST);
@@ -351,6 +392,7 @@ class TranslateController extends Controller
     private function getCurrentTimeDec($timeString = '00:08:33.931')
     {
         if (preg_match('~(\d\d):(\d\d):(\d\d)\.(\d+)~', $timeString, $matches)) {
+            /** @noinspection PhpUnusedLocalVariableInspection */
             list($all, $hour, $min, $sec, $dec) = $matches;
             $minutes = $hour * 60 + $min;
             $minutesDec = $minutes + ($sec / 60) + round((float)('0.' . $dec) * 1000) / 60 / 1000;
@@ -373,7 +415,7 @@ class TranslateController extends Controller
             'https://visualdata.sferalabs.com/flex/main?userJobId=' . $jobId
         );
 
-        \Log::debug('updateWorklog sent', [
+        \Log::info('updateWorklog sent', [
             'jobId' => $jobId,
             'response' => $response,
         ]);
@@ -399,9 +441,9 @@ class TranslateController extends Controller
             'https://visualdata.sferalabs.com/data/flex-app/main/SubtitleApp.swf/[[DYNAMIC]]/4'
         );
 
-        \Log::debug('setUserWorkingActivityStatus sent', [
-                'request' => $data,
-                'response' => $response,
+        \Log::info('setUserWorkingActivityStatus sent', [
+            'request' => $data,
+            'response' => $response,
         ]);
     }
 
@@ -410,6 +452,10 @@ class TranslateController extends Controller
         $debug = $this->debug;
 
         \Log::info('Saving...', ['debug' => $debug, 'isAutosave' => $isAutosave]);
+
+        if ($this->debug) {
+            sleep(2);
+        }
 
         $data = [
             'userJobId' => $jobId,
@@ -449,7 +495,7 @@ class TranslateController extends Controller
             'subtitleFormat' => 'dfxp',
             'current_box_time' => round($translatedClount * 2.1819, 3),
             'demoMode' => 0,
-            'progress' => $translatedClount*100/$totalCount,
+            'progress' => $translatedClount * 100 / $totalCount,
             'activeTime' => rand(0, 1),
             'background' => $isAutosave ? 1 : 0,
             'subtitleType' => 'target',

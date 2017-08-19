@@ -20,9 +20,9 @@ class TranslateController extends Controller
     /** @var TaggableCache */
     protected $cache;
 
-    public function __construct(Cache $cache)
+    public function __construct(Cache $cache, Request $request)
     {
-        $this->debug = $_SERVER['HTTP_HOST'] == 'yulia-trans.app';
+        $this->debug = $request->get('debug');
         $this->cache = $cache;
     }
 
@@ -300,6 +300,9 @@ class TranslateController extends Controller
             $line['translation'] = array_get($translations, $i, '');
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
+            if (!$line['translation']) {
+                $line['translationGoogle'] = $this->getSuggestedTranslation($line['original']);
+            }
             $line['loadingYandex'] = false;
             $line['loadingGoogle'] = false;
             $line['approveYandex'] = false;
@@ -316,6 +319,7 @@ class TranslateController extends Controller
 
             $lines[] = $line;
         }
+//        dd($lines);
 
 //        $expect = [
 //            40, 71, 93, 72, 22,22,45,48,46,49,53
@@ -506,6 +510,10 @@ class TranslateController extends Controller
             throw new UnauthorizedException('Unauthorized');
         }
 
+        if (!str_contains($response, '<httpStatus>200</httpStatus>')) {
+            throw new \Exception($response);
+        }
+
         \Log::info('Save1 is done', [
             'response' => $response,
         ]);
@@ -576,10 +584,19 @@ class TranslateController extends Controller
         $html = curl_exec($ch);
         curl_close($ch);
 
-        if (!str_contains($html, '<httpStatus>200</httpStatus>')) {
-            throw new \Exception('aaaa');
-        }
-
         return $html;
+    }
+
+    private function getSuggestedTranslation($text)
+    {
+        $text = trim(preg_replace('~[\s,\.]+~', ' ', $text));
+        $phrases = config('suggested.phrases');
+        foreach ($phrases as $original => $translation) {
+            $original = trim(preg_replace('~[\s,\.]+~', ' ', $original));
+            if ($original == $text) {
+                return $translation;
+            }
+        }
+        return '';
     }
 }

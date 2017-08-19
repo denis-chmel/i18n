@@ -10,7 +10,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-$lines = array_slice($lines, 0, 20); // FIXME
+// $lines = array_slice($lines, 0, 20);
 
 @endphp
 

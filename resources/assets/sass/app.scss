@@ -94,6 +94,9 @@ html body {
     word-wrap: break-word;
     padding: 0.5ex;
     width: 21.7em;
+    &:hover {
+      white-space: nowrap;
+    }
   }
   textarea:not(.loading) {
     background: #FFF;
@@ -108,6 +111,7 @@ html body {
     font-size: 11px;
     right: 37px;
     text-align: right;
+    opacity: 0.5;
   }
 
   .too-long {
@@ -122,6 +126,7 @@ html body {
       color: #FFF;
       padding: 0 .8ex;
       border-radius: 10px;
+      opacity: 1;
     }
   }
 
@@ -148,7 +153,6 @@ html body {
     left: 0;
     top: 10px;
     padding: 5px;
-    z-index: -1;
   }
 
   .btn.btn-play-phrase + textarea {

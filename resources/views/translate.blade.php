@@ -62,7 +62,8 @@ if ($no = request('box')) {
 
                     <ul class="nav navbar-nav navbar-right">
                         <li v-if="timer">
-                            <i class="fa fa-pause" aria-hidden="true" v-if="!autosave"></i>
+                            <i class="fa fa-play" aria-hidden="true" v-if="!timerStarted" @click="startTimer()"></i>
+                            <i class="fa fa-pause" aria-hidden="true" v-if="timerStarted" @click="stopTimer()"></i>
                             <input class="timer" readonly type="text" v-bind:value="timer.toString().toHHMMSS()">
                             <input class="timer" readonly type="text" v-bind:value="getEstimateTime().toHHMMSS()">
                         </li>
@@ -81,7 +82,7 @@ if ($no = request('box')) {
                 <tr
                     is="phrase"
                     v-for="line in subLines" :key="line.index"
-                    :in-viewport-offset-top='10'
+                    :in-viewport-offset-top='500'
                     v-bind:line="line"
                     v-on:edited="calculatePercentDone"
                 ></tr>
@@ -128,7 +129,7 @@ if ($no = request('box')) {
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }
-            return hours + ':' + minutes;
+            return hours + ':' + minutes + ':' + seconds;
         };
 
         function trim(s, mask) {
@@ -224,6 +225,7 @@ if ($no = request('box')) {
             el: '#app',
             data: {
                 timer: undefined,
+                timerStarted: false,
                 timerHandle: null,
                 isSaving: false,
                 percentDone: 0,
@@ -233,15 +235,14 @@ if ($no = request('box')) {
                 videoUrl: {!! j($videoUrl) !!},
                 subLines: {!! j($lines) !!},
             },
-            methods: {
-                getEstimateTime: function(){
-                    return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
-                },
-                secondsToTime: function (seconds) {
-                    return seconds;
-                },
-                toggleTimer: function() {
-                    if (this.autosave) {
+//            computed: {
+//                isTimerCounting: function () {
+//                    return this.autosave || this.timerStarted;
+//                }
+//            },
+            watch: {
+                'timerStarted': function (timerStarted) {
+                    if (timerStarted) {
                         this.timerHandle = setInterval(() => {
                             this.timer++;
                             this.$cookie.set("timer." + this.jobId, this.timer, 365);
@@ -249,6 +250,27 @@ if ($no = request('box')) {
                     } else {
                         clearInterval(this.timerHandle);
                     }
+                }
+            },
+            methods: {
+                getEstimateTime: function(){
+                    return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
+                },
+                secondsToTime: function (seconds) {
+                    return seconds;
+                },
+                startTimer: function() {
+                    if (!this.autosave) {
+                        this.timerStarted = true;
+                    }
+                },
+                stopTimer: function() {
+                    if (!this.autosave) {
+                        this.timerStarted = false;
+                    }
+                },
+                toggleTimer: function() {
+                    this.timerStarted = this.autosave;
                 },
                 translateAll: function (limit) {
                     if (limit === undefined) {

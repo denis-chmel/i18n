@@ -11,7 +11,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 40);
+// $lines = array_slice($lines, 0, 20);
 
 @endphp
 
@@ -77,72 +77,15 @@ if ($no = request('box')) {
 
     <div class="container">
         <table class="translations">
-
             <tbody>
-            <tr valign="top" v-for="line in subLines" v-bind:class="{ italic: line.isItalic }">
-                <td class="block-no">
-                    @{{ line.index }}
-                </td>
-                <td>
-                    <pre class="original" v-html="line.html"></pre>
-                </td>
-                <td v-if="line.editable"
-                    v-bind:class="{
-                        'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
-                    }">
-
-                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateGoogle(line)">
-                        G
-                    </button>
-
-                    <div class="chars-left">@{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
-
-                    <button type="button"
-                        class="btn btn-default btn-xs btn-play-phrase"
-                        tabindex="-1"
-                        @click="playPhrase(line)"
-                    >►
-                    </button>
-
-                    <textarea
-                        class="google"
-                        v-bind:tabindex="line.approveYandex ? -1 : null"
-                        :disabled="line.disabled == true"
-                        @focus="focusGoogle(line)"
-                        @keyup="approveGoogle(line)"
-                        v-bind:class="{
-                            loading: line.loadingGoogle,
-                            approved: line.approveGoogle,
-                        }"
-                        v-model="line.translationGoogle"
-                    ></textarea>
-                </td>
-                <td v-if="line.editable"
-                    v-bind:class="{
-                        'too-long': 0 > getCharsLeft(line.translationYandex, line.chars)
-                    }">
-                    <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="translateYandex(line)">
-                        Я
-                    </button>
-
-                    <div class="chars-left">@{{ getCharsLeft(line.translationYandex, line.chars) }}</div>
-
-                    <textarea
-                        class="yandex"
-                        v-bind:tabindex="line.approveGoogle ? -1 : null"
-                        :disabled="line.disabled == true"
-                        @focus="focusYandex(line)"
-                        @keyup="approveYandex(line)"
-                        v-bind:class="{
-                            loading: line.loadingYandex,
-                            approved: line.approveYandex,
-                        }"
-                        v-model="line.translationYandex"
-                    ></textarea>
-                </td>
-            </tr>
+                <tr
+                    is="phrase"
+                    v-for="line in subLines" :key="line.index"
+                    :in-viewport-offset-top='10'
+                    v-bind:line="line"
+                    v-on:edited="calculatePercentDone"
+                ></tr>
             </tbody>
-
         </table>
 
         <footer>
@@ -198,10 +141,41 @@ if ($no = request('box')) {
             return s;
         }
 
-        function addExtraMethods(line) {
+        function addExtraMethods(vue, line) {
             line.hasTranslations = function () {
                 return (line.translationYandex.length + line.translationGoogle.length > 0);
-            }
+            };
+
+            line.translateGoogle = function(callback) {
+                let line = this;
+                if (!line.original.length) {
+                    return;
+                }
+                Vue.set(line, 'loadingGoogle', true);
+                Vue.set(line, 'translationGoogle', line.original);
+
+                let original = encodeURI(line.original);
+                vue.$http.get('/translate-google?from=en&to=ru&text=' + original).then((response) => {
+                    line.translationGoogle = response.body.translation;
+                    line.loadingGoogle = false;
+                    if (callback) callback();
+                });
+            };
+
+            line.translateYandex = function(callback) {
+                let line = this;
+                if (!line.original.length) {
+                    return;
+                }
+                Vue.set(line, 'loadingYandex', true);
+                Vue.set(line, 'translationYandex', line.original);
+                Vue.set(vue.subLines, 'reload', Math.random());
+                window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
+                    line.translationYandex = res.text[0];
+                    line.loadingYandex = false;
+                    if (callback) callback();
+                });
+            };
         }
 
         function addLinksToMultitran(line) {
@@ -263,9 +237,6 @@ if ($no = request('box')) {
                 getEstimateTime: function(){
                     return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
                 },
-                getCharsLeft: function (text, limit) {
-                    return limit - text.split("\n").join('').length;
-                },
                 secondsToTime: function (seconds) {
                     return seconds;
                 },
@@ -278,64 +249,6 @@ if ($no = request('box')) {
                     } else {
                         clearInterval(this.timerHandle);
                     }
-                },
-                translateYandex: function (line, callback) {
-                    if (!line.original.length) {
-                        return;
-                    }
-                    Vue.set(line, 'loadingYandex', true);
-                    Vue.set(line, 'translationYandex', line.original);
-                    Vue.set(this.subLines, 'reload', Math.random());
-                    window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
-                        line.translationYandex = res.text[0];
-                        line.loadingYandex = false;
-                        if (callback) callback();
-                    });
-                },
-                seekLineInPlayer: function (line) {
-                    if (window.mediaPlayer.isPaused()) {
-                        window.mediaPlayer.seek(line.secondStart);
-                    } else {
-                        window.mediaPlayer.pause();
-                    }
-                },
-                focusYandex: function (line) {
-                    this.seekLineInPlayer(line);
-                    this.approveYandex(line);
-                },
-                focusGoogle: function (line) {
-                    this.seekLineInPlayer(line);
-                    this.approveGoogle(line);
-                },
-                approveYandex: function (line) {
-                    let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
-                    Vue.set(line, 'approveYandex', hasTranslation);
-                    if (hasTranslation) {
-                        Vue.set(line, 'approveGoogle', false);
-                    }
-                    this.calculatePercentDone();
-                },
-                approveGoogle: function (line) {
-                    let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
-                    Vue.set(line, 'approveGoogle', hasTranslation);
-                    if (hasTranslation) {
-                        Vue.set(line, 'approveYandex', false);
-                    }
-                    this.calculatePercentDone();
-                },
-                translateGoogle: function (line, callback) {
-                    if (!line.original.length) {
-                        return;
-                    }
-                    Vue.set(line, 'loadingGoogle', true);
-                    Vue.set(line, 'translationGoogle', line.original);
-
-                    let original = encodeURI(line.original);
-                    this.$http.get('/translate-google?from=en&to=ru&text=' + original).then((response) => {
-                        line.translationGoogle = response.body.translation;
-                        line.loadingGoogle = false;
-                        if (callback) callback();
-                    });
                 },
                 translateAll: function (limit) {
                     if (limit === undefined) {
@@ -356,11 +269,11 @@ if ($no = request('box')) {
                             return;
                         }
                         if (!line.translationYandex.length) {
-                            this.translateYandex(line);
+                            line.translateYandex();
                             found = true;
                         }
                         if (!line.translationGoogle.length) {
-                            this.translateGoogle(line, () => {
+                            line.translateGoogle(() => {
                                 this.translateAll(limit - 1);
                             });
                             found = true;
@@ -469,7 +382,7 @@ if ($no = request('box')) {
                     }
 
                     addLinksToMultitran(line);
-                    addExtraMethods(line);
+                    addExtraMethods(this, line);
 
                     this.calculatePercentDone();
                 });

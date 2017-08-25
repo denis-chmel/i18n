@@ -83,6 +83,11 @@ html body {
     border-radius: 0;
   }
 
+  pre.original,
+  textarea {
+    height: 75px;
+  }
+
   pre.original {
     padding: 3px;
     background: transparent;
@@ -90,7 +95,6 @@ html body {
   }
   textarea {
     @extend pre;
-    height: 75px;
     word-wrap: break-word;
     padding: 0.5ex;
     width: 21.7em;

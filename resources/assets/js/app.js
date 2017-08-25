@@ -21,10 +21,12 @@ require('vue-resource');
  */
 
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('phrase', require('./components/Phrase.vue'));
 
 window.Vue.use(require('vue-textarea-autosize'));
 window.Vue.use(require('vue-resource'));
 window.Vue.use(require('vue-cookie'));
+window.Vue.use(require('vue-in-viewport-mixin'));
 
 window.Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('content');
 

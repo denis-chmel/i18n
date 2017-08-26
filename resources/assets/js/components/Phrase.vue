@@ -100,6 +100,7 @@
                 this.approveGoogle(line);
             },
             approveYandex: function (line) {
+                this.$bus.$emit('userActive');
                 let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
                 if (!line.approveYandex || !hasTranslation) {
                     Vue.set(line, 'approveYandex', hasTranslation);
@@ -110,6 +111,7 @@
                 }
             },
             approveGoogle: function (line) {
+                this.$bus.$emit('userActive');
                 let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                 if (!line.approveGoogle || !hasTranslation) {
                     Vue.set(line, 'approveGoogle', hasTranslation);
@@ -120,11 +122,13 @@
                 }
             },
             revealTranslated: function (line) {
+                this.$bus.$emit('userActive');
                 this.$emit('reveal-clicked', line);
             },
             playPhrase: function (line) {
                 window.mediaPlayer.play();
                 window.mediaPlayer.seek(line.secondStart);
+                this.$bus.$emit('userActive');
             },
         },
     };
@@ -240,7 +244,7 @@
     .btn {
         position: absolute;
         right: 11px;
-        bottom: 21px;
+        bottom: 20px;
         padding-right: 1ex;
     }
 

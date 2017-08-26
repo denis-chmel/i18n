@@ -65,6 +65,16 @@ String.prototype.trimChars = function(mask) {
     return s.toString();
 };
 
+const EventBus = new Vue();
+
+Object.defineProperties(Vue.prototype, {
+    $bus: {
+        get: function () {
+            return EventBus
+        }
+    }
+});
+
 Vue.component('example', require('./components/Example.vue'));
 Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('phrase', require('./components/Phrase.vue'));

@@ -36,10 +36,7 @@
                         </li>
                         <li>
                             <label>
-                                <input type="checkbox"
-                                    v-model="autosave"
-                                    @change="toggleTimer()"
-                                />
+                                <input type="checkbox" v-model="autosave" />
                                 Autosave &amp; send heartbeat
 
                                 <span v-if="isDebug" class="text-danger">(DEBUG MODE)</span>
@@ -49,8 +46,8 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <i class="fa fa-play" aria-hidden="true" v-if="!timerStarted" @click="startTimer()"></i>
-                            <i class="fa fa-pause" aria-hidden="true" v-if="timerStarted" @click="stopTimer()"></i>
+                            <i class="fa fa-play" aria-hidden="true" v-if="timerStarted"></i>
+                            <i class="fa fa-pause" aria-hidden="true" v-if="!timerStarted"></i>
                             <input v-if="timer !== undefined" class="timer" readonly type="text"
                                 v-bind:value="timer.toString().toHHMM(true)"
                                 @click="updateTimer()"
@@ -97,7 +94,21 @@
                 } else {
                     clearInterval(this.timerHandle);
                 }
-            }
+            },
+            'autosave': function(){
+                if (this.autosave) {
+                    let second = this.isDebug ? 100 : 1000;
+                    this._timer1 = setInterval(() => {
+                        this.saveApproved(0, 1);
+                    }, 3 * 60 * second); // each 3 min
+                    this._timer2 = setInterval(this.updateWorklog, 60 * second); // each 1 min
+                    this._timer3 = setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
+                } else {
+                    clearInterval(this._timer1);
+                    clearInterval(this._timer2);
+                    clearInterval(this._timer3);
+                }
+            },
         },
         computed: {
             etaSeconds: function () {
@@ -194,31 +205,6 @@
                 this.timer = parseFloat(newTime) * 60 * 60;
                 this.storeTimer();
             },
-            startTimer: function () {
-                if (!this.autosave) {
-                    this.timerStarted = true;
-                }
-            },
-            stopTimer: function () {
-                if (!this.autosave) {
-                    this.timerStarted = false;
-                }
-            },
-            toggleTimer: function () {
-                this.timerStarted = this.autosave;
-                if (this.autosave) {
-                    let second = this.isDebug ? 100 : 1000;
-                    this._timer1 = setInterval(() => {
-                        this.saveApproved(0, 1);
-                    }, 3 * 60 * second); // each 3 min
-                    this._timer2 = setInterval(this.updateWorklog, 60 * second); // each 1 min
-                    this._timer3 = setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
-                } else {
-                    clearInterval(this._timer1);
-                    clearInterval(this._timer2);
-                    clearInterval(this._timer3);
-                }
-            },
             updateWorklog: function () {
                 this.$http.post('/updateWorklog', {
                     jobId: this.jobId,
@@ -242,6 +228,15 @@
         },
         mounted: function () {
             this.timer = this.$cookie.get("timer." + this.jobId) || 0;
+
+            let timeout;
+            this.$bus.$on('userActive', () => {
+                this.timerStarted = true;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    this.timerStarted = false;
+                }, 60 * 1000);
+            });
         },
     };
 

@@ -9,30 +9,41 @@
 
 @section('contents')
 
-    <div class="container">
-        <h1>Welcome</h1>
+    <div id="app"
+        v-cloak
+        xmlns:v-bind="http://www.w3.org/1999/xhtml"
+        xmlns:v-on="http://www.w3.org/1999/xhtml"
+    >
 
-        <div class="row">
-            <div class="col-sm-6">
+        <div class="container">
+            <h1>Welcome</h1>
 
-                <form method="post">
-                    {{ csrf_field() }}
-                    <div class="form-group">
-                        <label for="session_token">PHPSESSID</label>
-                        <input type="text" class="form-control" value="{{ $token }}" name="session_token" id="session_token">
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                </form>
+            <div class="row">
+                <div class="col-sm-6">
 
+                    <form method="post">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="session_token">PHPSESSID</label>
+                            <input type="text"
+                                class="form-control"
+                                value="{{ $token }}"
+                                name="session_token"
+                                id="session_token">
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+
+                </div>
             </div>
-        </div>
 
-        <h1>Jobs</h1>
-        <ul>
-            <li v-for="job in jobs">
-                <a v-bind:href="'/translate?jobId='+ job.id">@{{ job.name }}</a>
-            </li>
-        </ul>
+            <h1>Jobs</h1>
+            <ul>
+                <li v-for="job in jobs">
+                    <a v-bind:href="'/translate?jobId='+ job.id">@{{ job.name }}</a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 @endsection

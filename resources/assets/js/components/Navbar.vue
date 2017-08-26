@@ -47,7 +47,6 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <i class="fa fa-play" aria-hidden="true" v-if="timerStarted"></i>
-                            <i class="fa fa-pause" aria-hidden="true" v-if="!timerStarted"></i>
                             <input v-if="timer !== undefined" class="timer" readonly type="text"
                                 v-bind:value="timer.toString().toHHMM(true)"
                                 @click="updateTimer()"
@@ -58,7 +57,14 @@
                                 type="text"
                                 v-bind:value="etaSeconds.toHHMM()">
                         </li>
-                        <li>{{ boxesPerHour }} <abbr>bph</abbr></li>
+                        <li
+                            @click="updateBph()"
+                            class="boxesPerHour"
+                            v-bind:class="{
+                                'boxesPerHour--bad': boxesPerHour < bphMin,
+                                'boxesPerHour--good': boxesPerHour > bphMax,
+                             }"
+                        >{{ boxesPerHour }} <abbr>bph</abbr></li>
                         <li>{{ Math.round(percentDone * 10) / 10 }}%</li>
                         <li>{{ etaSecondsLeft.toHHMM() }} left</li>
                     </ul>
@@ -74,6 +80,8 @@
         props: ['subLines', 'percentDone', 'translatedCount', 'jobId', 'isDebug'],
         data: function () {
             return {
+                bphMin: undefined,
+                bphMax: undefined,
                 isSaving: false,
                 autosave: false,
                 timer: undefined,
@@ -205,6 +213,18 @@
                 this.timer = parseFloat(newTime) * 60 * 60;
                 this.storeTimer();
             },
+            updateBph: function () {
+                let newLimits = prompt(
+                    'Enter min-max e.g. 80-100)',
+                    this.bphMin + '-' + this.bphMax
+                );
+                if (newLimits === null) {
+                    return;
+                }
+                this.bphMin = newLimits.split('-')[0];
+                this.bphMax = newLimits.split('-')[1];
+                this.$cookie.set("bphLimits", newLimits);
+            },
             updateWorklog: function () {
                 this.$http.post('/updateWorklog', {
                     jobId: this.jobId,
@@ -228,6 +248,10 @@
         },
         mounted: function () {
             this.timer = this.$cookie.get("timer." + this.jobId) || 0;
+
+            let limits = this.$cookie.get("bphLimits") || '80-9';
+            this.bphMin = limits.split('-')[0];
+            this.bphMax = limits.split('-')[1];
 
             let timeout;
             this.$bus.$on('userActive', () => {
@@ -313,6 +337,18 @@
         border: 1px solid;
         padding: 2px;
         border-radius: 2px;
+    }
+
+    .boxesPerHour {
+        /*color: #0f98de;*/
+    }
+
+    .boxesPerHour--good {
+        color: #22a900;
+    }
+
+    .boxesPerHour--bad {
+        color: #de0060;
     }
 
 </style>

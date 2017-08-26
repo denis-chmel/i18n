@@ -514,7 +514,7 @@ class TranslateController extends Controller
         }
 
         if (!str_contains($response, '<httpStatus>200</httpStatus>')) {
-            throw new \Exception($response);
+            throw new \Exception($response ?: 'Nothing got in response when saving to visualdata.');
         }
 
         \Log::info('Save1 is done', [

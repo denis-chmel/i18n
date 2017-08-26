@@ -62,7 +62,7 @@ String.prototype.trimChars = function(mask) {
     while (~mask.indexOf(s[s.length - 1])) {
         s = s.slice(0, -1);
     }
-    return s;
+    return s.toString();
 };
 
 Vue.component('example', require('./components/Example.vue'));

@@ -48,10 +48,10 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li v-if="timer">
+                        <li>
                             <i class="fa fa-play" aria-hidden="true" v-if="!timerStarted" @click="startTimer()"></i>
                             <i class="fa fa-pause" aria-hidden="true" v-if="timerStarted" @click="stopTimer()"></i>
-                            <input class="timer" readonly type="text"
+                            <input v-if="timer !== undefined" class="timer" readonly type="text"
                                 v-bind:value="timer.toString().toHHMM(true)"
                                 @click="updateTimer()"
                             >
@@ -59,10 +59,11 @@
                             <input class="timer timer--end"
                                 readonly
                                 type="text"
-                                v-bind:value="getEstimateTime().toHHMM()">
+                                v-bind:value="etaSeconds.toHHMM()">
                         </li>
+                        <li>{{ boxesPerHour }} b/h</li>
                         <li>{{ Math.round(percentDone * 10) / 10 }}%</li>
-                        <li>{{ getEstimateTimeLeft().toHHMM() }} left</li>
+                        <li>{{ etaSecondsLeft.toHHMM() }} left</li>
                     </ul>
                 </div>
             </div>
@@ -73,7 +74,7 @@
 <script>
 
     module.exports = {
-        props: ['subLines', 'percentDone', 'jobId', 'isDebug'],
+        props: ['subLines', 'percentDone', 'translatedCount', 'jobId', 'isDebug'],
         data: function () {
             return {
                 isSaving: false,
@@ -94,6 +95,22 @@
                     clearInterval(this.timerHandle);
                 }
             }
+        },
+        computed: {
+            etaSeconds: function () {
+                let seconds = Math.round(this.timer / this.percentDone) * 100;
+                seconds = Math.ceil(seconds / 300) * 300;
+                return seconds.toString();
+            },
+            etaSecondsLeft: function () {
+                let seconds = this.etaSeconds - this.timer;
+                seconds = Math.ceil(seconds / 300) * 300;
+                return seconds.toString();
+            },
+            boxesPerHour: function () {
+                let rate = this.translatedCount / (this.timer / 60 / 60);
+                return Math.round(rate);
+            },
         },
         methods: {
             storeTimer: function () {
@@ -143,15 +160,6 @@
                 }
                 this.timer = parseFloat(newTime) * 60 * 60;
                 this.storeTimer();
-            },
-            getEstimateTime: function () {
-                return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
-            },
-            getEstimateTimeLeft: function () {
-                return (Math.round(this.timer * (1 / this.percentDone * 100 - 1))).toString();
-            },
-            secondsToTime: function (seconds) {
-                return seconds;
             },
             startTimer: function () {
                 if (!this.autosave) {

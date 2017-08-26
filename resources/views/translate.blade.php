@@ -28,6 +28,7 @@ if ($no = request('box')) {
         <navbar
             v-bind:sub-lines="subLines"
             v-bind:percent-done="percentDone"
+            v-bind:translated-count="translatedCount"
             v-bind:job-id="jobId"
             v-bind:is-debug="{{ (int)$isDebug }}"
         ></navbar>
@@ -152,6 +153,12 @@ if ($no = request('box')) {
                 subLines: {!! j($lines) !!},
             },
             computed: {
+                translatedCount: function() {
+                    let translated = this.subLines.filter(line => {
+                        return line.approveYandex || line.approveGoogle ? line : false;
+                    });
+                    return translated.length;
+                },
                 nonCollapsedLines: function () {
                     let result = [];
                     let prevLine = null;
@@ -212,10 +219,7 @@ if ($no = request('box')) {
                     });
                 },
                 calculatePercentDone: function () {
-                    let translated = this.subLines.filter(line => {
-                        return line.approveYandex || line.approveGoogle ? line : false;
-                    });
-                    let percent = translated.length * 100 / this.subLines.length;
+                    let percent = this.translatedCount * 100 / this.subLines.length;
                     Vue.set(this, 'percentDone', percent);
                     @if ($untranslatedCount)
                     if (percent === 100) {

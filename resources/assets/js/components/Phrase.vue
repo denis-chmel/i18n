@@ -201,6 +201,10 @@
         }
     }
 
+    textarea.loading {
+        background: #EEE;
+    }
+
     textarea:not(.loading) {
         background: #FFF;
         &.approved {

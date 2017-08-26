@@ -116,6 +116,36 @@
             },
         },
         methods: {
+            translateAll: function (limit) {
+                if (limit === undefined) {
+                    limit = 50;
+                }
+                let found = false;
+                this.subLines.forEach((line) => {
+                    if (found || limit <= 0) {
+                        return;
+                    }
+                    if (!line.original.length) {
+                        return;
+                    }
+                    if (!line.editable) {
+                        return;
+                    }
+                    if (line.hasTranslations()) {
+                        return;
+                    }
+                    if (!line.translationYandex.length) {
+                        line.translateYandex();
+                        found = true;
+                    }
+                    if (!line.translationGoogle.length) {
+                        line.translateGoogle(() => {
+                            this.translateAll(limit - 1);
+                        });
+                        found = true;
+                    }
+                });
+            },
             storeTimer: function () {
                 this.$cookie.set("timer." + this.jobId, this.timer, 365);
             },

@@ -142,6 +142,12 @@ if ($no = request('box')) {
             line.html = html.replace(/\n/, '<span class="enter"></span>\n');
         }
 
+        function startVideo(url) {
+            window.mediaPlayer = dashjs.MediaPlayer().create();
+            window.mediaPlayer.getDebug().setLogToBrowserConsole(false);
+            window.mediaPlayer.initialize(document.querySelector("#mediaPlayer"), url, false);
+        }
+
         const app = new Vue({
             el: '#app',
             data: {
@@ -266,13 +272,5 @@ if ($no = request('box')) {
             }
         });
 
-
-        function startVideo(url) {
-            window.mediaPlayer = dashjs.MediaPlayer().create();
-            window.mediaPlayer.getDebug().setLogToBrowserConsole(false);
-            window.mediaPlayer.initialize(document.querySelector("#mediaPlayer"), url, false);
-        }
-
     </script>
-    <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
 @append

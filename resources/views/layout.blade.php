@@ -7,9 +7,13 @@
 
     <title>Yulia Translate</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}}
+    {{--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">--}}
+    {{--<script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>--}}
+    <link rel="stylesheet" href="{{ versioned_asset('dist/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ versioned_asset('dist/font-awesome.min.css') }}">
     <link rel="stylesheet" href="{{ versioned_asset('css/app.css') }}">
+    <script src="{{ versioned_asset('dist/dash.all.min.js') }}"></script>
 
 </head>
 <body>

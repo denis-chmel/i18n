@@ -2,4 +2,8 @@
 set -e
 
 npm i
+
+cp node_modules/font-awesome/css/font-awesome.min.css public/dist
+cp -r node_modules/font-awesome/fonts public
+
 npm run dev

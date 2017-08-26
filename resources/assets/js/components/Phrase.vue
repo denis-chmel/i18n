@@ -1,7 +1,8 @@
 <template>
     <tr v-if="line.collapsed" class="collapsed">
-        <td>{{ line.index }} - {{ line.nextLineIndex - 1 }}</td>
-        <td><a href="#show" @click="revealTranslated(line)">reveal translated...</a></td>
+        <td class="block-no" colspan="2">
+            <a href="#show" @click="revealTranslated(line)">{{ line.index }} - {{ line.nextLineIndex - 1 }}</a>
+        </td>
     </tr>
     <tr v-else valign="top" v-bind:class="{ italic: line.isItalic }">
         <td class="block-no">
@@ -183,7 +184,8 @@
     }
 
     pre.original {
-        padding: 3px;
+        padding: 0;
+        width: 340px;
         background: transparent;
         border: none;
     }
@@ -262,7 +264,7 @@
 
     .block-no {
         font-size: 12px;
-        padding-top: 14px;
+        padding-top: 12px;
     }
 
 </style>

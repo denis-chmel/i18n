@@ -82,6 +82,9 @@
                 timer: undefined,
                 timerStarted: false,
                 timerHandle: null,
+                _timer1: undefined,
+                _timer2: undefined,
+                _timer3: undefined,
             }
         },
         watch: {
@@ -173,46 +176,42 @@
             },
             toggleTimer: function () {
                 this.timerStarted = this.autosave;
-            },
-            autosaveIfNeeded: function () {
                 if (this.autosave) {
-                    this.saveApproved(0, 1);
+                    let second = this.isDebug ? 100 : 1000;
+                    this._timer1 = setInterval(() => {
+                        this.saveApproved(0, 1);
+                    }, 3 * 60 * second); // each 3 min
+                    this._timer2 = setInterval(this.updateWorklog, 60 * second); // each 1 min
+                    this._timer3 = setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
+                } else {
+                    clearInterval(this._timer1);
+                    clearInterval(this._timer2);
+                    clearInterval(this._timer3);
                 }
             },
             updateWorklog: function () {
-                if (this.autosave) {
-                    this.$http.post('/updateWorklog', {
-                        jobId: this.jobId,
-                        debug: this.isDebug,
-                    }).then((response) => {
-                        // nothing
-                    }).catch((response) => {
-                        alert('updateWorklog error:' + response.bodyText);
-                    });
-                }
+                this.$http.post('/updateWorklog', {
+                    jobId: this.jobId,
+                    debug: this.isDebug,
+                }).then((response) => {
+                    // nothing
+                }).catch((response) => {
+                    alert('updateWorklog error:' + response.bodyText);
+                });
             },
             setUserWorkingActivityStatus: function () {
-                if (this.autosave) {
-                    if (this.autosave) {
-                        this.$http.post('/setUserWorkingActivityStatus', {
-                            jobId: this.jobId,
-                            debug: this.isDebug,
-                        }).then((response) => {
-                            // nothing
-                        }).catch((response) => {
-                            alert('setUserWorkingActivityStatus error:' + response.bodyText);
-                        });
-                    }
-                }
+                this.$http.post('/setUserWorkingActivityStatus', {
+                    jobId: this.jobId,
+                    debug: this.isDebug,
+                }).then((response) => {
+                    // nothing
+                }).catch((response) => {
+                    alert('setUserWorkingActivityStatus error:' + response.bodyText);
+                });
             },
         },
         mounted: function () {
-            let second = this.isDebug ? 100 : 1000;
-
             this.timer = this.$cookie.get("timer." + this.jobId) || 0;
-            setInterval(this.autosaveIfNeeded, 3 * 60 * second); // each 3 min
-            setInterval(this.updateWorklog, 60 * second); // each 1 min
-            setInterval(this.setUserWorkingActivityStatus, 4 * 60 * second); // each 4 min
         },
     };
 
@@ -220,5 +219,67 @@
 
 <style lang="scss" scoped>
 
+    .navbar {
+        a {
+            cursor: pointer;
+            text-decoration: underline;
+
+            &:hover {
+                background: #49a5d8 !important;
+                color: #FFF !important;
+            }
+        }
+        li {
+            padding: 0 1ex;
+            line-height: 50px;
+        }
+    }
+
+    .navbar-fixed-top.autosave {
+        .navbar {
+            background: #e2ffdd !important;
+        }
+    }
+
+    .navbar {
+        label {
+            font-weight: normal;
+        }
+    }
+
+    .saving-spinner {
+        position: absolute;
+        top: 8px;
+        opacity: 0.3;
+    }
+
+    .timer {
+        height: 30px;
+        width: 80px;
+        text-align: center;
+        margin-left: 1ex;
+
+        &.timer--end {
+            width: 50px;
+        }
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.9);
+        border-bottom: 1px solid #e6e6e6;
+        padding: 5px;
+        box-shadow: 0 0 120px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-form,
+    .form-control:focus {
+        border-color: transparent;
+        box-shadow: none;
+        -webkit-box-shadow: none;
+    }
+
+    .form-control:focus {
+        border-color: #CCC;
+    }
 
 </style>

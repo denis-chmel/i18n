@@ -1,8 +1,8 @@
 // Variables
-@import "variables";
+//@import "variables";
 
 // Bootstrap
-@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+//@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 // Fonts
 @import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono");
@@ -11,24 +11,6 @@ body {
   background: #FCFCFC;
   overflow-y: scroll;
   min-width: 640px;
-}
-
-.navbar {
-  background-color: rgba(255, 255, 255, 0.9);
-  border-bottom: 1px solid #e6e6e6;
-  padding: 5px;
-  box-shadow: 0 0 120px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-form,
-.form-control:focus {
-  border-color: transparent;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-}
-
-.form-control:focus {
-  border-color: #CCC;
 }
 
 footer {
@@ -48,34 +30,6 @@ html body {
   content: "Loading...";
 }
 
-.navbar {
-  a {
-    cursor: pointer;
-    text-decoration: underline;
-
-    &:hover {
-      background: #49a5d8 !important;
-      color: #FFF !important;
-    }
-  }
-  li {
-    padding: 0 1ex;
-    line-height: 50px;
-  }
-}
-
-.navbar-fixed-top.autosave {
-  .navbar {
-    background: #e2ffdd !important;
-  }
-}
-
-.navbar {
-  label {
-    font-weight: normal;
-  }
-}
-
 video {
   width: 400px;
   position: fixed;
@@ -88,23 +42,6 @@ video {
 
 video:hover {
   transform: scale(1) translate(0, 100px);
-}
-
-.saving-spinner {
-  position: absolute;
-  top: 8px;
-  opacity: 0.3;
-}
-
-.timer {
-  height: 30px;
-  width: 80px;
-  text-align: center;
-  margin-left: 1ex;
-
-  &.timer--end {
-      width: 50px;
-  }
 }
 
 canvas {

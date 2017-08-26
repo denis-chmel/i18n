@@ -61,7 +61,7 @@
                                 type="text"
                                 v-bind:value="etaSeconds.toHHMM()">
                         </li>
-                        <li>{{ boxesPerHour }} b/h</li>
+                        <li>{{ boxesPerHour }} <abbr>bph</abbr></li>
                         <li>{{ Math.round(percentDone * 10) / 10 }}%</li>
                         <li>{{ etaSecondsLeft.toHHMM() }} left</li>
                     </ul>
@@ -280,6 +280,14 @@
 
     .form-control:focus {
         border-color: #CCC;
+    }
+
+    abbr {
+        font-size: 9px;
+        text-transform: uppercase;
+        border: 1px solid;
+        padding: 2px;
+        border-radius: 2px;
     }
 
 </style>

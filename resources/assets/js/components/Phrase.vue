@@ -1,7 +1,7 @@
 <template>
     <tr v-if="line.collapsed" class="collapsed">
         <td class="block-no" colspan="2">
-            <a href="#show" @click="revealTranslated(line)">{{ line.index }} - {{ line.nextLineIndex - 1 }}</a>
+            <a href="#show" @click="revealTranslated(line)">{{ line.index }} – {{ line.nextLineIndex - 1 }}</a>
         </td>
     </tr>
     <tr v-else valign="top" v-bind:class="{ italic: line.isItalic }">

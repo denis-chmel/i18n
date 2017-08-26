@@ -11,7 +11,15 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-$lines = array_slice($lines, 0, 10);
+// $lines = array_slice($lines, 0, 20);
+
+$hasUntranslated = false;
+foreach ($lines as $line) {
+    if (!$line['translation']) {
+        $hasUntranslated = true;
+        break;
+    }
+}
 
 @endphp
 
@@ -228,7 +236,7 @@ $lines = array_slice($lines, 0, 10);
                 calculatePercentDone: function () {
                     let percent = this.translatedCount * 100 / this.subLines.length;
                     Vue.set(this, 'percentDone', percent);
-                    @if ($untranslatedCount)
+                    @if ($hasUntranslated)
                     if (percent === 100) {
                         if (!$('canvas').length) {
                             window.firework.start({ autoPlay: true });

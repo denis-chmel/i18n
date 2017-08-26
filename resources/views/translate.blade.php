@@ -64,10 +64,15 @@ if ($no = request('box')) {
                         <li v-if="timer">
                             <i class="fa fa-play" aria-hidden="true" v-if="!timerStarted" @click="startTimer()"></i>
                             <i class="fa fa-pause" aria-hidden="true" v-if="timerStarted" @click="stopTimer()"></i>
-                            <input class="timer" readonly type="text" v-bind:value="timer.toString().toHHMMSS()">
-                            <input class="timer" readonly type="text" v-bind:value="getEstimateTime().toHHMMSS()">
+                            <input class="timer" readonly type="text"
+                              v-bind:value="timer.toString().toHHMM(true)"
+                              @click="updateTimer()"
+                            >
+                            of
+                            <input class="timer timer--end" readonly type="text" v-bind:value="getEstimateTime().toHHMM()">
                         </li>
-                        <li>@{{ percentDone }}%</li>
+                        <li>@{{ Math.round(percentDone * 10) / 10 }}%</li>
+                        <li>@{{ getEstimateTimeLeft().toHHMM() }} left</li>
                     </ul>
                 </div>
             </div>
@@ -114,7 +119,7 @@ if ($no = request('box')) {
             return found;
         };
 
-        String.prototype.toHHMMSS = function () {
+        String.prototype.toHHMM = function (withSeconds) {
             var sec_num = parseInt(this, 10); // don't forget the second param
             var hours = Math.floor(sec_num / 3600);
             var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
@@ -129,7 +134,11 @@ if ($no = request('box')) {
             if (seconds < 10) {
                 seconds = "0" + seconds;
             }
-            return hours + ':' + minutes + ':' + seconds;
+            result = hours + ':' + minutes;
+            if (withSeconds) {
+              result += ':' + seconds;
+            }
+            return result;
         };
 
         function trim(s, mask) {
@@ -245,7 +254,7 @@ if ($no = request('box')) {
                     if (timerStarted) {
                         this.timerHandle = setInterval(() => {
                             this.timer++;
-                            this.$cookie.set("timer." + this.jobId, this.timer, 365);
+                            this.storeTimer();
                         }, 1000);
                     } else {
                         clearInterval(this.timerHandle);
@@ -253,8 +262,25 @@ if ($no = request('box')) {
                 }
             },
             methods: {
+              storeTimer: function(){
+                this.$cookie.set("timer." + this.jobId, this.timer, 365);
+              },
+                updateTimer: function() {
+                  let newTime = prompt(
+                    'Enter time taken in hours (e.g. 6.5)',
+                    Math.round(this.timer / 60 / 6) / 10
+                  );
+                  if (newTime === null) {
+                    return;
+                  }
+                  this.timer = parseFloat(newTime) * 60 * 60;
+                  this.storeTimer();
+                },
                 getEstimateTime: function(){
                     return (Math.round(this.timer / this.percentDone / 10) * 1000).toString();
+                },
+                getEstimateTimeLeft: function(){
+                    return (Math.round(this.timer * (1 / this.percentDone * 100 - 1))).toString();
                 },
                 secondsToTime: function (seconds) {
                     return seconds;
@@ -306,7 +332,7 @@ if ($no = request('box')) {
                     let translated = this.subLines.filter(line => {
                         return line.approveYandex || line.approveGoogle ? line : false;
                     });
-                    let percent = Math.ceil(translated.length * 100 / this.subLines.length);
+                    let percent = translated.length * 100 / this.subLines.length;
                     Vue.set(this, 'percentDone', percent);
                     @if ($untranslatedCount)
                     if (percent === 100) {

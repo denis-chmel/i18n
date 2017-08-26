@@ -223,6 +223,10 @@ video:hover {
   width: 80px;
   text-align: center;
   margin-left: 1ex;
+
+  &.timer--end {
+      width: 50px;
+  }
 }
 
 canvas {

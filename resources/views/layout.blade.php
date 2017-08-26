@@ -12,6 +12,7 @@
     {{--<script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>--}}
     <link rel="stylesheet" href="{{ versioned_asset('dist/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ versioned_asset('dist/font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ versioned_asset('dist/ubuntu-mono.css') }}">
     <link rel="stylesheet" href="{{ versioned_asset('css/app.css') }}">
     <script src="{{ versioned_asset('dist/dash.all.min.js') }}"></script>
 

@@ -267,6 +267,12 @@ if ($no = request('box')) {
                             line.nextLineIndex = result[index + 1].index;
                         }
                     });
+                    result.forEach(function(line, index) {
+                      // do not collapse line if it's the only one
+                        if (line.nextLineIndex == line.index + 1) {
+                            line.collapsed = false;
+                        }
+                    });
                     return result;
                 },
             },

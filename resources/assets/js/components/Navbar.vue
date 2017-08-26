@@ -25,14 +25,16 @@
                                 class="btn btn-default navbar-btn"
                                 @click="saveApproved(0)"
                                 :disabled="isSaving"
-                            >Save Approved</button>
+                            >Save Approved
+                            </button>
                         </li>
                         <li>
                             <button type="button"
                                 class="btn btn-default navbar-btn"
                                 @click="saveApproved(1)"
                                 :disabled="isSaving"
-                            >Download</button>
+                            >Download
+                            </button>
                         </li>
                         <li>
                             <label>
@@ -46,7 +48,7 @@
 
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <i class="fa fa-play" aria-hidden="true" v-if="timerStarted"></i>
+                            <i class="fa fa-play" aria-hidden="true" v-if="secondsMoreActive > 0"></i>
                             <input v-if="timer !== undefined" class="timer" readonly type="text"
                                 v-bind:value="timer.toString().toHHMM(true)"
                                 @click="updateTimer()"
@@ -85,25 +87,26 @@
                 isSaving: false,
                 autosave: false,
                 timer: undefined,
-                timerStarted: false,
+                secondsMoreActive: 0,
                 timerHandle: null,
                 _timer1: undefined,
                 _timer2: undefined,
                 _timer3: undefined,
+                _timerActivity: undefined,
             }
         },
         watch: {
-            'timerStarted': function (timerStarted) {
-                if (timerStarted) {
-                    this.timerHandle = setInterval(() => {
+            'secondsMoreActive': function () {
+                clearTimeout(this._timerActivity);
+                if (this.secondsMoreActive > 0) {
+                    this._timerActivity = setTimeout(() => {
                         this.timer++;
                         this.storeTimer();
+                        this.secondsMoreActive--;
                     }, 1000);
-                } else {
-                    clearInterval(this.timerHandle);
                 }
             },
-            'autosave': function(){
+            'autosave': function () {
                 if (this.autosave) {
                     let second = this.isDebug ? 100 : 1000;
                     this._timer1 = setInterval(() => {
@@ -249,17 +252,12 @@
         mounted: function () {
             this.timer = this.$cookie.get("timer." + this.jobId) || 0;
 
-            let limits = this.$cookie.get("bphLimits") || '80-9';
+            let limits = this.$cookie.get("bphLimits") || '80-90';
             this.bphMin = limits.split('-')[0];
             this.bphMax = limits.split('-')[1];
 
-            let timeout;
             this.$bus.$on('userActive', () => {
-                this.timerStarted = true;
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    this.timerStarted = false;
-                }, 60 * 1000);
+                this.secondsMoreActive = 60;
             });
         },
     };

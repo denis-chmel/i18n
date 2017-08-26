@@ -249,7 +249,7 @@ foreach ($lines as $line) {
 
                 setTimeout(() => {
                     startVideo(this.videoUrl);
-                }, 2000);
+                }, 1000);
             }
         });
 

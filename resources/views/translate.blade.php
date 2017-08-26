@@ -11,7 +11,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 20);
+$lines = array_slice($lines, 0, 10);
 
 @endphp
 
@@ -178,15 +178,16 @@ if ($no = request('box')) {
                         }
                         prevLine = line;
                     });
-                    let prevIndex = null;
+                    let lastLine = this.subLines[this.subLines.length - 1];
                     result.forEach(function (line, index) {
+                        line.nextLineIndex = lastLine.index + 1;
                         if (result[index + 1]) {
                             line.nextLineIndex = result[index + 1].index;
                         }
                     });
                     result.forEach(function (line, index) {
                         // do not collapse line if it's the only one
-                        if (line.nextLineIndex == line.index + 1) {
+                        if (line.nextLineIndex === line.index + 1) {
                             line.collapsed = false;
                         }
                     });
@@ -243,8 +244,10 @@ if ($no = request('box')) {
                 },
                 revealLines: function (line) {
                     Vue.set(this, 'viewPortActive', false);
-                    for (let i = line.index - 1; i < line.nextLineIndex - 1; i++) {
-                        this.subLines[i].collapsed = false;
+                    for (let i = line.index - 1; i < line.nextLineIndex; i++) {
+                        if (this.subLines[i]) {
+                            this.subLines[i].collapsed = false;
+                        }
                     }
                     setTimeout(() => {
                         Vue.set(this, 'viewPortActive', true);

@@ -20,7 +20,53 @@ require('vue-resource');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+String.prototype.toHHMM = function (withSeconds) {
+    let sec_num = parseInt(this, 10); // don't forget the second param
+    let hours = Math.floor(sec_num / 3600);
+    let minutes = Math.floor((sec_num - (hours * 3600)) / 60);
+    let seconds = sec_num - (hours * 3600) - (minutes * 60);
+
+    if (hours < 10) {
+        hours = "0" + hours;
+    }
+    if (minutes < 10) {
+        minutes = "0" + minutes;
+    }
+    if (seconds < 10) {
+        seconds = "0" + seconds;
+    }
+    let result = hours + ':' + minutes;
+    if (withSeconds) {
+        result += ':' + seconds;
+    }
+    return result;
+};
+
+String.prototype.startsWithAny = function (searchStrings, position) {
+    let string = this.toLowerCase();
+    let found = false;
+    searchStrings.forEach(searchString => {
+        if (string.substr(position || 0, searchString.length) === searchString) {
+            found = true;
+        }
+
+    });
+    return found;
+};
+
+String.prototype.trimChars = function(mask) {
+    let s = this;
+    while (~mask.indexOf(s[0])) {
+        s = s.slice(1);
+    }
+    while (~mask.indexOf(s[s.length - 1])) {
+        s = s.slice(0, -1);
+    }
+    return s;
+};
+
 Vue.component('example', require('./components/Example.vue'));
+Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('phrase', require('./components/Phrase.vue'));
 
 window.Vue.use(require('vue-textarea-autosize'));

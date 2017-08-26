@@ -118,10 +118,151 @@
                     this.$emit('edited');
                 }
             },
-            revealTranslated: function(line) {
+            revealTranslated: function (line) {
                 this.$emit('reveal-clicked', line);
-            }
+            },
+            playPhrase: function (line) {
+                window.mediaPlayer.play();
+                window.mediaPlayer.seek(line.secondStart);
+            },
         },
     };
 
 </script>
+
+<style lang="scss" scoped>
+
+    a {
+        border-bottom: 1px dotted;
+
+        &:hover {
+            text-decoration: none;
+            border-bottom: 1px solid;
+        }
+    }
+
+    tr.italic {
+        pre.original, textarea {
+            font-style: italic;
+        }
+        pre.original {
+            &, a {
+                color: #777;
+            }
+        }
+    }
+
+    td {
+        padding: 10px;
+        position: relative;
+    }
+
+    tr.collapsed td {
+        color: #AAA;
+        padding-bottom: 150px;
+
+        a {
+            color: #AAA;
+        }
+    }
+
+    textarea {
+        width: 300px;
+    }
+
+    pre {
+        font-family: 'Ubuntu Mono', monospace;
+        font-size: 15px;
+        line-height: 1.4;
+        border-radius: 0;
+    }
+
+    pre.original,
+    textarea {
+        height: 75px;
+    }
+
+    pre.original {
+        padding: 3px;
+        background: transparent;
+        border: none;
+    }
+
+    textarea {
+        @extend pre;
+        border-color: rgb(204, 204, 204);
+        word-wrap: break-word;
+        padding: 0.5ex;
+        width: 21.7em;
+        &:hover {
+            white-space: nowrap;
+        }
+    }
+
+    textarea:not(.loading) {
+        background: #FFF;
+        &.approved {
+            background: #e6ffdf;
+        }
+    }
+
+    .chars-left {
+        position: absolute;
+        bottom: 24px;
+        font-size: 11px;
+        right: 37px;
+        text-align: right;
+        opacity: 0.5;
+    }
+
+    .too-long {
+        textarea:not(.loading) {
+            &.approved {
+                background: #fff1f1;
+            }
+        }
+
+        .chars-left {
+            background: red;
+            color: #FFF;
+            padding: 0 .8ex;
+            border-radius: 10px;
+            opacity: 1;
+        }
+    }
+
+    .btn {
+        position: absolute;
+        right: 11px;
+        bottom: 21px;
+        padding-right: 1ex;
+    }
+
+    span.enter {
+        display: none;
+        &::after {
+            content: "↵";
+            color: #AAA;
+            font-size: 16px;
+            line-height: 1;
+            margin-left: 3px;
+        }
+    }
+
+    .btn.btn-play-phrase {
+        position: absolute;
+        left: 0;
+        top: 10px;
+        padding: 5px;
+    }
+
+    .btn.btn-play-phrase + textarea {
+        margin-left: 12px;
+    }
+
+    .block-no {
+        font-size: 12px;
+        padding-top: 14px;
+    }
+
+</style>

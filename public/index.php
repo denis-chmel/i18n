@@ -1,5 +1,7 @@
 <?php
 
+define('SITE_VERSION', trim(`git describe --always`));
+
 /**
  * Laravel - A PHP Framework For Web Artisans
  *

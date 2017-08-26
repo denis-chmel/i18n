@@ -221,3 +221,8 @@ if (!function_exists('dd')) {
         die();
     }
 }
+
+function versioned_asset($path)
+{
+    return '/' . ltrim($path, '/') . '?v' . (defined('SITE_VERSION') ? SITE_VERSION : uniqid());
+}

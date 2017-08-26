@@ -1,5 +1,4 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
+<!doctype html><html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,7 +9,7 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ versioned_asset('css/app.css') }}">
 
 </head>
 <body>
@@ -23,7 +22,7 @@
 
 @yield('contents')
 
-<script type="text/javascript" src="{{ asset('js/app.js') }}?v=1"></script>
+<script type="text/javascript" src="{{ versioned_asset('js/app.js') }}"></script>
 @yield('footer-scripts')
 
 </body>

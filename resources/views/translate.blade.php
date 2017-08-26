@@ -86,10 +86,12 @@ if ($no = request('box')) {
             <tbody>
                 <tr
                     is="phrase"
-                    v-for="line in subLines" :key="line.index"
-                    :in-viewport-offset-top='500'
+                    v-for="line in nonCollapsedLines" :key="line.index"
+                    :in-viewport-offset-top='1000'
+                    :in-viewport-active='viewPortActive'
                     v-bind:line="line"
                     v-on:edited="calculatePercentDone"
+                    v-on:reveal-clicked="revealLines"
                 ></tr>
             </tbody>
         </table>
@@ -235,6 +237,7 @@ if ($no = request('box')) {
             data: {
                 timer: undefined,
                 timerStarted: false,
+                viewPortActive: true,
                 timerHandle: null,
                 isSaving: false,
                 percentDone: 0,
@@ -244,11 +247,29 @@ if ($no = request('box')) {
                 videoUrl: {!! j($videoUrl) !!},
                 subLines: {!! j($lines) !!},
             },
-//            computed: {
-//                isTimerCounting: function () {
-//                    return this.autosave || this.timerStarted;
-//                }
-//            },
+            computed: {
+                nonCollapsedLines: function() {
+                    let result = [];
+                    let prevLine = null;
+                    this.subLines.forEach(function(line){
+                        if (line.collapsed) {
+                            if (!prevLine || !prevLine.collapsed) {
+                                result.push(line);
+                            }
+                        } else {
+                            result.push(line);
+                        }
+                        prevLine = line;
+                    });
+                    let prevIndex = null;
+                    result.forEach(function(line, index) {
+                        if (result[index + 1]) {
+                            line.nextLineIndex = result[index + 1].index;
+                        }
+                    });
+                    return result;
+                },
+            },
             watch: {
                 'timerStarted': function (timerStarted) {
                     if (timerStarted) {
@@ -412,6 +433,15 @@ if ($no = request('box')) {
                             });
                         }
                     }
+                },
+                revealLines: function(line) {
+                    Vue.set(this, 'viewPortActive', false);
+                    for (let i = line.index - 1; i < line.nextLineIndex - 1; i++) {
+                        this.subLines[i].collapsed = false;
+                    }
+                    setTimeout(()=>{
+                        Vue.set(this, 'viewPortActive', true);
+                    });
                 },
                 playPhrase: function (line) {
                     window.mediaPlayer.play();

@@ -1,5 +1,9 @@
 <template>
-    <tr valign="top" v-bind:class="{ italic: line.isItalic }">
+    <tr v-if="line.collapsed" class="collapsed">
+        <td>{{ line.index }} - {{ line.nextLineIndex - 1 }}</td>
+        <td><a href="#show" @click="revealTranslated(line)">reveal translated...</a></td>
+    </tr>
+    <tr v-else valign="top" v-bind:class="{ italic: line.isItalic }">
         <td class="block-no">
             {{ line.index }}
         </td>
@@ -114,6 +118,9 @@
                     this.$emit('edited');
                 }
             },
+            revealTranslated: function(line) {
+                this.$emit('reveal-clicked', line);
+            }
         },
     };
 

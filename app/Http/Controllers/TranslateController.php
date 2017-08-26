@@ -299,6 +299,7 @@ class TranslateController extends Controller
             $line['original'] = html_entity_decode(trim($text));
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
             $line['translation'] = array_get($translations, $i, '');
+            $line['collapsed'] = strlen($line['translation']) > 0;
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
             if (!$line['translation'] && $line['editable']) {

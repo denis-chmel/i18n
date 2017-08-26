@@ -72,6 +72,15 @@ html body {
     position: relative;
   }
 
+  tr.collapsed td {
+    color: #AAA;
+    padding-bottom: 150px;
+
+    a {
+      color: #AAA;
+    }
+  }
+
   textarea {
     width: 300px;
   }

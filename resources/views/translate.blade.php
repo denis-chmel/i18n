@@ -21,12 +21,23 @@ foreach ($lines as $line) {
     }
 }
 
+$appData = [
+    'viewPortActive' => true,
+    'percentDone' => 0,
+    'jobId' => $jobId,
+    'isDebug' => (int)$isDebug,
+    'videoUrl' => $videoUrl,
+    'subLines' => $lines,
+    'bannedWords' => $bannedWords,
+];
+
 @endphp
 
 @extends('layout')
 
 @section('contents')
 
+    <!--suppress HtmlUnknownTag, HtmlUnknownAttribute -->
     <div id="app"
         v-cloak
         xmlns:v-bind="http://www.w3.org/1999/xhtml"
@@ -67,9 +78,14 @@ foreach ($lines as $line) {
 @endsection
 
 @section('footer-scripts')
+
+    <script id="appData" type="application/json">
+        {!! json_encode($appData) !!}
+    </script>
+
     <script type="text/javascript">
 
-        let bannedWords = {!! json_encode($bannedWords) !!};
+        let appData = JSON.parse($('#appData').html());
 
         function addExtraMethods(vue, line) {
             line.hasTranslations = function () {
@@ -141,7 +157,7 @@ foreach ($lines as $line) {
             let target = '{{ uniqid() }}';
             unique.forEach((word) => {
                 let singular = window.pluralize.singular(word);
-                if (bannedWords.includes(singular.toLowerCase())) {
+                if (appData.bannedWords.includes(singular.toLowerCase())) {
                     return;
                 }
                 let regex = new RegExp('\\b' + word + '\\b');
@@ -158,16 +174,9 @@ foreach ($lines as $line) {
 
         const app = new Vue({
             el: '#app',
-            data: {
-                viewPortActive: true,
-                percentDone: 0,
-                jobId: {{ $jobId }},
-                isDebug: {{ (int)$isDebug }},
-                videoUrl: {!! j($videoUrl) !!},
-                subLines: {!! j($lines) !!},
-            },
+            data: appData,
             computed: {
-                translatedCount: function() {
+                translatedCount: function () {
                     let translated = this.subLines.filter(line => {
                         return line.approveYandex || line.approveGoogle ? line : false;
                     });
@@ -187,13 +196,13 @@ foreach ($lines as $line) {
                         prevLine = line;
                     });
                     let lastLine = this.subLines[this.subLines.length - 1];
-                    result.forEach(function (line, index) {
+                    result.forEach((line, index) => {
                         line.nextLineIndex = lastLine.index + 1;
                         if (result[index + 1]) {
                             line.nextLineIndex = result[index + 1].index;
                         }
                     });
-                    result.forEach(function (line, index) {
+                    result.forEach((line) => {
                         // do not collapse line if it's the only one
                         if (line.nextLineIndex === line.index + 1) {
                             line.collapsed = false;

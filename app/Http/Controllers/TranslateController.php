@@ -301,6 +301,7 @@ class TranslateController extends Controller
             $line['original'] = html_entity_decode(trim($text));
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
             $line['translation'] = array_get($translations, $i, '');
+            $line = $this->getSuggestedTranslation($line);
             $line['collapsed'] = strlen($line['translation']) > 0;
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
@@ -313,10 +314,19 @@ class TranslateController extends Controller
             $length[] = ($endFloat - $startFloat) / 1000;
             $limits[] = $line['chars'];
 
-            $line = $this->getSuggestedTranslation($line);
-
             $lines[] = $line;
         }
+
+        $collapsedLines = array_where($lines, function ($value, $key) {
+            return $value['collapsed'];
+        });
+
+        if (count($lines) == count($collapsedLines)) {
+          foreach ($lines as $key => $value) {
+            $lines[$key]['collapsed'] = false;
+          }
+        }
+
 //        dd($lines);
 
 //        $expect = [
@@ -605,8 +615,7 @@ class TranslateController extends Controller
         foreach (config('suggested.approved') as $original => $translation) {
             $pureOriginal = $this->canonizeString($original);
             if ($pureOriginal == $text) {
-                $line['translationGoogle'] = $translation;
-                $line['approveGoogle'] = true;
+                $line['translation'] = $translation;
             }
         }
         return $line;

@@ -129,7 +129,7 @@
             },
             etaSecondsLeft: function () {
                 let seconds = this.etaSeconds - this.timer;
-                seconds = Math.ceil(seconds / 300) * 300;
+                seconds = Math.floor(seconds / 300) * 300;
                 return seconds.toString();
             },
             boxesPerHour: function () {

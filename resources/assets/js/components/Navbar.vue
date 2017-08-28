@@ -123,7 +123,7 @@
         },
         computed: {
             etaSeconds: function () {
-                let seconds = Math.round(this.timer / this.percentDone) * 100;
+                let seconds = Math.round(this.timer / Math.max(this.percentDone, 1)) * 100;
                 seconds = Math.ceil(seconds / 300) * 300;
                 return seconds.toString();
             },

@@ -288,9 +288,12 @@ class TranslateController extends Controller
 
             $line = [];
             $start = $node->getAttribute('begin');
-            $end = $node->getAttribute('end');
-            $line['start'] = $start;
-            $line['end'] = $end;
+//            $end = $node->getAttribute('end');
+            $line['index'] = $i + 1;
+            $line['loadingYandex'] = false;
+            $line['loadingGoogle'] = false;
+            $line['approveYandex'] = false;
+            $line['approveGoogle'] = false;
             $line['secondStart'] = $this->getCurrentTimeDec($start) * 60 - 0.5; // 0.5 sec before
             $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
             $line['html'] = $node->innerHtml();
@@ -301,14 +304,6 @@ class TranslateController extends Controller
             $line['collapsed'] = strlen($line['translation']) > 0;
             $line['translationYandex'] = '';
             $line['translationGoogle'] = '';
-            if (!$line['translation'] && $line['editable']) {
-                $line['translationGoogle'] = $this->getSuggestedTranslation($line['original']);
-            }
-            $line['loadingYandex'] = false;
-            $line['loadingGoogle'] = false;
-            $line['approveYandex'] = false;
-            $line['approveGoogle'] = false;
-            $line['index'] = $i + 1;
 
             $startFloat = $node->getAttribute('beginfloat');
             $endFloat = $node->getAttribute('endfloat');
@@ -317,6 +312,8 @@ class TranslateController extends Controller
             $line['chars'] = (int)floor($line['length'] * $coef);
             $length[] = ($endFloat - $startFloat) / 1000;
             $limits[] = $line['chars'];
+
+            $line = $this->getSuggestedTranslation($line);
 
             $lines[] = $line;
         }
@@ -588,16 +585,35 @@ class TranslateController extends Controller
         return $html;
     }
 
-    private function getSuggestedTranslation($text)
+    private function getSuggestedTranslation(array $line)
     {
-        $text = trim(preg_replace('~[\s,\.]+~', ' ', $text));
-        $phrases = config('suggested.phrases');
-        foreach ($phrases as $original => $translation) {
-            $original = trim(preg_replace('~[\s,\.]+~', ' ', $original));
-            if ($original == $text) {
-                return $translation;
+        if ($line['translation'] || !$line['editable']) {
+            return $line;
+        }
+        $text = $this->canonizeString($line['original']);
+//        if (preg_match('~([\.\?!]+)$~', $text, $matches)) {
+//            $trailingPunctuation = '';
+//            d($text, $matches[0]);
+//        }
+        foreach (config('suggested.phrases') as $original => $translation) {
+            $pureOriginal = $this->canonizeString($original);
+            if ($pureOriginal == $text) {
+                $line['translationGoogle'] = $translation;
+                $line['approveGoogle'] = false;
             }
         }
-        return '';
+        foreach (config('suggested.approved') as $original => $translation) {
+            $pureOriginal = $this->canonizeString($original);
+            if ($pureOriginal == $text) {
+                $line['translationGoogle'] = $translation;
+                $line['approveGoogle'] = true;
+            }
+        }
+        return $line;
+    }
+
+    private function canonizeString($string)
+    {
+        return trim(preg_replace('~[\s,\.]+~', ' ', $string));
     }
 }

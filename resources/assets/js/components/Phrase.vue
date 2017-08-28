@@ -47,8 +47,8 @@
         </td>
         <td v-if="line.editable && inViewport.now"
             v-bind:class="{
-                        'too-long': 0 > getCharsLeft(line.translationYandex, line.chars)
-                    }">
+                'too-long': 0 > getCharsLeft(line.translationYandex, line.chars)
+            }">
             <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateYandex()">
                 Я
             </button>
@@ -229,12 +229,6 @@
     }
 
     .too-long {
-        textarea:not(.loading) {
-            &.approved {
-                background: #fff1f1;
-            }
-        }
-
         .chars-left {
             background: red;
             color: #FFF;

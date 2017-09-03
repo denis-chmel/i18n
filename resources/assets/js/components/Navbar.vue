@@ -156,7 +156,7 @@
                     if (line.hasTranslations()) {
                         return;
                     }
-                    if (!line.translationYandex.length) {
+                    if (!line.translationAlt.length) {
                         line.translateYandex();
                         found = true;
                     }

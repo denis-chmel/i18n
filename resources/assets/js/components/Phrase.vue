@@ -56,53 +56,67 @@
                 'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
             }">
 
-            <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateGoogle()">
-                G
-            </button>
+            <div style="position: relative">
+                <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateGoogle()">
+                    G
+                </button>
 
-            <div class="chars-left">{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
+                <div class="chars-left">{{ getCharsLeft(line.translationGoogle, line.chars) }}</div>
 
-            <button type="button"
-                class="btn btn-default btn-xs btn-play-phrase"
-                tabindex="-1"
-                @click="playPhrase(line)"
-            >►
-            </button>
+                <button type="button"
+                    class="btn btn-default btn-xs btn-play-phrase"
+                    tabindex="-1"
+                    @click="playPhrase(line)"
+                >►
+                </button>
 
-            <textarea
-                class="google"
-                :disabled="line.disabled == true"
-                @focus="focusGoogle(line)"
-                @keyup="approveGoogle(line)"
-                v-bind:class="{
-                    loading: line.loadingGoogle,
-                    approved: line.approveGoogle,
-                }"
-                v-model="line.translationGoogle"
-            ></textarea>
+                <textarea
+                    class="google"
+                    :disabled="line.disabled == true"
+                    @focus="focusGoogle(line)"
+                    @keyup="approveGoogle(line)"
+                    v-bind:class="{
+                        loading: line.loadingGoogle,
+                        approved: line.approveGoogle,
+                    }"
+                    v-model="line.translationGoogle"
+                ></textarea>
+            </div>
         </td>
         <td v-if="line.editable && inViewport.now"
             v-bind:class="{
-                'too-long': 0 > getCharsLeft(line.translationYandex, line.chars)
+                'too-long': 0 > getCharsLeft(line.translationAlt, line.chars)
             }">
-            <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateYandex()">
-                Я
-            </button>
 
-            <div class="chars-left">{{ getCharsLeft(line.translationYandex, line.chars) }}</div>
+            <div style="position: relative">
+                <button v-if="!isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateYandex()">
+                    Я
+                </button>
+                <button v-if="isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button" disabled>
+                    Q
+                </button>
 
-            <textarea
-                class="yandex"
-                v-bind:tabindex="-1"
-                :disabled="line.disabled == true"
-                @focus="focusYandex(line)"
-                @keyup="approveYandex(line)"
-                v-bind:class="{
-                    loading: line.loadingYandex,
-                    approved: line.approveYandex,
-                }"
-                v-model="line.translationYandex"
-            ></textarea>
+                <div class="chars-left">{{ getCharsLeft(line.translationAlt, line.chars) }}</div>
+
+                <textarea
+                    class="yandex"
+                    v-bind:tabindex="-1"
+                    :disabled="line.disabled == true"
+                    @focus="focusYandex(line)"
+                    @keyup="approveYandex(line)"
+                    v-bind:class="{
+                        loading: line.loadingYandex,
+                        approved: line.approveYandex,
+                    }"
+                    v-model="line.translationAlt"
+                ></textarea>
+                </div>
+
+            <div class="notes" v-if="line.notes">
+                <span class="notes-date"></span>({{ line.notes.date }}):<br>
+                <span v-html="line.notes.text"></span>
+            </div>
+
         </td>
     </tr>
 
@@ -140,7 +154,7 @@
             },
             approveYandex: function (line) {
                 this.$bus.$emit('userActive');
-                let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
+                let hasTranslation = line.translationAlt.length > 0 && !line.loadingYandex;
                 if (!line.approveYandex || !hasTranslation) {
                     Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
@@ -288,9 +302,9 @@
 
     .chars-left {
         position: absolute;
-        bottom: 24px;
+        bottom: 9px;
+        right: 29px;
         font-size: 11px;
-        right: 37px;
         text-align: right;
         opacity: 0.5;
     }
@@ -307,8 +321,8 @@
 
     .btn {
         position: absolute;
-        right: 11px;
-        bottom: 20px;
+        right: 1px;
+        bottom: 5px;
         padding-right: 1ex;
     }
 
@@ -325,8 +339,8 @@
 
     .btn.btn-play-phrase {
         position: absolute;
-        left: 0;
-        top: 10px;
+        left: -10px;
+        top: 0;
         padding: 5px;
     }
 
@@ -344,7 +358,6 @@
         cursor: pointer;
         position: absolute;
         right: 10px;
-        bottom: 20px;
 
         .disabled {
             filter: grayscale(100%);
@@ -408,4 +421,11 @@
             text-decoration: none;
         }
     }
+
+    .notes {
+        margin-top: 1ex;
+        padding: 1em;
+        background: #f3f0cb;
+    }
+
 </style>

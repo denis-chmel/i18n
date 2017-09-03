@@ -92,7 +92,7 @@ $appData = [
 
         function addExtraMethods(vue, line) {
             line.hasTranslations = function () {
-                return (line.translationYandex.length + line.translationGoogle.length > 0);
+                return (line.translationAlt.length + line.translationGoogle.length > 0);
             };
 
             line.refresh = function() {
@@ -121,10 +121,10 @@ $appData = [
                     return;
                 }
                 Vue.set(line, 'loadingYandex', true);
-                Vue.set(line, 'translationYandex', line.original);
+                Vue.set(line, 'translationAlt', line.original);
                 line.refresh();
                 window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
-                    line.translationYandex = res.text[0];
+                    line.translationAlt = res.text[0];
                     line.loadingYandex = false;
                     if (callback) callback();
                 });

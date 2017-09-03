@@ -196,7 +196,7 @@ class TranslateController extends Controller
             if (array_get($line, 'approveGoogle')) {
                 $translation = array_get($line, 'translationGoogle');
             } elseif (array_get($line, 'approveYandex')) {
-                $translation = array_get($line, 'translationYandex');
+                $translation = array_get($line, 'translationAlt');
             }
             if (!trim($translation)) {
                 continue;
@@ -341,7 +341,7 @@ class TranslateController extends Controller
             throw new TechException('Cannot find //video/url, ask Denis', $jobXml);
         }
 
-        $qaSubs = [];
+        $qaSubs = '';
         $engSubs = $this->loadAndCache($engSubsUrl, $jobId);
         $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
         if ($qaUrl) {
@@ -349,6 +349,7 @@ class TranslateController extends Controller
         }
         $translations = $this->getReadyTranslations($rusSubs);
         $translationsQA = $this->getReadyTranslations($qaSubs);
+        $notes = $this->getNotes($qaSubs);
 
         $dom = new Dom;
         $dom->load($engSubs);
@@ -380,10 +381,11 @@ class TranslateController extends Controller
             $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
             $line['translation'] = array_get($translations, $i, '');
+            $line['notes'] = array_get($notes, $i);
             $translationQA = array_get($translationsQA, $i, '');
             $line = $this->getSuggestedTranslation($line);
             $line['collapsed'] = strlen($line['translation']) > 0;
-            $line['translationYandex'] = $line['translation'] !== $translationQA ? $translationQA : '';
+            $line['translationAlt'] = $line['translation'] !== $translationQA ? $translationQA : '';
             $line['translationGoogle'] = '';
 
             $startFloat = $node->getAttribute('beginfloat');
@@ -402,8 +404,8 @@ class TranslateController extends Controller
         });
 
         if (count($lines) == count($collapsedLines)) {
-            foreach ($lines as $key => $value) {
-                if ($value['translationYandex']) {
+            foreach ($lines as $key => $line) {
+                if ($line['translationAlt'] || $line['notes']) {
                     $lines[$key]['collapsed'] = false;
                 }
             }
@@ -501,6 +503,21 @@ class TranslateController extends Controller
             $translations[$i] = $text;
         }
         return $translations;
+    }
+
+    private function getNotes($targetXml)
+    {
+        $dom = new Dom;
+        $dom->load($targetXml);
+        $notes = [];
+        foreach ($dom->find('rowNotes') as $i => $node) {
+            /** @var Dom\HtmlNode $node */
+            $note = $node->find('note');
+            $notes[$node->getAttribute('index')] = array_merge($note->getAttributes(), [
+                'text' => linkify($note->text()),
+            ]);
+        }
+        return $notes;
     }
 
     public function test(Request $request)

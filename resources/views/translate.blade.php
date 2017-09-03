@@ -11,7 +11,7 @@
 if ($no = request('box')) {
     $lines = array_slice($lines, $no - 1, 1);
 }
-// $lines = array_slice($lines, 0, 20);
+// $lines = array_slice($lines, 20, 40);
 
 $hasUntranslated = false;
 foreach ($lines as $line) {
@@ -91,6 +91,10 @@ $appData = [
             line.hasTranslations = function () {
                 return (line.translationYandex.length + line.translationGoogle.length > 0);
             };
+
+            line.reversoInfo = null;
+            line.showReversoInfo = false;
+            line.loadingReversoInfo = false;
 
             line.translateGoogle = function (callback) {
                 let line = this;

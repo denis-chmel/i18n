@@ -12,7 +12,23 @@
             {{ line.index }}
         </td>
         <td>
+            <a class="btn-reverso" @click="translateReverso(line)" v-bind:class="{'fa-spin': line.loadingReverso}">
+                <img src="/img/reverso.png" width="16" height="16" />
+            </a>
             <pre class="original" v-html="line.html"></pre>
+
+            <div class="reverso-info" v-if="line.showReversoInfo">
+
+                <span class="fa fa-times close" @click="hideReverso(line)"></span>
+
+                <div v-for="phrase in line.reversoInfo">
+                    <span class="original">{{ phrase.source }}</span>
+                    <i v-for="target in phrase.target" @click="copyToBuffer($event)">
+                        {{ target }}
+                    </i>
+                </div>
+            </div>
+
         </td>
         <td v-if="line.editable && inViewport.now"
             v-bind:class="{
@@ -34,7 +50,6 @@
 
             <textarea
                 class="google"
-                v-bind:tabindex="line.approveYandex ? -1 : null"
                 :disabled="line.disabled == true"
                 @focus="focusGoogle(line)"
                 @keyup="approveGoogle(line)"
@@ -57,7 +72,7 @@
 
             <textarea
                 class="yandex"
-                v-bind:tabindex="line.approveGoogle ? -1 : null"
+                v-bind:tabindex="-1"
                 :disabled="line.disabled == true"
                 @focus="focusYandex(line)"
                 @keyup="approveYandex(line)"
@@ -124,6 +139,24 @@
                     this.$emit('edited');
                 }
             },
+            hideReverso: function(line) {
+                line.showReversoInfo = false;
+                Vue.set(line, 'showReversoInfo', false);
+                Vue.set(line, 'loadingReverso', true);
+                Vue.set(line, 'loadingReverso', false);
+            },
+            translateReverso: function(line) {
+                Vue.set(line, 'loadingReverso', true);
+
+
+                let original = encodeURI(line.original);
+                this.$http.get('/translate-reverso?from=en&to=ru&text=' + original).then((response) => {
+                    Vue.set(line, 'loadingReverso', false);
+                    line.reversoInfo = response.body;
+                    Vue.set(line, 'showReversoInfo', true);
+                });
+
+            },
             revealTranslated: function (line) {
                 this.$bus.$emit('userActive');
                 this.$emit('reveal-clicked', line);
@@ -132,6 +165,22 @@
                 window.mediaPlayer.play();
                 window.mediaPlayer.seek(line.secondStart);
                 this.$bus.$emit('userActive');
+            },
+            copyToBuffer: function (event) {
+                let text = event.target.outerText;
+                let textarea = document.createElement("textarea");
+                textarea.textContent = text;
+                textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in MS Edge.
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+                } catch (ex) {
+                    console.warn("Copy to clipboard failed.", ex);
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
             },
         },
     };
@@ -272,4 +321,52 @@
         padding-top: 12px;
     }
 
+    .btn-reverso {
+        border: none !important;
+        cursor: pointer;
+        position: absolute;
+        right: 10px;
+        bottom: 20px;
+    }
+
+    .reverso-info {
+        position: absolute;
+        z-index: 10;
+        width: 800px;
+        background: #FFF;
+        padding: 1.2em;
+        box-shadow: 1px 1px 80px rgba(0,0,0,0.2);
+        border-radius: 5px;
+
+        &:hover {
+            z-index: 11;
+        }
+
+        .close {
+            right: 10px;
+            top: 10px;
+            font-size: 30px;
+            position: absolute;
+        }
+
+        .original {
+            display: inline-block;
+            width: 150px;
+        }
+
+        i {
+            font-style: normal;
+            font-size: 14px;
+            display: inline-block;
+            padding: 5px;
+            background-color: #eef8ff;
+            border: 1px solid #9bbbcd;
+            color: #32485f;
+            border-radius: 3px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+    }
 </style>

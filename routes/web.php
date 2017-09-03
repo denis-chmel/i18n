@@ -14,6 +14,7 @@
 Route::any('/', 'TranslateController@homepage')->name('homepage');
 Route::get('translate', 'TranslateController@index')->name('translate');
 Route::get('translate-google', 'TranslateController@google')->name('translate.google');
+Route::get('translate-reverso', 'TranslateController@reverso')->name('translate.google');
 Route::any('export-all', 'TranslateController@export')->name('translate.export');
 Route::any('save-approved', 'TranslateController@saveApproved')->name('translate.save');
 Route::any('updateWorklog', 'TranslateController@updateWorklog')->name('translate.updateWorklog');

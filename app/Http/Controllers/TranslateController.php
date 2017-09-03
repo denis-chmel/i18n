@@ -83,6 +83,73 @@ class TranslateController extends Controller
         ]);
     }
 
+    private function loadUrlAndCache($url)
+    {
+        return \Cache::remember('loadUrlAndCache.' . md5($url), 50000, function () use ($url) {
+            return file_get_contents($url);
+        });
+    }
+
+    private function getTranslationsFromReverso($text)
+    {
+        $text = str_replace(PHP_EOL, ' ', $text);
+
+        $response = $this->loadUrlAndCache("http://context.reverso.net/translation/english-russian/" . urlencode($text));
+
+        $dom = new Dom;
+        $dom->load($response);
+
+        $phrases = [];
+        foreach ($dom->find('#splitting-content .split') as $i => $node) {
+            /** @var Dom\HtmlNode $node */
+            $translations = [];
+            foreach ($node->find('.translation') as $trans) {
+                $translations[] = $trans->text();
+            }
+            $phrases[] = [
+                'source' => $node->find('.src')->text(),
+                'target' => $translations,
+            ];
+        }
+
+        return $phrases;
+    }
+
+    public function reverso(Request $request)
+    {
+        $origText = $request->get('text');
+        $text = str_replace(PHP_EOL, ' ', $origText);
+//        $text = 'yeah baby, yeah baby';
+
+        $translations = [];
+        $i = 0;
+
+        do {
+            $translations = array_merge($translations, $this->getTranslationsFromReverso($text));
+
+            $lastPhrase = last($translations)['source'];
+
+            // is there anything after the last phrase?
+            preg_match('~' . preg_quote($lastPhrase, '~') . '([^ ]*)\s$~usi', $text, $matches);
+            $missingTextPosition = strrpos($text, $lastPhrase) + strlen($lastPhrase);
+            $missingText = substr($text, $missingTextPosition);
+            $missingTextLetters = trim(preg_replace("/[^a-zA-Z0-9]+/", "", $missingText));
+
+            if (strlen($missingTextLetters)) {
+                array_pop($translations);
+                $missingText = $lastPhrase . $missingText;
+                $text = $missingText;
+            } else {
+                $text = '';
+            }
+            $i++;
+        } while (strlen($text) && $i < 10);
+
+//        dd($i, $translations);
+
+        return response()->json($translations);
+    }
+
     public function saveApproved(Request $request)
     {
         $jobId = $request->get('jobId');

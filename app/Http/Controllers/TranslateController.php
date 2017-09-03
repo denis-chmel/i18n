@@ -193,10 +193,12 @@ class TranslateController extends Controller
                 continue;
             }
             $translation = '';
+            $translationGoogle = array_get($line, 'translationGoogle');
+            $translationAlt = array_get($line, 'translationAlt');
             if (array_get($line, 'approveGoogle')) {
-                $translation = array_get($line, 'translationGoogle');
+                $translation = $translationGoogle;
             } elseif (array_get($line, 'approveYandex')) {
-                $translation = array_get($line, 'translationAlt');
+                $translation = $translationAlt;
             }
             if (!trim($translation)) {
                 continue;
@@ -216,21 +218,28 @@ class TranslateController extends Controller
             }
 
             if ($line['isItalic']) {
-                $subNode = $doc->createElement("span");
-                $subNode->setAttribute('tts:fontStyle', 'italic');
                 foreach ($translationLines as $j => $translationLine) {
+                    $subNode = $doc->createElement("span");
+                    $subNode->setAttribute('tts:fontStyle', 'italic');
                     $subNode->appendChild($doc->createTextNode($translationLine));
+                    $node->appendChild($subNode);
                     if ($j + 1 != count($translationLines)) {
-                        $subNode->appendChild($doc->createElement('br'));
+                        $node->appendChild($doc->createElement('br'));
                     }
                 }
-                $node->appendChild($subNode);
             } else {
                 foreach ($translationLines as $j => $translationLine) {
                     $node->appendChild($doc->createTextNode($translationLine));
                     if ($j + 1 != count($translationLines)) {
                         $node->appendChild($doc->createElement('br'));
                     }
+                }
+            }
+            if (array_get($line, 'underAcceptance')) {
+                $resolved = !array_get($line, 'qaUnprocessed');
+                if ($resolved) {
+                    $node->setAttribute('ssAcceptanceResolved', $resolved ? 'true' : 'false');
+                    $node->setAttribute('ssQAChangeAccepted', $translation == $translationAlt ? 'true' : 'false');
                 }
             }
         }
@@ -344,6 +353,7 @@ class TranslateController extends Controller
         $qaSubs = '';
         $engSubs = $this->loadAndCache($engSubsUrl, $jobId);
         $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
+
         if ($qaUrl) {
             $qaSubs = $this->loadAndCache($qaUrl, $jobId);
         }
@@ -359,6 +369,7 @@ class TranslateController extends Controller
         foreach ($dom->find('body div p') as $i => $node) {
             /** @var Dom\HtmlNode $node */
 //            if ($i >= 11) continue;
+
 
             $line = [];
             $start = $node->getAttribute('begin');
@@ -380,13 +391,15 @@ class TranslateController extends Controller
             $line['original'] = html_entity_decode(trim($text));
             $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
-            $line['translation'] = array_get($translations, $i, '');
+            $line['translation'] = array_get($translations, $i . '.text', '');
             $line['notes'] = array_get($notes, $i);
-            $translationQA = array_get($translationsQA, $i, '');
+            $translationQA = array_get($translationsQA, $i . '.text', '');
             $line = $this->getSuggestedTranslation($line);
             $line['collapsed'] = strlen($line['translation']) > 0;
-            $line['translationAlt'] = $line['translation'] !== $translationQA ? $translationQA : '';
-            $line['qaUnprocessed'] = strlen($line['translationAlt']) > 0;
+            $acceptanceResolved = array_get($translations, $i . '.ssacceptanceresolved');
+            $line['translationAlt'] = $acceptanceResolved || ($line['translation'] !== $translationQA) ? $translationQA : '';
+            $line['underAcceptance'] = strlen($line['translationAlt']) > 0;
+            $line['qaUnprocessed'] = $line['underAcceptance'] && !$acceptanceResolved;
             $line['translationGoogle'] = '';
 
             $startFloat = $node->getAttribute('beginfloat');
@@ -512,7 +525,9 @@ class TranslateController extends Controller
             $text = str_replace('<br />', PHP_EOL, $text);
             $text = strip_tags($text);
             $text = html_entity_decode(trim($text));
-            $translations[$i] = $text;
+            $translations[$i] = array_merge($node->getAttributes(), [
+                'text' => $text,
+            ]);
         }
         return $translations;
     }

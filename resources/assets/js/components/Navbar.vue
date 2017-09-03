@@ -71,7 +71,7 @@
                             <span v-if="isQaMode">{{ unprocessedQaCount }} left</span>
                             <span v-if="!isQaMode">{{ Math.round(percentDone * 10) / 10 }}%</span>
                         </li>
-                        <li>{{ etaSecondsLeft.toHHMM() }} more {{ etaSecondsLeft }}</li>
+                        <li>{{ etaSecondsLeft.toHHMM() }} more</li>
                     </ul>
                 </div>
             </div>

@@ -436,6 +436,17 @@ class TranslateController extends Controller
             }
         }
 
+        foreach ($lines as $key => $value) {
+          if ($lines[$key]['collapsed']) {
+            if (array_get($lines, ($key + 1) . '.collapsed') === false) {
+              if (array_get($lines, ($key - 1) . '.collapsed') === false) {
+                // Do not collapse single line
+                $lines[$key]['collapsed'] = false;
+              }
+            }
+          }
+        }
+
 //        dd($lines);
 
 //        $expect = [

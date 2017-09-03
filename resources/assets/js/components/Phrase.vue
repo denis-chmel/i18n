@@ -6,6 +6,8 @@
                 @click="revealTranslated(line)"
             >{{ line.index }} – {{ line.nextLineIndex - 1 }}</a>
         </td>
+        <td>&hellip;</td>
+        <td>&hellip;</td>
     </tr>
     <tr v-else valign="top" v-bind:class="{ italic: line.isItalic }">
         <td class="block-no">
@@ -94,7 +96,7 @@
                 <button v-if="!isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateYandex()">
                     Я
                 </button>
-                <button v-if="isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button" disabled>
+                <button v-if="isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button">
                     Q
                 </button>
 
@@ -254,7 +256,7 @@
 
     tr.collapsed td {
         color: #AAA;
-        padding-bottom: 150px;
+        padding-bottom: 60px;
 
         a {
             color: #AAA;

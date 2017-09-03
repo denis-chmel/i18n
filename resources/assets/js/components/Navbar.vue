@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar-fixed-top" v-bind:class="{ autosave: autosave }">
+    <nav class="navbar-fixed-top" v-bind:class="{ autosave: autosave, 'qa-mode': isQaMode }">
         <div class="navbar navbar-default navbar-static">
             <div class="container">
                 <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
@@ -16,7 +16,7 @@
                             </div>
                             <button type="button"
                                 class="btn btn-default navbar-btn"
-                                @click="translateAll(5)">
+                                @click="translateAll(50)">
                                 Translate 50
                             </button>
                         </li>
@@ -67,8 +67,11 @@
                                 'boxesPerHour--good': boxesPerHour > bphMax,
                              }"
                         >{{ boxesPerHour }} <abbr>bph</abbr></li>
-                        <li>{{ Math.round(percentDone * 10) / 10 }}%</li>
-                        <li>{{ etaSecondsLeft.toHHMM() }} left</li>
+                        <li class="progress-meter">
+                            <span v-if="isQaMode">{{ unprocessedQaCount }} left</span>
+                            <span v-if="!isQaMode">{{ Math.round(percentDone * 10) / 10 }}%</span>
+                        </li>
+                        <li>{{ etaSecondsLeft.toHHMM() }} more {{ etaSecondsLeft }}</li>
                     </ul>
                 </div>
             </div>
@@ -79,7 +82,7 @@
 <script>
 
     module.exports = {
-        props: ['subLines', 'percentDone', 'translatedCount', 'jobId', 'isDebug'],
+        props: ['subLines', 'percentDone', 'unprocessedQaCount', 'translatedCount', 'jobId', 'isDebug', 'isQaMode'],
         data: function () {
             return {
                 bphMin: undefined,
@@ -128,7 +131,7 @@
                 return seconds.toString();
             },
             etaSecondsLeft: function () {
-                let seconds = this.etaSeconds - this.timer;
+                let seconds = Math.max(0, this.etaSeconds - this.timer);
                 seconds = Math.floor(seconds / 300) * 300;
                 return seconds.toString();
             },
@@ -348,6 +351,10 @@
 
     .boxesPerHour--bad {
         color: #de0060;
+    }
+
+    .qa-mode .progress-meter {
+        color: #c55fc5;
     }
 
 </style>

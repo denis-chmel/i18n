@@ -5,7 +5,7 @@
  * @var string $sessionToken
  * @var int $jobId
  * @var boolean $isDebug
- * @var boolean $isQAMode
+ * @var boolean $isQaMode
  * @var int $untranslatedCount
  */
 
@@ -30,7 +30,7 @@ $appData = [
     'videoUrl' => $videoUrl,
     'subLines' => $lines,
     'bannedWords' => $bannedWords,
-    'isQAMode' => $isQAMode,
+    'isQaMode' => $isQaMode,
 ];
 
 @endphp
@@ -49,6 +49,9 @@ $appData = [
         <navbar
             v-bind:sub-lines="subLines"
             v-bind:percent-done="percentDone"
+            v-bind:is-qa-mode="isQaMode"
+            v-bind:percent-done="percentDone"
+            v-bind:unprocessed-qa-count="unprocessedQaCount"
             v-bind:translated-count="translatedCount"
             v-bind:job-id="jobId"
             v-bind:is-debug="{{ (int)$isDebug }}"
@@ -64,7 +67,7 @@ $appData = [
                     :in-viewport-offset-top='1000'
                     :in-viewport-active='viewPortActive'
                     v-bind:line="line"
-                    v-bind:is-qa-mode="isQAMode"
+                    v-bind:is-qa-mode="isQaMode"
                     v-on:edited="calculatePercentDone"
                     v-on:reveal-clicked="revealLines"
                 ></tr>
@@ -204,6 +207,12 @@ $appData = [
                     });
                     return translated.length;
                 },
+                unprocessedQaCount: function () {
+                    let unprocessed = this.subLines.filter(line => {
+                        return line.qaUnprocessed ? line : false;
+                    });
+                    return unprocessed.length;
+                },
                 nonCollapsedLines: function () {
                     let result = [];
                     let prevLine = null;
@@ -224,12 +233,6 @@ $appData = [
                             line.nextLineIndex = result[index + 1].index;
                         }
                     });
-                    result.forEach((line) => {
-                        // do not collapse line if it's the only one
-                        if (line.nextLineIndex === line.index + 1) {
-                            line.collapsed = false;
-                        }
-                    });
                     return result;
                 },
             },
@@ -238,7 +241,7 @@ $appData = [
                     let percent = this.translatedCount * 100 / this.subLines.length;
                     Vue.set(this, 'percentDone', percent);
                     @if ($hasUntranslated)
-                    if (percent === 100) {
+                    if (percent === '100%') {
                         if (!$('canvas').length) {
                             window.firework.start({ autoPlay: true });
                             window.firework.fireworks();

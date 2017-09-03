@@ -386,6 +386,7 @@ class TranslateController extends Controller
             $line = $this->getSuggestedTranslation($line);
             $line['collapsed'] = strlen($line['translation']) > 0;
             $line['translationAlt'] = $line['translation'] !== $translationQA ? $translationQA : '';
+            $line['qaUnprocessed'] = strlen($line['translationAlt']) > 0;
             $line['translationGoogle'] = '';
 
             $startFloat = $node->getAttribute('beginfloat');
@@ -408,6 +409,17 @@ class TranslateController extends Controller
                 if ($line['translationAlt'] || $line['notes']) {
                     $lines[$key]['collapsed'] = false;
                 }
+//                if (!$lines[$key]['editable']) {
+//                    $lines[$key]['collapsed'] = true;
+//                }
+            }
+        }
+
+        // Uncollapse 3 lines above 1st uncollapsed
+        foreach ($lines as $i => $line) {
+            if (array_get($lines, ($i + 1) . '.collapsed') === false
+                || array_get($lines, ($i + 2) . '.collapsed') === false) {
+                $lines[$i]['collapsed'] = false;
             }
         }
 
@@ -428,7 +440,7 @@ class TranslateController extends Controller
         return view('translate', [
             'lines' => $lines,
             'jobId' => $jobId,
-            'isQAMode' => $qaSubs,
+            'isQaMode' => !empty($qaSubs),
             'isDebug' => $this->debug,
             'videoUrl' => $videoUrl,
             'sessionToken' => $this->getSessionToken(),

@@ -49,3 +49,14 @@ canvas {
   top: 100px;
   pointer-events: none;
 }
+
+.notes {
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  width: 320px;
+
+  &, a {
+    font-style: italic;
+    color: #bd00ec;
+  }
+}

@@ -51,12 +51,13 @@
             </div>
 
         </td>
-        <td v-if="line.editable && inViewport.now"
-            v-bind:class="{
-                'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
-            }">
-
-            <div style="position: relative">
+        <td>
+            <div class="textarea-wrapper"
+                v-if="line.editable && inViewport.now"
+                v-bind:class="{
+                    'too-long': 0 > getCharsLeft(line.translationGoogle, line.chars)
+                }"
+            >
                 <button tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateGoogle()">
                     G
                 </button>
@@ -83,12 +84,13 @@
                 ></textarea>
             </div>
         </td>
-        <td v-if="line.editable && inViewport.now"
-            v-bind:class="{
-                'too-long': 0 > getCharsLeft(line.translationAlt, line.chars)
-            }">
-
-            <div style="position: relative">
+        <td>
+            <div v-if="line.editable && inViewport.now && (!isQaMode || line.translationAlt)"
+                v-bind:class="{
+                'too-long': 0 > getCharsLeft(line.translationAlt, line.chars),
+                'qa-unprocessed': line.qaUnprocessed,
+            }"
+                class="textarea-wrapper">
                 <button v-if="!isQaMode" tabindex="-1" class="btn btn-default btn-xs" type="button" @click="line.translateYandex()">
                     Я
                 </button>
@@ -110,11 +112,10 @@
                     }"
                     v-model="line.translationAlt"
                 ></textarea>
-                </div>
+            </div>
 
             <div class="notes" v-if="line.notes">
-                <span class="notes-date"></span>({{ line.notes.date }}):<br>
-                <span v-html="line.notes.text"></span>
+                <span v-html="'Note: ' + line.notes.text"></span>
             </div>
 
         </td>
@@ -154,6 +155,8 @@
             },
             approveYandex: function (line) {
                 this.$bus.$emit('userActive');
+                Vue.set(line, 'qaUnprocessed', false);
+
                 let hasTranslation = line.translationAlt.length > 0 && !line.loadingYandex;
                 if (!line.approveYandex || !hasTranslation) {
                     Vue.set(line, 'approveYandex', hasTranslation);
@@ -165,6 +168,9 @@
             },
             approveGoogle: function (line) {
                 this.$bus.$emit('userActive');
+                Vue.set(line, 'qaUnprocessed', false);
+                this.$emit('edited');
+
                 let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                 if (!line.approveGoogle || !hasTranslation) {
                     Vue.set(line, 'approveGoogle', hasTranslation);
@@ -300,6 +306,12 @@
         }
     }
 
+    .qa-unprocessed {
+        textarea {
+            background: #f6e2ff;
+        }
+    }
+
     .chars-left {
         position: absolute;
         bottom: 9px;
@@ -422,10 +434,8 @@
         }
     }
 
-    .notes {
-        margin-top: 1ex;
-        padding: 1em;
-        background: #f3f0cb;
+    .textarea-wrapper {
+        position: relative;
     }
 
 </style>

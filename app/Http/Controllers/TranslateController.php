@@ -357,6 +357,10 @@ class TranslateController extends Controller
             $start = $node->getAttribute('begin');
 //            $end = $node->getAttribute('end');
             $line['index'] = $i + 1;
+            $line['reversoInfo'] = null;
+            $line['loadingReverso'] = false;
+            $line['showReversoInfo'] = false;
+            $line['disableReversoInfo'] = false;
             $line['loadingYandex'] = false;
             $line['loadingGoogle'] = false;
             $line['approveYandex'] = false;
@@ -366,6 +370,7 @@ class TranslateController extends Controller
             $line['html'] = $node->innerHtml();
             $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
             $line['original'] = html_entity_decode(trim($text));
+            $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
             $line['translation'] = array_get($translations, $i, '');
             $line = $this->getSuggestedTranslation($line);

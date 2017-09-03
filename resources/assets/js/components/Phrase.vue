@@ -12,20 +12,41 @@
             {{ line.index }}
         </td>
         <td>
-            <a class="btn-reverso" @click="translateReverso(line)" v-bind:class="{'fa-spin': line.loadingReverso}">
-                <img src="/img/reverso.png" width="16" height="16" />
+            <a class="btn-reverso" @click="translateReversoAndOpen(line)">
+                <span class="count">{{ line.reversoInfo ? (line.reversoInfo.length || '') : '' }}</span>
+                <img src="/img/reverso.png" width="16" height="16" v-bind:class="{
+                'fa-spin': line.loadingReverso,
+                'disabled': line.disableReversoInfo,
+                }" />
             </a>
             <pre class="original" v-html="line.html"></pre>
 
             <div class="reverso-info" v-if="line.showReversoInfo">
 
+                <p class="source">
+                    <a target="reverso"
+                        v-bind:href="'http://context.reverso.net/translation/english-russian/' + encodeURIComponent(line.originalFlat)">
+                        {{ line.original }}
+                    </a>
+                </p>
+
                 <span class="fa fa-times close" @click="hideReverso(line)"></span>
 
                 <div v-for="phrase in line.reversoInfo">
-                    <span class="original">{{ phrase.source }}</span>
-                    <i v-for="target in phrase.target" @click="copyToBuffer($event)">
-                        {{ target }}
-                    </i>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <a class="original"
+                                target="reverso"
+                                v-bind:href="'http://context.reverso.net/translation/english-russian/' + encodeURIComponent(phrase.source)">
+                                {{ phrase.source }}
+                            </a>
+                        </div>
+                        <div class="col-sm-9">
+                            <i v-for="target in phrase.target" @click="copyToBuffer($event)">
+                                {{ target }}
+                            </i>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -121,9 +142,9 @@
                 this.$bus.$emit('userActive');
                 let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
                 if (!line.approveYandex || !hasTranslation) {
-                    Vue.set(line, 'approveYandex', hasTranslation);
+                    vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
-                        Vue.set(line, 'approveGoogle', false);
+                        vue.set(line, 'approveGoogle', false);
                     }
                     this.$emit('edited');
                 }
@@ -132,9 +153,9 @@
                 this.$bus.$emit('userActive');
                 let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                 if (!line.approveGoogle || !hasTranslation) {
-                    Vue.set(line, 'approveGoogle', hasTranslation);
+                    vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {
-                        Vue.set(line, 'approveYandex', false);
+                        vue.set(line, 'approveYandex', false);
                     }
                     this.$emit('edited');
                 }
@@ -142,20 +163,17 @@
             hideReverso: function(line) {
                 line.showReversoInfo = false;
                 Vue.set(line, 'showReversoInfo', false);
-                Vue.set(line, 'loadingReverso', true);
-                Vue.set(line, 'loadingReverso', false);
             },
-            translateReverso: function(line) {
-                Vue.set(line, 'loadingReverso', true);
-
-
-                let original = encodeURI(line.original);
-                this.$http.get('/translate-reverso?from=en&to=ru&text=' + original).then((response) => {
-                    Vue.set(line, 'loadingReverso', false);
-                    line.reversoInfo = response.body;
+            translateReversoAndOpen: function(line) {
+                if (line.reversoInfo) {
                     Vue.set(line, 'showReversoInfo', true);
+                    return;
+                }
+                line.translateReverso(() => {
+                    if (line.reversoInfo.length) {
+                        Vue.set(line, 'showReversoInfo', true);
+                    }
                 });
-
             },
             revealTranslated: function (line) {
                 this.$bus.$emit('userActive');
@@ -327,19 +345,41 @@
         position: absolute;
         right: 10px;
         bottom: 20px;
+
+        .disabled {
+            filter: grayscale(100%);
+            opacity: 0.4;
+        }
+
+        .count {
+            position: absolute;
+            font-size: 10px;
+            color: #333;
+            margin-left: 15px;
+            margin-top: 14px;
+        }
     }
 
     .reverso-info {
+        margin-top: 1em;
         position: absolute;
         z-index: 10;
-        width: 800px;
+        width: 700px;
         background: #FFF;
         padding: 1.2em;
-        box-shadow: 1px 1px 80px rgba(0,0,0,0.2);
+        box-shadow: 1px 1px 120px rgba(0,0,0,0.2);
         border-radius: 5px;
+
+        p.source {
+            margin-bottom: 1.5em;
+        }
 
         &:hover {
             z-index: 11;
+        }
+
+        .row {
+            margin-top: 1ex;
         }
 
         .close {
@@ -350,21 +390,20 @@
         }
 
         .original {
-            display: inline-block;
-            width: 150px;
+            display: block;
         }
 
         i {
             font-style: normal;
-            font-size: 14px;
+            font-size: 13.5px;
             display: inline-block;
-            padding: 5px;
+            padding: 3px 5px;
             background-color: #eef8ff;
             border: 1px solid #9bbbcd;
             color: #32485f;
             border-radius: 3px;
-            margin-right: 5px;
-            margin-bottom: 5px;
+            margin-right: 1ex;
+            margin-bottom: 1ex;
             cursor: pointer;
             text-decoration: none;
         }

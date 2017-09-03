@@ -92,9 +92,9 @@ $appData = [
                 return (line.translationYandex.length + line.translationGoogle.length > 0);
             };
 
-            line.reversoInfo = null;
-            line.showReversoInfo = false;
-            line.loadingReversoInfo = false;
+            line.refresh = function() {
+                Vue.set(vue.subLines, 'reload', Math.random());
+            };
 
             line.translateGoogle = function (callback) {
                 let line = this;
@@ -119,10 +119,25 @@ $appData = [
                 }
                 Vue.set(line, 'loadingYandex', true);
                 Vue.set(line, 'translationYandex', line.original);
-                Vue.set(vue.subLines, 'reload', Math.random());
+                line.refresh();
                 window.translateYandex.translate(line.original, { to: 'ru' }, function (err, res) {
                     line.translationYandex = res.text[0];
                     line.loadingYandex = false;
+                    if (callback) callback();
+                });
+            };
+
+            line.translateReverso = function (callback) {
+                let line = this;
+                Vue.set(line, 'loadingReverso', true);
+                line.refresh();
+                let original = encodeURI(line.original);
+                vue.$http.get('/translate-reverso?from=en&to=ru&text=' + original).then((response) => {
+                    Vue.set(line, 'loadingReverso', false);
+                    line.reversoInfo = response.body;
+                    if (!line.reversoInfo.length) {
+                        Vue.set(line, 'disableReversoInfo', true);
+                    }
                     if (callback) callback();
                 });
             };

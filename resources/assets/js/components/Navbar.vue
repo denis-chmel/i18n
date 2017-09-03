@@ -16,7 +16,7 @@
                             </div>
                             <button type="button"
                                 class="btn btn-default navbar-btn"
-                                @click="translateAll(50)">
+                                @click="translateAll(5)">
                                 Translate 50
                             </button>
                         </li>
@@ -160,6 +160,7 @@
                         line.translateYandex();
                         found = true;
                     }
+                    line.translateReverso();
                     if (!line.translationGoogle.length) {
                         line.translateGoogle(() => {
                             this.translateAll(limit - 1);

@@ -5,6 +5,7 @@
  * @var string $sessionToken
  * @var int $jobId
  * @var boolean $isDebug
+ * @var boolean $isQAMode
  * @var int $untranslatedCount
  */
 
@@ -29,6 +30,7 @@ $appData = [
     'videoUrl' => $videoUrl,
     'subLines' => $lines,
     'bannedWords' => $bannedWords,
+    'isQAMode' => $isQAMode,
 ];
 
 @endphp
@@ -62,6 +64,7 @@ $appData = [
                     :in-viewport-offset-top='1000'
                     :in-viewport-active='viewPortActive'
                     v-bind:line="line"
+                    v-bind:is-qa-mode="isQAMode"
                     v-on:edited="calculatePercentDone"
                     v-on:reveal-clicked="revealLines"
                 ></tr>

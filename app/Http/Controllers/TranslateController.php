@@ -329,6 +329,7 @@ class TranslateController extends Controller
             $engSubsUrl = $node->nodeValue;
             $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
             $videoUrl = $xpath->query('//video/url')->item(0)->nodeValue;
+            $qaUrl = $xpath->query('//QA_subtitle/url')->item(0)->nodeValue;
         } else {
             throw new TechException('cannot find //source_subtitle/url', $jobXml);
         }
@@ -340,9 +341,14 @@ class TranslateController extends Controller
             throw new TechException('Cannot find //video/url, ask Denis', $jobXml);
         }
 
+        $qaSubs = [];
         $engSubs = $this->loadAndCache($engSubsUrl, $jobId);
         $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
+        if ($qaUrl) {
+            $qaSubs = $this->loadAndCache($qaUrl, $jobId);
+        }
         $translations = $this->getReadyTranslations($rusSubs);
+        $translationsQA = $this->getReadyTranslations($qaSubs);
 
         $dom = new Dom;
         $dom->load($engSubs);
@@ -365,6 +371,7 @@ class TranslateController extends Controller
             $line['loadingGoogle'] = false;
             $line['approveYandex'] = false;
             $line['approveGoogle'] = false;
+            $line['approveQA'] = false;
             $line['secondStart'] = $this->getCurrentTimeDec($start) * 60 - 0.5; // 0.5 sec before
             $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
             $line['html'] = $node->innerHtml();
@@ -373,9 +380,10 @@ class TranslateController extends Controller
             $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
             $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
             $line['translation'] = array_get($translations, $i, '');
+            $translationQA = array_get($translationsQA, $i, '');
             $line = $this->getSuggestedTranslation($line);
             $line['collapsed'] = strlen($line['translation']) > 0;
-            $line['translationYandex'] = '';
+            $line['translationYandex'] = $line['translation'] !== $translationQA ? $translationQA : '';
             $line['translationGoogle'] = '';
 
             $startFloat = $node->getAttribute('beginfloat');
@@ -394,9 +402,11 @@ class TranslateController extends Controller
         });
 
         if (count($lines) == count($collapsedLines)) {
-          foreach ($lines as $key => $value) {
-            $lines[$key]['collapsed'] = false;
-          }
+            foreach ($lines as $key => $value) {
+                if ($value['translationYandex']) {
+                    $lines[$key]['collapsed'] = false;
+                }
+            }
         }
 
 //        dd($lines);
@@ -416,6 +426,7 @@ class TranslateController extends Controller
         return view('translate', [
             'lines' => $lines,
             'jobId' => $jobId,
+            'isQAMode' => $qaSubs,
             'isDebug' => $this->debug,
             'videoUrl' => $videoUrl,
             'sessionToken' => $this->getSessionToken(),

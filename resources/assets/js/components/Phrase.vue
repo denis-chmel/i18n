@@ -112,7 +112,7 @@
 
     inViewport = require('vue-in-viewport-mixin');
     module.exports = {
-        props: ['line'],
+        props: ['line', 'isQaMode'],
         mixins: [inViewport],
         watch: {
             'inViewport.now': function (visible) {
@@ -142,9 +142,9 @@
                 this.$bus.$emit('userActive');
                 let hasTranslation = line.translationYandex.length > 0 && !line.loadingYandex;
                 if (!line.approveYandex || !hasTranslation) {
-                    vue.set(line, 'approveYandex', hasTranslation);
+                    Vue.set(line, 'approveYandex', hasTranslation);
                     if (hasTranslation) {
-                        vue.set(line, 'approveGoogle', false);
+                        Vue.set(line, 'approveGoogle', false);
                     }
                     this.$emit('edited');
                 }
@@ -153,9 +153,9 @@
                 this.$bus.$emit('userActive');
                 let hasTranslation = line.translationGoogle.length > 0 && !line.loadingGoogle;
                 if (!line.approveGoogle || !hasTranslation) {
-                    vue.set(line, 'approveGoogle', hasTranslation);
+                    Vue.set(line, 'approveGoogle', hasTranslation);
                     if (hasTranslation) {
-                        vue.set(line, 'approveYandex', false);
+                        Vue.set(line, 'approveYandex', false);
                     }
                     this.$emit('edited');
                 }

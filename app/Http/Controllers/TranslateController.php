@@ -104,6 +104,7 @@ class TranslateController extends Controller
             /** @var Dom\HtmlNode $node */
             $translations = [];
             foreach ($node->find('.translation') as $trans) {
+                /** @var Dom\HtmlNode $trans */
                 $translations[] = $trans->text();
             }
             $phrases[] = [
@@ -235,12 +236,18 @@ class TranslateController extends Controller
                     }
                 }
             }
+
+            $acceptanceVariant = array_get($line, 'acceptanceVariant');
             if (array_get($line, 'underAcceptance')) {
+                // Accepter asked to change something (has his version)
                 $resolved = !array_get($line, 'qaUnprocessed');
                 if ($resolved) {
                     $node->setAttribute('ssAcceptanceResolved', $resolved ? 'true' : 'false');
-                    $node->setAttribute('ssQAChangeAccepted', $translation == $translationAlt ? 'true' : 'false');
+                    $node->setAttribute('ssQAChangeAccepted', $translation == $acceptanceVariant ? 'true' : 'false');
                 }
+            } elseif ($line['acceptanceVariant'] && $translation != $line['acceptanceVariant']) {
+                $node->setAttribute('ssAcceptanceResolved', 'true');
+                $node->setAttribute('ssQAChangeAccepted', 'false');
             }
         }
         $newXml = $doc->saveXML();
@@ -357,6 +364,7 @@ class TranslateController extends Controller
         if ($qaUrl) {
             $qaSubs = $this->loadAndCache($qaUrl, $jobId);
         }
+        $isAcceptanceMode = (bool)$qaSubs;
         $translations = $this->getReadyTranslations($rusSubs);
         $translationsQA = $this->getReadyTranslations($qaSubs);
         $notes = $this->getNotes($qaSubs);
@@ -395,9 +403,12 @@ class TranslateController extends Controller
             $line['notes'] = array_get($notes, $i);
             $translationQA = array_get($translationsQA, $i . '.text', '');
             $line = $this->getSuggestedTranslation($line);
-            $line['collapsed'] = strlen($line['translation']) > 0;
+            $line['collapsed'] = !$line['editable'] || strlen($line['translation']) > 0;
             $acceptanceResolved = array_get($translations, $i . '.ssacceptanceresolved');
             $line['translationAlt'] = $acceptanceResolved || ($line['translation'] !== $translationQA) ? $translationQA : '';
+            if ($isAcceptanceMode) {
+                $line['acceptanceVariant'] = $translationQA;
+            }
             $line['underAcceptance'] = strlen($line['translationAlt']) > 0;
             $line['qaUnprocessed'] = $line['underAcceptance'] && !$acceptanceResolved;
             $line['translationGoogle'] = '';

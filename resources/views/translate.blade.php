@@ -154,7 +154,7 @@ $appData = [
             let words = line.original.match(/\S+/g) || [];
 
             words.forEach((word, index) => {
-                words[index] = word.trimChars('.,-!?:');
+                words[index] = word.trimChars('.,-!?:()[]');
             });
 
             let unique = Array.from(new Set(words));

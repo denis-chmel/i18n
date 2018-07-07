@@ -1,8 +1,16 @@
 @php #
 /**
- * @var string $token
- * @var array $jobs
+ * @var \App\Models\File[] $files
  */
+
+$filesData = [];
+foreach ($files as $file) {
+    $filesData[] = [
+        'id' => $file->getId(),
+        'name' => $file->getName(),
+    ];
+}
+
 @endphp
 
 @extends('layout')
@@ -16,20 +24,17 @@
     >
 
         <div class="container">
-            <h1>Welcome</h1>
+            <h1>Upload ooona file</h1>
+
+            <p>Max size {{ $maxUploadMb }} Mb</p>
 
             <div class="row">
                 <div class="col-sm-6">
 
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <label for="session_token">PHPSESSID</label>
-                            <input type="text"
-                                class="form-control"
-                                value="{{ $token }}"
-                                name="session_token"
-                                id="session_token">
+                            <input type="file" name="source_file">
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>
@@ -37,10 +42,12 @@
                 </div>
             </div>
 
-            <h1>Jobs</h1>
+            <br>
+
+            <h4>Previous uploads</h4>
             <ul>
-                <li v-for="job in jobs">
-                    <a v-bind:href="'/translate?jobId='+ job.id">@{{ job.name }}</a>
+                <li v-for="file in files">
+                    <a v-bind:href="'/file/'+ file.id">@{{ file.name }}</a>
                 </li>
             </ul>
         </div>
@@ -54,7 +61,7 @@
         const app = new Vue({
             el: '#app',
             data: {
-                jobs: {!! j($jobs) !!},
+                files: {!! j($filesData) !!},
             },
             mounted: function () {
                 console.log("mounted");

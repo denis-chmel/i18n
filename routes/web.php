@@ -12,6 +12,7 @@
 */
 
 Route::any('/', 'TranslateController@homepage')->name('homepage');
+Route::get('file/{file}', 'TranslateController@filePage')->name('translate.file');
 Route::get('translate', 'TranslateController@index')->name('translate');
 Route::get('translate-google', 'TranslateController@google')->name('translate.google');
 Route::get('translate-reverso', 'TranslateController@reverso')->name('translate.google');

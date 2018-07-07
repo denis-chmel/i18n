@@ -2,6 +2,7 @@
 
 use App\Exceptions\TechException;
 use App\Exceptions\UnauthorizedException;
+use App\Models\File;
 use Illuminate\Http\Request;
 use PHPHtmlParser\Dom;
 use Illuminate\Cache\Repository as TaggableCache;
@@ -276,10 +277,206 @@ class TranslateController extends Controller
         return $response;
     }
 
+    public function filePage(File $file) {
+//        $url = 'https://visualdata.sferalabs.com/webservice/jobs/' . $jobId;
+//        $jobXml = $this->loadAndCache($url, $jobId);
+//        if (str_contains($jobXml, 'Unauthorized')) {
+//            \Session::flash('error', $jobXml);
+//            $this->forgetCacheFor($url);
+//            return redirect(route('homepage', [
+//                'jobId' => $jobId,
+//            ]));
+//        }
+//
+//        $xml = new \DomDocument('1.0', 'utf-8');
+//        $xml->loadXML($jobXml);
+//        $xpath = new \DOMXpath($xml);
+//
+//        if ($node = $xpath->query('//source_subtitle/url')->item(0)) {
+//            $engSubsUrl = $node->nodeValue;
+//            $rusSubsUrl = $xpath->query('//target_subtitle/url')->item(0)->nodeValue;
+//            $videoUrl = $xpath->query('//video/url')->item(0)->nodeValue;
+//            $qaUrl = $xpath->query('//QA_subtitle/url')->item(0)->nodeValue;
+//        } else {
+//            throw new TechException('cannot find //source_subtitle/url', $jobXml);
+//        }
+//
+//        if (!$rusSubsUrl) {
+//            throw new TechException('Cannot find //target_subtitle/url, ask Denis', $jobXml);
+//        }
+//        if (!$videoUrl) {
+//            throw new TechException('Cannot find //video/url, ask Denis', $jobXml);
+//        }
+//
+//        $qaSubs = '';
+//        $engSubs = $this->loadAndCache($engSubsUrl, $jobId);
+//        $rusSubs = $this->loadAndCache($rusSubsUrl, $jobId);
+//
+//        if ($qaUrl) {
+//            $qaSubs = $this->loadAndCache($qaUrl, $jobId);
+//        }
+//        $isAcceptanceMode = (bool)$qaSubs;
+//        $translations = $this->getReadyTranslations($rusSubs);
+//        $translationsQA = $this->getReadyTranslations($qaSubs);
+//        $notes = $this->getNotes($qaSubs);
+//
+//        $dom = new Dom;
+//        $dom->load($engSubs);
+//
+//        $lines = [];
+//        $length = $limits = [];
+//        foreach ($dom->find('body div p') as $i => $node) {
+//            /** @var Dom\HtmlNode $node */
+////            if ($i >= 11) continue;
+//
+//
+//            $line = [];
+//            $start = $node->getAttribute('begin');
+////            $end = $node->getAttribute('end');
+//            $line['index'] = $i + 1;
+//            $line['reversoInfo'] = null;
+//            $line['loadingReverso'] = false;
+//            $line['showReversoInfo'] = false;
+//            $line['disableReversoInfo'] = false;
+//            $line['loadingYandex'] = false;
+//            $line['loadingGoogle'] = false;
+//            $line['approveYandex'] = false;
+//            $line['approveGoogle'] = false;
+//            $line['approveQA'] = false;
+//            $line['secondStart'] = $this->getCurrentTimeDec($start) * 60 - 0.5; // 0.5 sec before
+//            $line['editable'] = $node->getAttribute('ssroweditable') != 'false';
+//            $line['html'] = $node->innerHtml();
+//            $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
+//            $line['original'] = html_entity_decode(trim($text));
+//            $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
+//            $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
+//            $line['translation'] = array_get($translations, $i . '.text', '');
+//            $line['notes'] = array_get($notes, $i);
+//            $translationQA = array_get($translationsQA, $i . '.text', '');
+//            $line = $this->getSuggestedTranslation($line);
+//            $line['collapsed'] = !$line['editable'] || strlen($line['translation']) > 0;
+//            $acceptanceResolved = array_get($translations, $i . '.ssacceptanceresolved');
+//            $line['translationAlt'] = $acceptanceResolved || ($line['translation'] !== $translationQA) ? $translationQA : '';
+//            if ($isAcceptanceMode) {
+//                $line['acceptanceVariant'] = $translationQA;
+//            }
+//            $line['underAcceptance'] = strlen($line['translationAlt']) > 0;
+//            $line['qaUnprocessed'] = $line['underAcceptance'] && !$acceptanceResolved;
+//            $line['translationGoogle'] = '';
+//
+//            $startFloat = $node->getAttribute('beginfloat');
+//            $endFloat = $node->getAttribute('endfloat');
+//            $line['length'] = ($endFloat - $startFloat) / 1000;
+//            $coef = 21;
+//            $line['chars'] = (int)floor($line['length'] * $coef);
+//            $length[] = ($endFloat - $startFloat) / 1000;
+//            $limits[] = $line['chars'];
+//
+//            $lines[] = $line;
+//        }
+//
+//        $collapsedLines = array_where($lines, function ($value, $key) {
+//            return $value['collapsed'];
+//        });
+//
+//        if (count($lines) == count($collapsedLines)) {
+//            foreach ($lines as $key => $line) {
+//                if ($line['translationAlt'] || $line['notes']) {
+//                    $lines[$key]['collapsed'] = false;
+//                }
+////                if (!$lines[$key]['editable']) {
+////                    $lines[$key]['collapsed'] = true;
+////                }
+//            }
+//        }
+//
+//        // Uncollapse 3 lines above 1st uncollapsed
+//        foreach ($lines as $i => $line) {
+//            if (array_get($lines, ($i + 1) . '.collapsed') === false
+//                || array_get($lines, ($i + 2) . '.collapsed') === false) {
+//                $lines[$i]['collapsed'] = false;
+//            }
+//        }
+//
+//        foreach ($lines as $key => $value) {
+//            if ($lines[$key]['collapsed']) {
+//                if (array_get($lines, ($key + 1) . '.collapsed') === false) {
+//                    if (array_get($lines, ($key - 1) . '.collapsed') === false) {
+//                        // Do not collapse single line
+//                        $lines[$key]['collapsed'] = false;
+//                    }
+//                }
+//            }
+//        }
+
+        $lines = [];
+        foreach ($file->getTexts() as $i => $text) {
+            $line = [];
+//            $end = $node->getAttribute('end');
+            $line['index'] = $i + 1;
+            $line['reversoInfo'] = null;
+            $line['loadingReverso'] = false;
+            $line['showReversoInfo'] = false;
+            $line['disableReversoInfo'] = false;
+            $line['loadingYandex'] = false;
+            $line['loadingGoogle'] = false;
+            $line['approveYandex'] = false;
+            $line['approveGoogle'] = false;
+            $line['approveQA'] = false;
+            $line['secondStart'] = ''; // $this->getCurrentTimeDec($start) * 60 - 0.5; // 0.5 sec before
+            $line['editable'] = true; // $node->getAttribute('ssroweditable') != 'false';
+            $line['html'] = $text;
+            $text = strip_tags(str_replace('<br />', PHP_EOL, $line['html']));
+            $line['original'] = html_entity_decode(trim($text));
+            $line['originalFlat'] = str_replace(PHP_EOL, ' ', $line['original']);
+            $line['isItalic'] = str_contains($line['html'], 'tts:fontstyle="italic"');
+            $line['translation'] = ''; // array_get($translations, $i . '.text', '');
+            $line['notes'] = ''; // array_get($notes, $i);
+            $translationQA = ''; // array_get($translationsQA, $i . '.text', '');
+            $line = $this->getSuggestedTranslation($line);
+            $line['collapsed'] = !$line['editable'] || strlen($line['translation']) > 0;
+            $acceptanceResolved = ''; // array_get($translations, $i . '.ssacceptanceresolved');
+            $line['translationAlt'] = $acceptanceResolved || ($line['translation'] !== $translationQA) ? $translationQA : '';
+//            if ($isAcceptanceMode) {
+//                $line['acceptanceVariant'] = $translationQA;
+//            }
+            $line['underAcceptance'] = strlen($line['translationAlt']) > 0;
+            $line['qaUnprocessed'] = $line['underAcceptance'] && !$acceptanceResolved;
+            $line['translationGoogle'] = '';
+
+//            $startFloat = $node->getAttribute('beginfloat');
+//            $endFloat = $node->getAttribute('endfloat');
+//            $line['length'] = ($endFloat - $startFloat) / 1000;
+//            $coef = 21;
+//            $line['chars'] = (int)floor($line['length'] * $coef);
+//            $length[] = ($endFloat - $startFloat) / 1000;
+//            $limits[] = $line['chars'];
+
+            $lines[] = $line;
+        }
+
+        return view('translateFile', [
+            'lines' => $lines,
+            'isQaMode' => !empty($qaSubs),
+            'isDebug' => $this->debug,
+            'bannedWords' => config('bannedWords.list'),
+        ]);
+    }
+
     public function homepage(Request $request)
     {
         $session = $request->session();
         $token = $session->get('session_token');
+
+        if ($upload = $request->file('source_file')) {
+            $file = new File();
+            $file->name = $upload->getClientOriginalName();
+            $file->contents = file_get_contents($upload->getPathname());
+            $file->save();
+
+            return redirect(route('translate.file', $file));
+        }
+
         if ($postToken = $request->get('session_token')) {
             $this->setSessionToken($postToken);
             if ($jobId = $request->get('jobId')) {
@@ -307,8 +504,19 @@ class TranslateController extends Controller
 
         return view('homepage', [
             'token' => $token,
-            'jobs' => $jobs,
+            'files' => File::all(),
+            'maxUploadMb' => $this->get_max_upload_size(),
         ]);
+    }
+
+    private function get_max_upload_size(): int
+    {
+        $maxUpload = (int)(ini_get('upload_max_filesize'));
+        $maxPost = (int)(ini_get('post_max_size'));
+        $memoryLimit = (int)(ini_get('memory_limit'));
+        $maxUploadMb = min($maxUpload, $maxPost, $memoryLimit);
+
+        return $maxUploadMb;
     }
 
     /**

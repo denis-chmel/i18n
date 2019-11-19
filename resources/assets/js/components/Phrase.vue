@@ -141,11 +141,6 @@
                 return limit - text.split("\n").join('').length;
             },
             seekLineInPlayer: function (line) {
-                if (window.mediaPlayer.isPaused()) {
-                    window.mediaPlayer.seek(line.secondStart);
-                } else {
-                    window.mediaPlayer.pause();
-                }
             },
             focusYandex: function (line) {
                 this.seekLineInPlayer(line);
@@ -202,8 +197,6 @@
                 this.$emit('reveal-clicked', line);
             },
             playPhrase: function (line) {
-                window.mediaPlayer.play();
-                window.mediaPlayer.seek(line.secondStart);
                 this.$bus.$emit('userActive');
             },
             copyToBuffer: function (event) {

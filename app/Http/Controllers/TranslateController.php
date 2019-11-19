@@ -485,6 +485,7 @@ class TranslateController extends Controller
             return redirect()->back();
         }
 
+	/*
         $jobs = [];
         $jobsXml = $this->loadUrl('https://visualdata.sferalabs.com/webservice/jobs');
         if (!str_contains($jobsXml, 'Unauthorized')) {
@@ -494,13 +495,13 @@ class TranslateController extends Controller
             $xpath = new \DOMXpath($xml);
 
             foreach ($xpath->query('//Job') as $node) {
-                /** @var $node \DOMElement */
                 $jobs[] = [
                     'id' => $node->getElementsByTagName('id')->item(0)->textContent,
                     'name' => $node->getElementsByTagName('project_name')->item(0)->textContent,
                 ];
             }
-        }
+	}
+	 */
 
         return view('homepage', [
             'token' => $token,
